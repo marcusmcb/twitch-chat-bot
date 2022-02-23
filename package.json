@@ -1,0 +1,24 @@
+{
+  "name": "twitch-chat-bot",
+  "version": "1.0.0",
+  "description": "Twitch Chat Bot built with TMI.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcusmcb/twitch-chat-bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marcusmcb/twitch-chat-bot/issues"
+  },
+  "homepage": "https://github.com/marcusmcb/twitch-chat-bot#readme",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "tmi.js": "^1.5.0"
+  }
+}
