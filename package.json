@@ -19,6 +19,7 @@
   "homepage": "https://github.com/marcusmcb/twitch-chat-bot#readme",
   "dependencies": {
     "dotenv": "^16.0.0",
+    "nodemon": "^2.0.15",
     "tmi.js": "^1.5.0"
   }
 }
