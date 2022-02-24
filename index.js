@@ -1,6 +1,6 @@
+// node dependencies
 const tmi = require('tmi.js')
-var request = require('request')
-
+const request = require('request')
 const dotenv = require('dotenv')
 
 // import 8ball response array
@@ -72,3 +72,4 @@ client.on('message', (channel, tags, message, self) => {
 // rewrite if logic as switch statement
 // add additional 8-ball responses
 // looks for other free apis that integrate easily & sound fun
+// code callback as proper async function minus the timeout
