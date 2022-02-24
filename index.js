@@ -31,10 +31,7 @@ client.on('message', (channel, tags, message, self) => {
   const args = message.slice(1).split(' ')
   const command = args.shift().toLowerCase()
 
-  console.log('ARGS: ', args)
-  console.log('COMMAND: ', command)
-
-  if (command === 'echo') {
+  if (command === 'echo') {    
     client.say(channel, `@${tags.username}, you said: "${args.join(' ')}"`)
   } else if (command === 'hello') {
     client.say(channel, `@${tags.username}, Yo what's up`)
