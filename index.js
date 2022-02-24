@@ -1,4 +1,6 @@
 const tmi = require('tmi.js')
+var request = require('request')
+
 const dotenv = require('dotenv')
 
 // import 8ball response array
@@ -49,5 +51,27 @@ client.on('message', (channel, tags, message, self) => {
       // if not, generic response to prompt the user to try again
       client.say(channel, `@${tags.username}, what'cha wanna know?`)
     }
+  } else if (command === 'dadjoke') {
+    let dadJoke
+    var headers = { Accept: 'application/json' }
+    var options = { url: 'https://icanhazdadjoke.com/', headers: headers }
+
+    const callback = async (error, response, body) => {
+      if (!error && response.statusCode == 200) {        
+        dadJoke = await JSON.parse(body)
+        setTimeout(() => {
+          console.log(dadJoke)      
+          client.say(channel, `${dadJoke.joke}`)
+        }, 1000)
+      } else {
+        client.say(channel, "Hmmm... looks like that's not working right now.")
+      }
+    }
+
+    request(options, callback)    
   }
 })
+
+// rewrite if logic as switch statement
+// add additional 8-ball responses
+// looks for other free apis that integrate easily & sound fun
