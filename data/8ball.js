@@ -1,26 +1,26 @@
 //  Positive
-let positiveOutcome1 = 'It is certain.'
-let positiveOutcome2 = 'It is decidedly so.'
-let positiveOutcome3 = 'Without a doubt.'
-let positiveOutcome4 = 'Definitely.'
-let positiveOutcome5 = 'You may rely on it.'
-let positiveOutcome6 = 'As I see it, yes.'
-let positiveOutcome7 = 'Most likely.'
-let positiveOutcome8 = 'Outlook good.'
-let positiveOutcome9 = 'Yes.'
-let positiveOutcome10 = 'Signs point to yes.'
+let positiveOutcome1 = 'it is certain. 💯'
+let positiveOutcome2 = 'it is decidedly so. 😊'
+let positiveOutcome3 = 'without a doubt. 🎱'
+let positiveOutcome4 = 'definitely. 👍'
+let positiveOutcome5 = 'you may rely on it. 🎱'
+let positiveOutcome6 = 'as I see it, yes. 🎱'
+let positiveOutcome7 = 'most likely. 🎱'
+let positiveOutcome8 = 'outlook good. 🎱'
+let positiveOutcome9 = 'yes. 🎱'
+let positiveOutcome10 = 'signs point to yes. 🎱'
 //  Non-Committal
-let neutralOutcome1 = 'Reply hazy, try again.'
-let neutralOutcome2 = 'Not now, kid... kinda busy.'
-let neutralOutcome3 = 'Better not tell you now.'
-let neutralOutcome4 = 'Cannot predict now.'
-let neutralOutcome5 = 'Concentrate and ask again.'
+let neutralOutcome1 = 'reply hazy, try again. 🎱'
+let neutralOutcome2 = 'eh... not now, try later. 🎱'
+let neutralOutcome3 = 'better not tell you now. 🎱'
+let neutralOutcome4 = 'I have no idea. 🎱'
+let neutralOutcome5 = 'concentrate and ask again. 🎱'
 // Negative
-let negativeOutcome1 = "Don't count on it."
-let negativeOutcome2 = 'You would think so... but no.'
-let negativeOutcome3 = 'No idea.  Try Googling that.'
-let negativeOutcome4 = 'Outlook not so good.'
-let negativeOutcome5 = 'Very doubtful.'
+let negativeOutcome1 = "don't count on it. 🎱"
+let negativeOutcome2 = 'you would think so... but no. 🎱'
+let negativeOutcome3 = 'no idea.  Try Googling that. 🎱'
+let negativeOutcome4 = 'outlook not so good. 🎱'
+let negativeOutcome5 = 'very doubtful. 🎱'
 
 let eightBallMessages = [
   positiveOutcome1,
