@@ -4,14 +4,21 @@
   "description": "Twitch Chat Bot built with TMI.js",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/marcusmcb/twitch-chat-bot.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "twitch",
+    "node",
+    "javascript",
+    "npm",
+    "streaming-tools"
+  ],
+  "author": "Marcus McBride",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/marcusmcb/twitch-chat-bot/issues"
@@ -22,5 +29,8 @@
     "nodemon": "^2.0.15",
     "request": "^2.88.2",
     "tmi.js": "^1.5.0"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }
