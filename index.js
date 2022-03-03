@@ -85,17 +85,18 @@ client.on('message', (channel, tags, message, self) => {
       )
       break
 
+    // prime command  
     case 'prime':
       client.say(
         channel,
-        'Got Amazon Prime? Subscribe to the channel for free! https://subs.twitch.tv/djmarcusmcb'
-      )
+        `Got Amazon Prime? Subscribe to the channel for free! https://subs.twitch.tv/${channelName}`)
       break
 
+    // host command  
     case 'host':
       client.say(
         channel,
-        `If you're diggin' the vibe, feel free to host and share! https://twitch.tv/djmarcusmcb ✌️🌴`
+        `If you're diggin' the vibe, feel free to host and share! https://twitch.tv/${channelName} ✌️🌴`
       )
       break
 
