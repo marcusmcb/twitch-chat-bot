@@ -1,10 +1,12 @@
 // node dependencies
+const axios = require('axios')
+const cheerio = require('cheerio')
 const tmi = require('tmi.js')
 const request = require('request')
 const dotenv = require('dotenv')
 
 // import 8ball response array
-const eightBallMessages = require('./data/8ball')
+const eightBallMessages = require('./8ball/8ball')
 
 // secure twitch oauth token for tmi
 dotenv.config()
@@ -85,19 +87,38 @@ client.on('message', (channel, tags, message, self) => {
       )
       break
 
-    // prime command  
+    // prime command
     case 'prime':
       client.say(
         channel,
-        `Got Amazon Prime? Subscribe to the channel for free! https://subs.twitch.tv/${channelName}`)
+        `Got Amazon Prime? Subscribe to the channel for free! https://subs.twitch.tv/${channelName}`
+      )
       break
 
-    // host command  
+    // host command
     case 'host':
       client.say(
         channel,
         `If you're diggin' the vibe, feel free to host and share! https://twitch.tv/${channelName} ✌️🌴`
       )
+      break
+
+    // now playing
+    case 'np':
+      const url = 'https://serato.com/playlists/DJ_Marcus_McBride/2-26-2022'
+      const scrapeData = async () => {
+        try {
+          const { data } = await axios.get(url)
+          const $ = cheerio.load(data)
+          const results = $('div.playlist-trackname')
+          console.log(results.first().text())
+          client.say(channel, `Now playing: ${results.first().text()}`)
+        } catch (err) {
+          console.error(err)
+          client.say(channel, "Looks like that isn't working right now.")
+        }
+      }
+      scrapeData()
       break
 
     // 8ball command
