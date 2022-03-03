@@ -81,7 +81,21 @@ client.on('message', (channel, tags, message, self) => {
     case 'sc':
       client.say(
         channel,
-        `You can check out MarcusMCB's Soundcloud page over @ https://soundcloud.com/marcusmcbride`
+        `You can check out MarcusMCB's Soundcloud page over @ https://soundcloud.com/marcusmcbride.`
+      )
+      break
+
+    case 'prime':
+      client.say(
+        channel,
+        'Got Amazon Prime? Subscribe to the channel for free! https://subs.twitch.tv/djmarcusmcb'
+      )
+      break
+
+    case 'host':
+      client.say(
+        channel,
+        `If you're diggin' the vibe, feel free to host and share! https://twitch.tv/djmarcusmcb ✌️🌴`
       )
       break
 
@@ -124,7 +138,7 @@ client.on('message', (channel, tags, message, self) => {
       request(jokeOptions, jokeCallback)
       break
 
-    // fact command      
+    // fact command
     case 'fact':
       let randomFact
       let options = {
@@ -134,10 +148,7 @@ client.on('message', (channel, tags, message, self) => {
       const callback = async (error, response, body) => {
         if (!error && response.statusCode == 200) {
           randomFact = await JSON.parse(body)
-          client.say(
-            channel,
-            `Random fact: ${randomFact.text}`
-          )
+          client.say(channel, `Random fact: ${randomFact.text}`)
         } else {
           client.say(
             channel,
@@ -147,7 +158,7 @@ client.on('message', (channel, tags, message, self) => {
       }
       request(options, callback)
       break
-      
+
     // no response as default for commands that don't exist
     default:
       break
@@ -158,3 +169,7 @@ client.on('message', (channel, tags, message, self) => {
 // looks for other free apis that integrate easily & sound fun
 // replace request with another npm method per request's discontinuation
 // refactor code to helper method for each api fetch case
+// * await request within async func?
+// * rpi4 performance?
+
+// heroku deploy?
