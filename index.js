@@ -105,14 +105,15 @@ client.on('message', (channel, tags, message, self) => {
 
     // now playing
     case 'np':
-      const url = 'https://serato.com/playlists/DJ_Marcus_McBride/2-26-2022'
+      // current track scraper tested & working on static playlist page
+      // need to test with live page (start playlist session from serato history tab)
+      const url = 'https://serato.com/playlists/DJ_Marcus_McBride/live'
       const scrapeData = async () => {
         try {
           const { data } = await axios.get(url)
           const $ = cheerio.load(data)
-          const results = $('div.playlist-trackname')
-          console.log(results.first().text())
-          client.say(channel, `Now playing: ${results.first().text()}`)
+          const results = $('div.playlist-trackname')          
+          client.say(channel, `Now playing: ${results.last().text()}`)
         } catch (err) {
           console.error(err)
           client.say(channel, "Looks like that isn't working right now.")
