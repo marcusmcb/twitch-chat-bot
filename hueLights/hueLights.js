@@ -23,7 +23,7 @@ const turnLightsOnOrOff = async (on) => {
 }
 
 const setLightsToRandomColors = async () => {
-  ids.forEach((id) => {
+  ids.forEach((id) => {    
     const hue = Math.floor(Math.random() * 65535) + 1
     console.log('HUE: ', hue)
     const sat = 200
