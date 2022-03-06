@@ -9,8 +9,7 @@ const dotenv = require('dotenv')
 const {
   setLightsToRandomColors,
   turnLightsOnOrOff,
-  setLightsToGreen,
-  setLightsToPink
+  setLightsToColor,
 } = require('./hueLights/hueLights')
 
 // import 8ball response array
@@ -111,6 +110,14 @@ client.on('message', (channel, tags, message, self) => {
       )
       break
 
+    // code command
+    case 'code':
+      client.say(
+        channel,
+        'You can grab the code for this Twitch chat-bot to customize or use in your own streams here: https://github.com/marcusmcb/twitch-chat-bot'
+      )
+      break
+
     // commands for hue lights
     case 'lights':
       // check for lighting command option
@@ -118,29 +125,40 @@ client.on('message', (channel, tags, message, self) => {
         // !lights on
         if (args == 'on') {
           turnLightsOnOrOff(true)
+          break
         }
         // !lights off
         if (args == 'off') {
           turnLightsOnOrOff(false)
+          break
         }
         // !lights random
         if (args == 'random') {
           setLightsToRandomColors()
+          break
         }
-        if (args == 'green') {
-          setLightsToGreen(args)
-        }
-        if (args == "pink") {
-          setLightsToPink(args)
+        // !lights (color)
+        if (
+          args == 'green' ||
+          'pink' ||
+          'teal' ||
+          'purple' ||
+          'red' ||
+          'gold' ||
+          'blue' ||
+          'peach'
+        ) {
+          setLightsToColor(args)
+          break
         }
       } else {
         // if empty, display options & prompt user to try again
         client.say(
           channel,
-          'You can control my lighting with the following options: on, off, random, green'
+          'You can control my lighting with the following options --> on, off, random, green, blue, red, purple, pink, teal, gold, peach.'
         )
+        break
       }
-      break
 
     // now playing
     case 'np':
