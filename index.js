@@ -22,7 +22,7 @@ const client = new tmi.Client({
     username: process.env.TWITCH_BOT_USERNAME,
     password: process.env.TWITCH_OAUTH_TOKEN,
   },
-  channels: ['djmarcusmcb'],
+  channels: [process.env.TWITCH_CHANNEL_NAME],
 })
 
 client.connect()
@@ -107,7 +107,7 @@ client.on('message', (channel, tags, message, self) => {
     case 'np':
       // current track scraper tested & working on static playlist page
       // need to test with live page (start playlist session from serato history tab)
-      const url = 'https://serato.com/playlists/DJ_Marcus_McBride/live'
+      const url = `https://serato.com/playlists/${process.env.SERATO_DISPLAY_NAME}/live`
       const scrapeData = async () => {
         try {
           const { data } = await axios.get(url)
