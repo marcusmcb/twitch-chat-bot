@@ -5,6 +5,12 @@ const tmi = require('tmi.js')
 const request = require('request')
 const dotenv = require('dotenv')
 
+// import hue smart lighting functions
+const {  
+  setLightsToRandomColors,
+  turnLightsOnOrOff,
+} = require('./hueLights/hueLights')
+
 // import 8ball response array
 const eightBallMessages = require('./8ball/8ball')
 
@@ -103,6 +109,28 @@ client.on('message', (channel, tags, message, self) => {
       )
       break
 
+    // commands for hue lights
+    case 'lights':
+      // check for lighting command option
+      if (args.length != 0) {
+        if (args == 'on') {
+          turnLightsOnOrOff(true)
+        }
+        if (args == 'off') {
+          turnLightsOnOrOff(false)
+        }
+        if (args == 'random') {
+          setLightsToRandomColors()
+        }
+      } else {
+        // if empty, display options & prompt user to try again
+        client.say(
+          channel,
+          'You can control my lighting with the following options: on, off, random'
+        )
+      }
+      break
+
     // now playing
     case 'np':
       // current track scraper tested & working on static playlist page
@@ -112,7 +140,7 @@ client.on('message', (channel, tags, message, self) => {
         try {
           const { data } = await axios.get(url)
           const $ = cheerio.load(data)
-          const results = $('div.playlist-trackname')          
+          const results = $('div.playlist-trackname')
           client.say(channel, `Now playing: ${results.last().text()}`)
         } catch (err) {
           console.error(err)
