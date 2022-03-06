@@ -6,11 +6,11 @@ const request = require('request')
 const dotenv = require('dotenv')
 
 // import hue smart lighting functions
-const {
-  setLightsToRandomColors,
-  turnLightsOnOrOff,
-  setLightsToColor,
-} = require('./hueLights/hueLights')
+// const {
+//   setLightsToRandomColors,
+//   turnLightsOnOrOff,
+//   setLightsToColor,
+// } = require('./hueLights/hueLights')
 
 // import 8ball response array
 const eightBallMessages = require('./8ball/8ball')
@@ -118,47 +118,47 @@ client.on('message', (channel, tags, message, self) => {
       )
       break
 
-    // commands for hue lights
-    case 'lights':
-      // check for lighting command option
-      if (args.length != 0) {
-        // !lights on
-        if (args == 'on') {
-          turnLightsOnOrOff(true)
-          break
-        }
-        // !lights off
-        if (args == 'off') {
-          turnLightsOnOrOff(false)
-          break
-        }
-        // !lights random
-        if (args == 'random') {
-          setLightsToRandomColors()
-          break
-        }
-        // !lights (color)
-        if (
-          args == 'green' ||
-          'pink' ||
-          'teal' ||
-          'purple' ||
-          'red' ||
-          'gold' ||
-          'blue' ||
-          'peach'
-        ) {
-          setLightsToColor(args)
-          break
-        }
-      } else {
-        // if empty, display options & prompt user to try again
-        client.say(
-          channel,
-          'You can control my lighting with the following options --> on, off, random, green, blue, red, purple, pink, teal, gold, peach.'
-        )
-        break
-      }
+    // // commands for hue lights
+    // case 'lights':
+    //   // check for lighting command option
+    //   if (args.length != 0) {
+    //     // !lights on
+    //     if (args == 'on') {
+    //       turnLightsOnOrOff(true)
+    //       break
+    //     }
+    //     // !lights off
+    //     if (args == 'off') {
+    //       turnLightsOnOrOff(false)
+    //       break
+    //     }
+    //     // !lights random
+    //     if (args == 'random') {
+    //       setLightsToRandomColors()
+    //       break
+    //     }
+    //     // !lights (color)
+    //     if (
+    //       args == 'green' ||
+    //       'pink' ||
+    //       'teal' ||
+    //       'purple' ||
+    //       'red' ||
+    //       'gold' ||
+    //       'blue' ||
+    //       'peach'
+    //     ) {
+    //       setLightsToColor(args)
+    //       break
+    //     }
+    //   } else {
+    //     // if empty, display options & prompt user to try again
+    //     client.say(
+    //       channel,
+    //       'You can control my lighting with the following options --> on, off, random, green, blue, red, purple, pink, teal, gold, peach.'
+    //     )
+    //     break
+    //   }
 
     // now playing
     case 'np':
