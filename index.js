@@ -9,6 +9,8 @@ const dotenv = require('dotenv')
 const {
   setLightsToRandomColors,
   turnLightsOnOrOff,
+  setLightsToGreen,
+  setLightsToPink
 } = require('./hueLights/hueLights')
 
 // import 8ball response array
@@ -125,11 +127,17 @@ client.on('message', (channel, tags, message, self) => {
         if (args == 'random') {
           setLightsToRandomColors()
         }
+        if (args == 'green') {
+          setLightsToGreen(args)
+        }
+        if (args == "pink") {
+          setLightsToPink(args)
+        }
       } else {
         // if empty, display options & prompt user to try again
         client.say(
           channel,
-          'You can control my lighting with the following options: on, off, random'
+          'You can control my lighting with the following options: on, off, random, green'
         )
       }
       break
@@ -227,3 +235,5 @@ client.on('message', (channel, tags, message, self) => {
 
 // rate limiting specific commands, notably the light controls
 // set up proxy/forwarding for hue bridge address for heroku deploy
+
+// move color argument in !lights command to common method w/logic check on args

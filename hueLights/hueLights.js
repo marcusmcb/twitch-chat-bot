@@ -25,6 +25,27 @@ const turnLightsOnOrOff = async (on) => {
 const setLightsToRandomColors = async () => {
   ids.forEach((id) => {
     const hue = Math.floor(Math.random() * 65535) + 1
+    console.log("HUE: ", hue)
+    const sat = 200
+    const bri = 175
+    turnLightOnOrOff(id, true, hue, sat, bri)
+  })
+}
+
+const setLightsToGreen = async (color) => {
+  console.log("COLOR: ", color)
+  ids.forEach((id) => {
+    const hue = 25000
+    const sat = 200
+    const bri = 175
+    turnLightOnOrOff(id, true, hue, sat, bri)
+  })
+}
+
+const setLightsToPink = async (color) => {
+  console.log("COLOR: ", color)
+  ids.forEach((id) => {
+    const hue = 60364
     const sat = 200
     const bri = 175
     turnLightOnOrOff(id, true, hue, sat, bri)
@@ -40,4 +61,6 @@ module.exports = {
   setLightsForChristmas,
   setLightsToRandomColors,
   turnLightsOnOrOff,
+  setLightsToGreen,
+  setLightsToPink
 }
