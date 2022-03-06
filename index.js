@@ -6,7 +6,7 @@ const request = require('request')
 const dotenv = require('dotenv')
 
 // import hue smart lighting functions
-const {  
+const {
   setLightsToRandomColors,
   turnLightsOnOrOff,
 } = require('./hueLights/hueLights')
@@ -113,12 +113,15 @@ client.on('message', (channel, tags, message, self) => {
     case 'lights':
       // check for lighting command option
       if (args.length != 0) {
+        // !lights on
         if (args == 'on') {
           turnLightsOnOrOff(true)
         }
+        // !lights off
         if (args == 'off') {
           turnLightsOnOrOff(false)
         }
+        // !lights random
         if (args == 'random') {
           setLightsToRandomColors()
         }
@@ -133,8 +136,7 @@ client.on('message', (channel, tags, message, self) => {
 
     // now playing
     case 'np':
-      // current track scraper tested & working on static playlist page
-      // need to test with live page (start playlist session from serato history tab)
+      // scrapes the most recent entry from the user's Serato live playlist page
       const url = `https://serato.com/playlists/${process.env.SERATO_DISPLAY_NAME}/live`
       const scrapeData = async () => {
         try {
@@ -223,4 +225,5 @@ client.on('message', (channel, tags, message, self) => {
 // * await request within async func?
 // * rpi4 performance?
 
-// heroku deploy?
+// rate limiting specific commands, notably the light controls
+// set up proxy/forwarding for hue bridge address for heroku deploy
