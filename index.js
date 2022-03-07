@@ -169,7 +169,8 @@ client.on('message', (channel, tags, message, self) => {
           const { data } = await axios.get(url)
           const $ = cheerio.load(data)
           const results = $('div.playlist-trackname')
-          client.say(channel, `Now playing: ${results.last().text()}`)
+          let nowplaying = results.last().text()          
+          client.say(channel, `Now playing: ${nowplaying.trim()}`);
         } catch (err) {
           console.error(err)
           client.say(channel, "Looks like that isn't working right now.")
