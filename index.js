@@ -107,7 +107,7 @@ client.on('message', (channel, tags, message, self) => {
     case 'code':
       client.say(
         channel,
-        'You can grab the code for this Twitch chat-bot to customize or use in your own streams here: https://github.com/marcusmcb/twitch-chat-bot'
+        'Streaming tools for Twitch, Twitter & more: https://github.com/marcusmcb'
       )
       break
 
