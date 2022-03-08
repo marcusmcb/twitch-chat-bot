@@ -14,6 +14,11 @@ const eightBallMessages = require('./8ball/8ball')
 // secure twitch oauth token for tmi
 dotenv.config()
 
+// global vars to track and prevent command spamming
+let lastCommand
+let lastUser
+let commandCount = 0
+
 // create tmi instance
 const client = new tmi.Client({
   options: { debug: true },
@@ -32,14 +37,32 @@ client.connect()
 
 // chat command listener
 client.on('message', (channel, tags, message, self) => {
-  console.log('MESSAGE: ', message)  
+  
+  console.log("----------------------------------------")
+  console.log('message: ', message)  
+  console.log('channel: ', channel)  
+  // console.log('tags: ', tags)  
+  console.log("----------------------------------------")
+
+  // prevent bot from responding to itself
   if (self || !message.startsWith('!')) {
     return
   }
 
   const args = message.slice(1).split(' ')
   const command = args.shift().toLowerCase()
-  const channelName = channel.slice(1).split('#')
+  const channelName = channel.slice(1).split('#')  
+
+  // check if the same user has entered the same command consecutively more than once
+  if (lastCommand == command && lastUser == tags.username ) {
+    console.log(true) 
+    commandCount++   
+    console.log("COMMAND COUNT: ", commandCount)
+  } else {
+    console.log(false)
+    lastCommand = command
+    lastUser = tags.username    
+  }
 
   switch (command) {
     // hello command
