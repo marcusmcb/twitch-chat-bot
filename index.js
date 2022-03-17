@@ -112,23 +112,23 @@ client.on('message', (channel, tags, message, self) => {
       break
 
     // now playing
-    case 'np':
-      // scrapes the most recent entry from the user's Serato live playlist page
-      const url = `https://serato.com/playlists/${process.env.SERATO_DISPLAY_NAME}/live`
-      const scrapeData = async () => {
-        try {
-          const { data } = await axios.get(url)
-          const $ = cheerio.load(data)
-          const results = $('div.playlist-trackname')
-          let nowplaying = results.last().text()
-          client.say(channel, `Now playing: ${nowplaying.trim()}`)
-        } catch (err) {
-          console.error(err)
-          client.say(channel, "Looks like that isn't working right now.")
-        }
-      }
-      scrapeData()
-      break
+    // case 'np':
+    //   // scrapes the most recent entry from the user's Serato live playlist page
+    //   const url = `https://serato.com/playlists/${process.env.SERATO_DISPLAY_NAME}/live`
+    //   const scrapeData = async () => {
+    //     try {
+    //       const { data } = await axios.get(url)
+    //       const $ = cheerio.load(data)
+    //       const results = $('div.playlist-trackname')
+    //       let nowplaying = results.last().text()
+    //       client.say(channel, `Now playing: ${nowplaying.trim()}`)
+    //     } catch (err) {
+    //       console.error(err)
+    //       client.say(channel, "Looks like that isn't working right now.")
+    //     }
+    //   }
+    //   scrapeData()
+    //   break
 
     // 8ball command
     case '8ball':
