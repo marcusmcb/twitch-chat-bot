@@ -203,13 +203,5 @@ client.on('message', (channel, tags, message, self) => {
 // * await request within async func?
 // * rpi4 performance?
 
-// rate limiting specific commands, notably the light controls
-//
-// track incoming messages by user and command
-// * add time-stamp to message value
-// * push message to temp array and pops same value after set timeout/interval
-// * check incoming messages for a match to temp array
-// * if matched, return (or add custom error messages for each command)
-// * if not, run command, push user/message to array w/timeout value
-
 // set up proxy/forwarding for hue bridge address for heroku deploy
+// move rate limiting feature from serato script into this one
