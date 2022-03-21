@@ -205,3 +205,4 @@ client.on('message', (channel, tags, message, self) => {
 
 // set up proxy/forwarding for hue bridge address for heroku deploy
 // move rate limiting feature from serato script into this one
+// add command to check to see if another streamer is currently live (common question)
