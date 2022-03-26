@@ -29,7 +29,7 @@ client.connect()
 
 // chat command listener
 client.on('message', (channel, tags, message, self) => {
-  console.log('MESSAGE: ', message)  
+  console.log('MESSAGE: ', message)
   if (self || !message.startsWith('!')) {
     return
   }
@@ -55,6 +55,12 @@ client.on('message', (channel, tags, message, self) => {
     // back command
     case 'back':
       client.say(channel, `Lurk no more... @${tags.username} has returned!`)
+      break
+
+    // faded command
+    case 'faded':
+      const fadedResult = Math.floor(Math.random() * 100) + 1      
+      client.say(channel, `@${tags.username} is ${fadedResult}% faded right now.`)
       break
 
     // dice command
@@ -109,7 +115,7 @@ client.on('message', (channel, tags, message, self) => {
         channel,
         'Streaming tools for Twitch, Twitter & more: https://github.com/marcusmcb'
       )
-      break    
+      break
 
     // 8ball command
     case '8ball':
