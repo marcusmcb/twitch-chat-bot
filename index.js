@@ -44,7 +44,7 @@ client.on('message', (channel, tags, message, self) => {
   const channelName = channel.slice(1).split('#')
 
   // url to scrape for !np & !dyp commands
-  const url = `https://serato.com/playlists/${process.env.SERATO_DISPLAY_NAME}/3-11-2022`
+  const url = `https://serato.com/playlists/${process.env.SERATO_DISPLAY_NAME}/live`
 
   const runCommand = (command) => {
     switch (command) {
@@ -316,6 +316,8 @@ client.on('message', (channel, tags, message, self) => {
                     channel,
                     `${channelName} kicked off this stream with ${firstTrack.trim()}`
                   )
+
+                  // !np total
                 } else if (args == 'total') {
                   client.say(
                     channel,
