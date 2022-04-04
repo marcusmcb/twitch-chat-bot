@@ -474,3 +474,4 @@ client.on('message', (channel, tags, message, self) => {
 // * rpi4 performance?
 
 // add command to check to see if another streamer is currently live (common question)
+// move !np options to start of logic switch (returning error w/o a live playlist currently)
