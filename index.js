@@ -162,7 +162,7 @@ client.on("message", (channel, tags, message, self) => {
       case "weather":        
         let weather;
         let weatherOptions = {
-          url: "https://api.openweathermap.org/data/2.5/weather?lat=33.68558446547775&lon=-117.87970425922545&appid=50a29df3a4b43a1472822a1c5eb71154",          
+          url: `https://api.openweathermap.org/data/2.5/weather?lat=33.68558446547775&lon=-117.87970425922545&appid=${process.env.OPENWEATHER_API_KEY}`,          
           headers: { Accept: "application/json" },
         }
         const weatherCallback = async (error, response, body) => {      
