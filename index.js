@@ -98,6 +98,13 @@ client.on('message', (channel, tags, message, self) => {
         )
         break
 
+      // cs (cratestats) command
+      case 'cratestats':
+        client.say(
+          channel, 'DJs - Want to learn more about what you actually did during your last DJ set?  Check out http://www.cratestats.com to learn more about data analytics for DJs.'
+        )
+        break
+
       // 714 command
       case '714':
         client.say(
@@ -566,6 +573,7 @@ client.on('message', (channel, tags, message, self) => {
     'rock',
     'paper',
     'scissors',
+    'cratestats'
   ]
 
   // check if command is in list
