@@ -7,6 +7,7 @@ const cheerio = require("cheerio");
 
 // import 8ball response array
 const eightBallMessages = require("./8ball/8ball");
+const botSelection = require("./roshambo/roshambo");
 
 // secure twitch oauth token for tmi
 dotenv.config();
@@ -138,6 +139,70 @@ client.on("message", (channel, tags, message, self) => {
         client.say(channel, `@${tags.username} is ${smortValue}% SMORT!`);
         break;
 
+      // rock paper scissors commands
+      case "rock":
+        let rockResponse = botSelection();
+        if (rockResponse === "rock") {
+          client.say(
+            channel,
+            `Rock Paper Scissors! @${tags.username} and MCB Chatbot both show ${rockResponse} 🤘. It's a tie!`
+          );
+        } else if (rockResponse === "paper") {
+          client.say(
+            channel,
+            `Rock Paper Scissors! @${tags.username} shows rock 🤘 but MCB Chatbot shows ${rockResponse}. @${tags.username} loses!`
+          );
+        } else {
+          client.say(
+            channel,
+            `Rock Paper Scissors! @${tags.username} shows rock 🤘 but MCB Chatbot shows ${rockResponse}. @${tags.username} wins!`
+          );
+        }
+        break;
+
+      // rock paper scissors commands
+      case "paper":
+        let paperResponse = botSelection();
+        if (paperResponse === "paper") {
+          client.say(
+            channel,
+            `Rock Paper Scissors! @${tags.username} and MCB Chatbot both show ${paperResponse} 🧻. It's a tie!`
+          );
+        } else if (paperResponse === "scissors") {
+          client.say(
+            channel,
+            `Rock Paper Scissors! @${tags.username} shows paper 🧻 but MCB Chatbot shows ${paperResponse}. @${tags.username} loses!`
+          );
+        } else {
+          client.say(
+            channel,
+            `Rock Paper Scissors! @${tags.username} shows paper 🧻 but MCB Chatbot shows ${paperResponse}. @${tags.username} wins!`
+          );
+        }
+        break;
+
+      // rock paper scissors commands
+      case "scissors":
+        let scissorsResponse = botSelection();
+        if (scissorsResponse === "scissors") {
+          client.say(
+            channel,
+            `Rock Paper Scissors! @${tags.username} and MCB Chatbot both show ${scissorsResponse} ✂. It's a tie!`
+          );
+        } else if (scissorsResponse === "rock") {
+          client.say(
+            channel,
+            `Rock Paper Scissors! @${tags.username} shows scissors ✂ but MCB Chatbot shows ${scissorsResponse}. @${tags.username} loses!`
+          );
+        } else {
+          client.say(
+            channel,
+            `Rock Paper Scissors! @${tags.username} shows scissors ✂ but MCB Chatbot shows ${scissorsResponse}. @${tags.username} wins!`
+          );
+        }
+        break;
+        break;
+
       // 8ball command
       case "8ball":
         // check if user entered anything after the command
@@ -212,10 +277,10 @@ client.on("message", (channel, tags, message, self) => {
         const quoteCallback = async (error, response, body) => {
           if (!error && response.statusCode == 200) {
             let response = await JSON.parse(body);
-            console.log(response)            
+            console.log(response);
             quote = response[0].q;
             quoter = response[0].a;
-            console.log(quote, " - ", quoter)
+            console.log(quote, " - ", quoter);
             client.say(channel, `'${quote}' - ${quoter}`);
           } else {
             client.say(
@@ -505,6 +570,9 @@ client.on("message", (channel, tags, message, self) => {
     "weather",
     "smort",
     "quote",
+    "rock",
+    "paper",
+    "scissors",
   ];
 
   // check if command is in list
