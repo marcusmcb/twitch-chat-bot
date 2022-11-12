@@ -147,12 +147,12 @@ client.on('message', (channel, tags, message, self) => {
         } else if (rockResponse === 'paper') {
           client.say(
             channel,
-            `Rock Paper Scissors! @${tags.username} shows rock 🤘 but MCB Chatbot shows ${rockResponse}. @${tags.username} loses!`
+            `Rock Paper Scissors! @${tags.username} shows rock 🤘 but MCB Chatbot shows ${rockResponse} 🧻. @${tags.username} loses!`
           )
         } else {
           client.say(
             channel,
-            `Rock Paper Scissors! @${tags.username} shows rock 🤘 and MCB Chatbot shows ${rockResponse}. @${tags.username} wins! 🏆🏆🏆`
+            `Rock Paper Scissors! @${tags.username} shows rock 🤘 and MCB Chatbot shows ${rockResponse} ✂. @${tags.username} wins! 🏆🏆🏆`
           )
         }
         break
@@ -168,12 +168,12 @@ client.on('message', (channel, tags, message, self) => {
         } else if (paperResponse === 'scissors') {
           client.say(
             channel,
-            `Rock Paper Scissors! @${tags.username} shows paper 🧻 but MCB Chatbot shows ${paperResponse}. @${tags.username} loses!`
+            `Rock Paper Scissors! @${tags.username} shows paper 🧻 but MCB Chatbot shows ${paperResponse} ✂. @${tags.username} loses!`
           )
         } else {
           client.say(
             channel,
-            `Rock Paper Scissors! @${tags.username} shows paper 🧻 and MCB Chatbot shows ${paperResponse}. @${tags.username} wins! 🏆🏆🏆`
+            `Rock Paper Scissors! @${tags.username} shows paper 🧻 and MCB Chatbot shows ${paperResponse} 🤘. @${tags.username} wins! 🏆🏆🏆`
           )
         }
         break
@@ -189,12 +189,12 @@ client.on('message', (channel, tags, message, self) => {
         } else if (scissorsResponse === 'rock') {
           client.say(
             channel,
-            `Rock Paper Scissors! @${tags.username} shows scissors ✂ but MCB Chatbot shows ${scissorsResponse}. @${tags.username} loses!`
+            `Rock Paper Scissors! @${tags.username} shows scissors ✂ but MCB Chatbot shows ${scissorsResponse} 🤘. @${tags.username} loses!`
           )
         } else {
           client.say(
             channel,
-            `Rock Paper Scissors! @${tags.username} shows scissors ✂ and MCB Chatbot shows ${scissorsResponse}. @${tags.username} wins! 🏆🏆🏆`
+            `Rock Paper Scissors! @${tags.username} shows scissors ✂ and MCB Chatbot shows ${scissorsResponse} 🧻. @${tags.username} wins! 🏆🏆🏆`
           )
         }
         break        
