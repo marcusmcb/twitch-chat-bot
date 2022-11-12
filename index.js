@@ -197,8 +197,7 @@ client.on('message', (channel, tags, message, self) => {
             `Rock Paper Scissors! @${tags.username} shows scissors ✂ and MCB Chatbot shows ${scissorsResponse}. @${tags.username} wins! 🏆🏆🏆`
           )
         }
-        break
-        break
+        break        
 
       // 8ball command
       case '8ball':
@@ -235,8 +234,7 @@ client.on('message', (channel, tags, message, self) => {
           }
           const weatherCallback = async (error, response, body) => {
             if (!error && response.statusCode == 200) {
-              weather = await JSON.parse(body)
-              console.log(weather)
+              weather = await JSON.parse(body)              
               conditions = weather.weather[0].main
               temperature = weather.main.temp.toString()
               temperature = temperature.substring(0, temperature.length - 3)
@@ -273,11 +271,9 @@ client.on('message', (channel, tags, message, self) => {
         }
         const quoteCallback = async (error, response, body) => {
           if (!error && response.statusCode == 200) {
-            let response = await JSON.parse(body)
-            console.log(response)
+            let response = await JSON.parse(body)            
             quote = response[0].q
-            quoter = response[0].a
-            console.log(quote, ' - ', quoter)
+            quoter = response[0].a            
             client.say(channel, `'${quote}' - ${quoter}`)
           } else {
             client.say(
