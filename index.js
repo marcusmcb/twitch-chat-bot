@@ -1,9 +1,10 @@
 // dependencies
 const tmi = require('tmi.js')
 const dotenv = require('dotenv')
-const commandList = require('./command-list/commandList')
 
 dotenv.config()
+
+const commandList = require('./command-list/commandList')
 
 let userCommandHistory = {}
 const COMMAND_REPEAT_LIMIT = 5
