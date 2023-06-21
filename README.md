@@ -36,6 +36,8 @@ Current commands:
 * !prime
 * !code
 * !dice
+* !fact
+* !quote
 * !rock, !paper, !scissors
 * !smort
 * !faded
