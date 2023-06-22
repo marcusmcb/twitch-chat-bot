@@ -66,23 +66,24 @@ const npCommands = (channel, tags, args, client) => {
 
             // !np vibecheck
           } else if (args == 'vibecheck') {
-            // select random index & parse track and timestamp data from the result
-            let randomIndex = Math.floor(Math.random() * results.length)
-            let randomTrack = results[randomIndex]
-            let randomTrackTimestamp = timestamp[randomIndex]
-            randomTrackTimestamp =
-              randomTrackTimestamp.children[0].data.trim()
-            let currentTrackTimestamp = timestamp.last().text()
-            currentTrackTimestamp = currentTrackTimestamp.trim()
+            // Select random index
+            const randomIndex = Math.floor(Math.random() * results.length);
+            const randomTrack = results[randomIndex];
+            const randomTrackTimestamp = timestamp[randomIndex].children[0].data.trim();
 
-            // calculate how long ago in the stream the random selection was played
-            // date strings are "fudged" for formatting purposes to easily make the time calculation
-            let x = new Date(`Jan 1, 2022 ${currentTrackTimestamp}`)
-            let y = new Date(`Jan 1, 2022 ${randomTrackTimestamp}`)
-            let res = Math.abs(x - y) / 1000
-            let hours = Math.floor(res / 3600) % 24
-            let minutes = Math.floor(res / 60) % 60
-            let seconds = res % 60
+            // Get current timestamp
+            const currentTrackTimestamp = timestamp.last().text().trim();
+
+            // Convert timestamps to Date objects            
+            const x = new Date(`Jan 1, 2022 ${currentTrackTimestamp}`);
+            const y = new Date(`Jan 1, 2022 ${randomTrackTimestamp}`);
+
+            // Calculate time difference
+            const timeDifference = Math.abs(x - y) / 1000;
+            const hours = Math.floor(timeDifference / 3600) % 24;
+            const minutes = Math.floor(timeDifference / 60) % 60;
+            const seconds = timeDifference % 60;
+
 
             // if random index timestamp has an hours value
             if (hours > 0) {
