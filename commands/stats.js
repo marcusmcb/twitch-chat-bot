@@ -80,7 +80,7 @@ const statsCommand = async (channel, tags, args, client) => {
       : client.say(
           channel,
           `${channel.slice(1)} has played ${
-            timeDiffs.length
+            timeDiffs.length + 1
           } songs so far in this stream with an average length of ${averageTrackLength} per song.`
         );
   } catch (err) {
