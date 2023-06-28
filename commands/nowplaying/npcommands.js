@@ -5,8 +5,6 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const url = `https://serato.com/playlists/${process.env.SERATO_DISPLAY_NAME}/live`;
-const url2 =
-  "https://serato.com/playlists/DJ_Marcus_McBride/cratestatslive-test";
 
 const npCommands = (channel, tags, args, client) => {
   const channelName = channel.slice(1).split("#");
@@ -132,75 +130,6 @@ const npCommands = (channel, tags, args, client) => {
   scrapeSeratoData();
 };
 
-const statsCommand = async (channel, tags, args, client) => {
-  const channelName = channel.slice(1).split("#");
-  const parseDateAndTime = (timeString, playlistDate) => {
-    const date = new Date(playlistDate);
-    const [hours, minutes, seconds] = timeString.split(":");
-    date.setHours(parseInt(hours, 10));
-    date.setMinutes(parseInt(minutes, 10));
-    date.setSeconds(parseInt(seconds, 10));
-    return date;
-  };
-
-  const calculateAverageTime = (times) => {
-    const getAverage = (numbers) => {
-      const total = numbers.reduce((acc, number) => acc + number, 0);
-      return Math.round(total / numbers.length);
-    };
-
-    const convertMilliseconds = (milliseconds) => {
-      const minutes = Math.floor(milliseconds / 60000);
-      const seconds = ((milliseconds % 60000) / 1000).toFixed(0);
-      return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-    };
-
-    let msAverage = getAverage(times);
-    let average_track_length = convertMilliseconds(msAverage);
-    return average_track_length;
-  };
-
-  try {
-    await axios.get(url2).then(({ data }) => {
-      console.log(url2);
-      const $ = cheerio.load(data);
-      const results = $("div.playlist-trackname");
-      const timestamps = $("div.playlist-tracktime");
-      const playlistdate = $("span.playlist-start-time").first().text().trim();
-      let timestampsParsed = [];
-      let trackTimestamps = [];
-      // loop through track timestamps and clean data from scrape
-      for (let j = 0; j < results.length; j++) {
-        let timestamp = timestamps[j].children[0].data.trim();
-        let timestampParsed = parseDateAndTime(timestamp, playlistdate);
-        timestamp = new Date("01/01/1970 " + timestamp);
-        timestampsParsed.push(timestampParsed);
-        trackTimestamps.push(timestamp);
-      }
-
-      let timeDiffs = [];
-      for (let k = 0; k < trackTimestamps.length; k++) {
-        let x = trackTimestamps[k + 1] - trackTimestamps[k];
-        console.log(x);
-        if (Number.isNaN(x)) {
-        } else {
-          timeDiffs.push(x);
-        }
-      }
-      const averageTrackLength = calculateAverageTime(timeDiffs);
-
-      console.log(calculateAverageTime(timeDiffs));
-      client.say(
-        channel,
-        `${channelName} has played ${timeDiffs.length} songs so far in this stream with an average length of ${averageTrackLength}`
-      );
-    });
-  } catch (err) {
-    console.log(err);
-    client.say(channel, "That doesn't appear to be working right now.");
-  }
-};
-
 const dypCommand = (channel, tags, args, client) => {
   const channelName = channel.slice(1).split("#");
   if (args.length === 0) {
@@ -280,6 +209,5 @@ const dypCommand = (channel, tags, args, client) => {
 
 module.exports = {
   npCommands: npCommands,
-  dypCommand: dypCommand,
-  statsCommand: statsCommand,
+  dypCommand: dypCommand,  
 };
