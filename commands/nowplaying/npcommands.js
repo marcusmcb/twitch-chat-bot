@@ -136,6 +136,10 @@ const npCommands = (channel, tags, args, client) => {
   scrapeSeratoData()
 }
 
+const statsCommand = (channel, tags, args, client) => {
+  client.say(channel, 'Stats command is working.')
+}
+
 const dypCommand = (channel, tags, args, client) => {
   const channelName = channel.slice(1).split('#')
   if (args.length === 0) {
@@ -217,5 +221,6 @@ const dypCommand = (channel, tags, args, client) => {
 
 module.exports = {
   npCommands: npCommands,
-  dypCommand: dypCommand
+  dypCommand: dypCommand,
+  statsCommand: statsCommand
 }

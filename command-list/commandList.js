@@ -25,7 +25,7 @@ const { dadjokeCommand } = require('../commands/dadjoke')
 const { factCommand } = require('../commands/fact')
 const { weatherCommand } = require('../commands/weather')
 const { testCommand } = require('../commands/test_command')
-const { npCommands, dypCommand } = require('../commands/nowplaying/npcommands')
+const { npCommands, dypCommand, statsCommand } = require('../commands/nowplaying/npcommands')
 
 const commandList = {
   hello: helloCommand,
@@ -50,7 +50,8 @@ const commandList = {
   weather: weatherCommand,
   test: testCommand,
   np: npCommands,
-  dyp: dypCommand
+  dyp: dypCommand,
+  stats: statsCommand
 }
 
 module.exports = commandList
