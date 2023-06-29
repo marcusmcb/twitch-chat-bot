@@ -1,32 +1,11 @@
-const OBSWebSocket = require('obs-websocket-js').default
-const dotenv = require('dotenv')
-
-dotenv.config()
-
-const OBSWebSocketAddress = process.env.OBS_WEBSOCKET_ADDRESS
-const OBSWebSocketPassword = process.env.OBS_WEBSOCKET_PASSWORD
-
-const obs = new OBSWebSocket()
-
-const connectToOBS = async () => {
-	try {
-		await obs.connect(OBSWebSocketAddress, OBSWebSocketPassword)
-		console.log('Connected to OBS')
-	} catch (error) {
-		console.error('Failed to connect to OBS:', error)
-	}
-}
-
-connectToOBS()
-
-const helloCommand = (channel, tags, args, client) => {
+const helloCommand = (channel, tags, args, client, obs) => {
 	client.say(channel, `@${tags.username}, what's good homie! 👋👋👋`)
-	async function updateTextSource() {
+	const updateTextSource = async() => {
 		try {
 			obs.call('SetInputSettings', {
 				inputName: 'hello-command',
 				inputSettings: {
-					text: '@djmarcusmcb has played 14 songs so far\nin this stream at an average of 2:36 per song',
+					text: `${tags.username} has played 14 songs so far\nin this stream at an average of 2:36 per song`,
 				},
 			})
 			setTimeout(() => {

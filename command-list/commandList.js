@@ -25,7 +25,7 @@ const { dadjokeCommand } = require('../commands/dadjoke')
 const { factCommand } = require('../commands/fact')
 const { weatherCommand } = require('../commands/weather')
 const { testCommand } = require('../commands/test_command')
-const { statsCommand } = require('../commands/stats')
+const { statsCommand } = require('../commands/stats/stats')
 const { npCommands, dypCommand } = require('../commands/nowplaying/npcommands')
 
 const commandList = {

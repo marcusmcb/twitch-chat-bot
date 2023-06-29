@@ -5,6 +5,7 @@ const dotenv = require('dotenv')
 dotenv.config()
 
 const commandList = require('./command-list/commandList')
+const obs = require('./obs/obsConnection')
 
 let userCommandHistory = {}
 const COMMAND_REPEAT_LIMIT = 5
@@ -45,7 +46,7 @@ client.on('message', (channel, tags, message, self) => {
     if (history.length >= COMMAND_REPEAT_LIMIT && history.every(hist => hist === command)) {
       client.say(channel, `@${tags.username}, try a different command before using that one again.`);
     } else {
-      commandList[command](channel, tags, args, client);
+      commandList[command](channel, tags, args, client, obs);
       history.push(command);
 
       if (history.length > COMMAND_REPEAT_LIMIT) {
