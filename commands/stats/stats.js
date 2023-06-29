@@ -13,8 +13,9 @@ const {
 dotenv.config();
 
 const url = `https://serato.com/playlists/${process.env.SERATO_DISPLAY_NAME}/live`;
+// const url2 = 'https://serato.com/playlists/DJ_Marcus_McBride/3-12-2022'
 
-const statsCommand = async (channel, tags, args, client) => {
+const statsCommand = async (channel, tags, args, client, obs) => {
   try {
     const { data } = await axios.get(url);
     const $ = cheerio.load(data);
@@ -42,7 +43,7 @@ const statsCommand = async (channel, tags, args, client) => {
       obs.call('SetInputSettings', {
 				inputName: 'hello-command',
 				inputSettings: {
-					text: `${tags.username} has played 14 songs so far\nin this stream at an average of 2:36 per song`,
+					text: `${tags.username} has played ${timeDiffs.length + 1} songs so far\nin this stream at an average of ${averageTrackLength} per song`,
 				},
 			})
 			setTimeout(() => {

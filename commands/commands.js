@@ -5,15 +5,15 @@ const helloCommand = (channel, tags, args, client, obs) => {
 			obs.call('SetInputSettings', {
 				inputName: 'hello-command',
 				inputSettings: {
-					text: `${tags.username} has played 14 songs so far\nin this stream at an average of 2:36 per song`,
-				},
+					text: `${tags.username} has played 14 songs so far\nin this stream at an average of 2:36 per song`,					
+				},				
 			})
-			setTimeout(() => {
+			setTimeout(async () => {				
 				obs.call('SetInputSettings', {
 					inputName: 'hello-command',
 					inputSettings: {
 						text: '',
-					},
+					},					
 				})
 			}, 8000)
 		} catch (error) {
