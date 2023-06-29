@@ -2,14 +2,14 @@ const helloCommand = (channel, tags, args, client, obs) => {
 	client.say(channel, `@${tags.username}, what's good homie! 👋👋👋`)
 	const updateTextSource = async() => {
 		try {
-			obs.call('SetInputSettings', {
+			await obs.call('SetInputSettings', {
 				inputName: 'hello-command',
 				inputSettings: {
 					text: `${tags.username} has played 14 songs so far\nin this stream at an average of 2:36 per song`,					
 				},				
 			})
 			setTimeout(async () => {				
-				obs.call('SetInputSettings', {
+				await obs.call('SetInputSettings', {
 					inputName: 'hello-command',
 					inputSettings: {
 						text: '',
@@ -20,7 +20,6 @@ const helloCommand = (channel, tags, args, client, obs) => {
 			console.error('Failed to update text source:', error)
 		}
 	}
-
 	updateTextSource()
 }
 
