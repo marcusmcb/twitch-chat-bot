@@ -20,11 +20,11 @@ const {
 } = require('../commands/rps/rps')
 
 const { eightballCommand } = require('../commands/8ball/eightBall')
-const { quoteCommand } = require('../commands/quote')
-const { dadjokeCommand } = require('../commands/dadjoke')
-const { factCommand } = require('../commands/fact')
-const { weatherCommand } = require('../commands/weather')
-const { testCommand } = require('../commands/test_command')
+const { quoteCommand } = require('../commands/quote/quote')
+const { dadjokeCommand } = require('../commands/dadjoke/dadjoke')
+const { factCommand } = require('../commands/fact/fact')
+const { weatherCommand } = require('../commands/weather/weather')
+const { testCommand } = require('../commands/test_command/test_command')
 const { statsCommand } = require('../commands/stats/stats')
 const { npCommands, dypCommand } = require('../commands/nowplaying/npcommands')
 
