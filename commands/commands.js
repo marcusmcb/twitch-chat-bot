@@ -1,71 +1,48 @@
 const OBSWebSocket = require('obs-websocket-js').default
+const dotenv = require('dotenv')
 
-// Create an instance of OBSWebSocket
+dotenv.config()
+
+const OBSWebSocketAddress = process.env.OBS_WEBSOCKET_ADDRESS
+const OBSWebSocketPassword = process.env.OBS_WEBSOCKET_PASSWORD
+
 const obs = new OBSWebSocket()
 
-// Function to connect to OBS
-async function connectToOBS() {
+const connectToOBS = async () => {
 	try {
-		await obs.connect('ws://192.168.56.1:4455', 'Q4f0ZTLerOb7dgru') // Replace with your OBS WebSocket address
+		await obs.connect(OBSWebSocketAddress, OBSWebSocketPassword)
 		console.log('Connected to OBS')
-    // let x = await obs.call('')
-    // console.log(x)
-		// Register an event handler for incoming Twitch chat messages
-		// Assuming you have a Twitch chat bot set up with appropriate event handling
-		// twitchChatBot.on('message', (channel, tags, message) => {
-		// 	if (message === '!hello') {
-		// 		obs
-		// 			.send('SetSourceRender', {
-		// 				source: 'YourTextSourceName', // Replace with the name of the text source in OBS
-		// 				render: true,
-		// 			})
-		// 			.catch(console.error)
-		// 	}
-		// })
 	} catch (error) {
 		console.error('Failed to connect to OBS:', error)
 	}
 }
 
-// Call the connectToOBS function to establish a connection
 connectToOBS()
 
 const helloCommand = (channel, tags, args, client) => {
 	client.say(channel, `@${tags.username}, what's good homie! 👋👋👋`)
 	async function updateTextSource() {
-    try {
-      obs.call('SetInputSettings', {
-        'inputName': 'hello-command',
-        'inputSettings': {
-          'text': 'Hello world!'
-        }
-      })
-      setTimeout(() => {
-        obs.call('SetInputSettings', {
-          'inputName': 'hello-command',
-          'inputSettings': {
-            'text': ''
-          }
-        })
-      }, 5000)
-      // const response = await obs.call('SetTextGDIPlusProperties', {
-      //   source: 'hello-command', // Replace with the name of the text source in OBS
-      //   text: { text: 'Hello!' } // The text content you want to display
-      // });
-  
-      // console.log('Text source updated:', response);
-    } catch (error) {
-      console.error('Failed to update text source:', error);
-    }
-  }
-  
-  updateTextSource();
-  
+		try {
+			obs.call('SetInputSettings', {
+				inputName: 'hello-command',
+				inputSettings: {
+					text: '@djmarcusmcb has played 14 songs so far\nin this stream at an average of 2:36 per song',
+				},
+			})
+			setTimeout(() => {
+				obs.call('SetInputSettings', {
+					inputName: 'hello-command',
+					inputSettings: {
+						text: '',
+					},
+				})
+			}, 8000)
+		} catch (error) {
+			console.error('Failed to update text source:', error)
+		}
+	}
 
-	// obs.call('SetTextGDIPlusProperties', {
-	//   source: 'hello-command',
-	//   text: 'Hello from the bot!'
-	// })
+	updateTextSource()
 }
 
 const lurkCommand = (channel, tags, args, client) => {
