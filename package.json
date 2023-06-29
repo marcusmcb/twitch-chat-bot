@@ -29,6 +29,7 @@
     "cheerio": "^1.0.0-rc.10",
     "dotenv": "^16.0.0",
     "nodemon": "^2.0.15",
+    "obs-websocket-js": "^5.0.3",
     "request": "^2.88.2",
     "tmi.js": "^1.5.0"
   },
