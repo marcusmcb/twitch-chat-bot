@@ -27,8 +27,7 @@ const client = new tmi.Client({
 client.connect()
 
 // chat command listener
-client.on('message', (channel, tags, message, self) => {
-  console.log('MESSAGE: ', message)
+client.on('message', (channel, tags, message, self) => {  
   if (self || !message.startsWith('!')) {
     return
   }

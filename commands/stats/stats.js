@@ -51,11 +51,18 @@ const statsCommand = async (channel, tags, args, client, obs) => {
 			// 	} songs so far in this set with an average length of ${averageTrackLength} per song.`
 			// )
 
+			// client.say(
+			// 	channel,
+			// 	`${channel.slice(1)} has rocked doubles ${
+			// 		reportData.doubles_played.length
+			// 	} times so far in this set.`
+			// )
+
 			client.say(
 				channel,
-				`${channel.slice(1)} has rocked doubles ${
-					reportData.doubles_played.length
-				} times so far in this set.`
+				`The longest song in ${channel.slice(1)}'s set (so far) is: ${
+					reportData.longest_track.name
+				} (${reportData.longest_track.length_value})`
 			)
 
 			obs.call('SetInputSettings', {
@@ -65,16 +72,7 @@ const statsCommand = async (channel, tags, args, client, obs) => {
 						timeDiffs.length + 1
 					} songs so far\nin this stream at an average of ${averageTrackLength} per song`,
 				},
-			})
-
-      setTimeout(() => {
-				obs.call('SetInputSettings', {
-					inputName: 'hello-command',
-					inputSettings: {
-						text: '',
-					},
-				})
-			}, 5000)
+			})			
 
 			obs.call('SetInputSettings', {
 				inputName: 'hello-command',
@@ -85,7 +83,16 @@ const statsCommand = async (channel, tags, args, client, obs) => {
 						reportData.doubles_played[reportData.doubles_played.length - 1].name
 					}`,
 				},
-			})
+			})			
+
+			// obs.call('SetInputSettings', {
+			// 	inputName: 'hello-command',
+			// 	inputSettings: {
+			// 		text: `Longest song in ${channel.slice(1)}'s set so far?\n\n${
+			// 			reportData.longest_track.name
+			// 		}\n(${reportData.longest_track.length_value})`,
+			// 	},
+			// })
 
 			setTimeout(() => {
 				obs.call('SetInputSettings', {
@@ -94,25 +101,7 @@ const statsCommand = async (channel, tags, args, client, obs) => {
 						text: '',
 					},
 				})
-			}, 5000)
-
-			obs.call('SetInputSettings', {
-				inputName: 'hello-command',
-				inputSettings: {
-					text: `Longest song in ${channel.slice(1)}'s set so far?\n\n${
-						reportData.longest_track.name
-					}\n(${reportData.longest_track.length_value})`,
-				},
-			})
-
-			setTimeout(() => {
-				obs.call('SetInputSettings', {
-					inputName: 'hello-command',
-					inputSettings: {
-						text: '',
-					},
-				})
-			}, 5000)
+			}, 10000)
 		}
 	} catch (err) {
 		console.log(err)
