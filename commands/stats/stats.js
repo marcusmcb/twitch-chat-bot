@@ -10,10 +10,12 @@ const {
   calculateAverageTrackLength
 } = require("./helpers/statsHelpers")
 
+const createLiveReport = require('./createLiveReport')
+
 dotenv.config();
 
-const url = `https://serato.com/playlists/${process.env.SERATO_DISPLAY_NAME}/live`;
-// const url2 = 'https://serato.com/playlists/DJ_Marcus_McBride/3-12-2022'
+// const url = `https://serato.com/playlists/${process.env.SERATO_DISPLAY_NAME}/live`;
+const url = 'https://serato.com/playlists/DJ_Marcus_McBride/3-12-2022'
 
 const statsCommand = async (channel, tags, args, client, obs) => {
   try {
@@ -26,7 +28,12 @@ const statsCommand = async (channel, tags, args, client, obs) => {
       playlistDate
     );
     const timeDiffs = calculateTimeDifferences(trackTimestamps);
-    const averageTrackLength = calculateAverageTrackLength(timeDiffs);
+    const averageTrackLength = calculateAverageTrackLength(timeDiffs);        
+    await createLiveReport(url).then((data) => {
+      console.log("DATA: ")
+      console.log(data.doubles_played)
+    })
+    
     
     if (timeDiffs.length === 0) {
       client.say(
@@ -38,7 +45,7 @@ const statsCommand = async (channel, tags, args, client, obs) => {
         channel,
         `${channel.slice(1)} has played ${
           timeDiffs.length + 1
-        } songs so far in this stream with an average length of ${averageTrackLength} per song.`
+        } songs so far in this set with an average length of ${averageTrackLength} per song.`
       )
       obs.call('SetInputSettings', {
 				inputName: 'hello-command',
@@ -53,7 +60,7 @@ const statsCommand = async (channel, tags, args, client, obs) => {
 						text: '',
 					},
 				})
-			}, 8000)
+			}, 5000)
     }
   } catch (err) {
     console.log(err);
