@@ -3,14 +3,14 @@ const helloCommand = (channel, tags, args, client, obs) => {
 	const updateTextSource = async() => {
 		try {
 			await obs.call('SetInputSettings', {
-				inputName: 'hello-command',
+				inputName: 'obs-chat-response',
 				inputSettings: {
 					text: `${tags.username} has played 14 songs so far\nin this stream at an average of 2:36 per song`,					
 				},				
 			})
 			setTimeout(async () => {				
 				await obs.call('SetInputSettings', {
-					inputName: 'hello-command',
+					inputName: 'obs-chat-response',
 					inputSettings: {
 						text: '',
 					},					

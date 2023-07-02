@@ -66,16 +66,16 @@ const statsCommand = async (channel, tags, args, client, obs) => {
 			)
 
 			obs.call('SetInputSettings', {
-				inputName: 'hello-command',
+				inputName: 'obs-chat-response',
 				inputSettings: {
 					text: `${tags.username} has played ${
 						timeDiffs.length + 1
 					} songs so far\nin this stream at an average of ${averageTrackLength} per song`,
 				},
-			})			
+			})
 
 			obs.call('SetInputSettings', {
-				inputName: 'hello-command',
+				inputName: 'obs-chat-response',
 				inputSettings: {
 					text: `${channel.slice(1)} has rocked doubles\n${
 						reportData.doubles_played.length
@@ -83,10 +83,10 @@ const statsCommand = async (channel, tags, args, client, obs) => {
 						reportData.doubles_played[reportData.doubles_played.length - 1].name
 					}`,
 				},
-			})			
+			})
 
 			// obs.call('SetInputSettings', {
-			// 	inputName: 'hello-command',
+			// 	inputName: 'obs-chat-response',
 			// 	inputSettings: {
 			// 		text: `Longest song in ${channel.slice(1)}'s set so far?\n\n${
 			// 			reportData.longest_track.name
@@ -96,7 +96,7 @@ const statsCommand = async (channel, tags, args, client, obs) => {
 
 			setTimeout(() => {
 				obs.call('SetInputSettings', {
-					inputName: 'hello-command',
+					inputName: 'obs-chat-response',
 					inputSettings: {
 						text: '',
 					},

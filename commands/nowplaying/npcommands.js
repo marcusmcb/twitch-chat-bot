@@ -27,14 +27,14 @@ const npCommands = (channel, tags, args, client, obs) => {
 						let nowplaying = results.last().text()
 						client.say(channel, `Now playing: ${nowplaying.trim()}`)
 						obs.call('SetInputSettings', {
-							inputName: 'hello-command',
+							inputName: 'obs-chat-response',
 							inputSettings: {
 								text: `Now playing:\n${nowplaying.trim()}`,
 							},
 						})
 						setTimeout(() => {
 							obs.call('SetInputSettings', {
-								inputName: 'hello-command',
+								inputName: 'obs-chat-response',
 								inputSettings: {
 									text: '',
 								},
@@ -49,14 +49,14 @@ const npCommands = (channel, tags, args, client, obs) => {
 							`Previous track: ${previousTrack.children[0].data.trim()}`
 						)
 						obs.call('SetInputSettings', {
-							inputName: 'hello-command',
+							inputName: 'obs-chat-response',
 							inputSettings: {
 								text: `Previous song:\n${previousTrack.children[0].data.trim()}`,
 							},
 						})
 						setTimeout(() => {
 							obs.call('SetInputSettings', {
-								inputName: 'hello-command',
+								inputName: 'obs-chat-response',
 								inputSettings: {
 									text: '',
 								},
