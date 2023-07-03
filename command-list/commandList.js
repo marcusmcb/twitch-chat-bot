@@ -55,7 +55,6 @@ const commandList = {
 	weather: weatherCommand,
 	test: testCommand,
 	np: npCommands,
-	dyp: dypCommand,
 	stats: statsCommand,
 	doubles: doublesCommand,
 	longestsong: longestTrackCommand,
@@ -63,4 +62,13 @@ const commandList = {
 	dyp: dypCommand,
 }
 
-module.exports = commandList
+const urlCommandList = [
+	'np',
+	'dyp',
+	'stats',
+	'doubles',
+	'longestsong',
+	'shortestsong',
+]
+
+;(module.exports = commandList), urlCommandList

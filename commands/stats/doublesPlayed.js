@@ -4,10 +4,7 @@ const createLiveReport = require('./createLiveReport')
 
 dotenv.config()
 
-const url = `https://serato.com/playlists/${process.env.SERATO_DISPLAY_NAME}/live`;
-// const url = 'https://serato.com/playlists/DJ_Marcus_McBride/sunday-night-stream'
-
-const doublesCommand = async (channel, tags, args, client, obs) => {
+const doublesCommand = async (channel, tags, args, client, obs, url) => {
 	try {
 		const reportData = await createLiveReport(url)
 		if (reportData.total_tracks_played === 0) {
@@ -47,5 +44,5 @@ const doublesCommand = async (channel, tags, args, client, obs) => {
 }
 
 module.exports = {
-  doublesCommand: doublesCommand
+	doublesCommand: doublesCommand,
 }

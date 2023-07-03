@@ -4,10 +4,7 @@ const dotenv = require('dotenv')
 
 dotenv.config()
 
-// const url = `https://serato.com/playlists/${process.env.SERATO_DISPLAY_NAME}/live`
-const url = 'https://serato.com/playlists/DJ_Marcus_McBride/3-12-2022'
-
-const npCommands = (channel, tags, args, client, obs) => {
+const npCommands = (channel, tags, args, client, obs, url) => {
 	const channelName = channel.slice(1).split('#')
 	const scrapeSeratoData = async () => {
 		try {
@@ -160,5 +157,5 @@ const npCommands = (channel, tags, args, client, obs) => {
 }
 
 module.exports = {
-	npCommands: npCommands,	
+	npCommands: npCommands,
 }

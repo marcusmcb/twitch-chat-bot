@@ -4,10 +4,7 @@ const createLiveReport = require('./createLiveReport')
 
 dotenv.config()
 
-const url = `https://serato.com/playlists/${process.env.SERATO_DISPLAY_NAME}/live`;
-// const url = 'https://serato.com/playlists/DJ_Marcus_McBride/sunday-night-stream'
-
-const longestTrackCommand = async (channel, tags, args, client, obs) => {
+const longestTrackCommand = async (channel, tags, args, client, obs, url) => {
 	try {
 		const reportData = await createLiveReport(url)
 		if (reportData.total_tracks_played === 0) {
@@ -41,5 +38,5 @@ const longestTrackCommand = async (channel, tags, args, client, obs) => {
 }
 
 module.exports = {
-  longestTrackCommand: longestTrackCommand
+	longestTrackCommand: longestTrackCommand,
 }

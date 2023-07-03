@@ -5,52 +5,67 @@ const dotenv = require('dotenv')
 dotenv.config()
 
 const commandList = require('./command-list/commandList')
+const urlCommandList = require('./command-list/commandList')
 const obs = require('./obs/obsConnection')
 
 let userCommandHistory = {}
 const COMMAND_REPEAT_LIMIT = 5
 
+// const url = `https://serato.com/playlists/${process.env.SERATO_DISPLAY_NAME}/live`;
+const url = 'https://serato.com/playlists/DJ_Marcus_McBride/sunday-night-stream'
+
 // create tmi instance
 const client = new tmi.Client({
-  options: { debug: true },
-  connection: {
-    secure: true,
-    reconnect: true,
-  },
-  identity: {
-    username: process.env.TWITCH_BOT_USERNAME,
-    password: process.env.TWITCH_OAUTH_TOKEN,
-  },
-  channels: [process.env.TWITCH_CHANNEL_NAME],
+	options: { debug: true },
+	connection: {
+		secure: true,
+		reconnect: true,
+	},
+	identity: {
+		username: process.env.TWITCH_BOT_USERNAME,
+		password: process.env.TWITCH_OAUTH_TOKEN,
+	},
+	channels: [process.env.TWITCH_CHANNEL_NAME],
 })
 
 client.connect()
 
 // chat command listener
-client.on('message', (channel, tags, message, self) => {  
-  if (self || !message.startsWith('!')) {
-    return
-  }
+client.on('message', (channel, tags, message, self) => {
+	if (self || !message.startsWith('!')) {
+		return
+	}
 
-  const args = message.slice(1).split(' ')
-  const command = args.shift().toLowerCase()
+	const args = message.slice(1).split(' ')
+	const command = args.shift().toLowerCase()
 
-  if (command in commandList) {
-    if (!userCommandHistory[tags.username]) {
-      userCommandHistory[tags.username] = [];
-    }
+	if (command in commandList) {
+		if (!userCommandHistory[tags.username]) {
+			userCommandHistory[tags.username] = []
+		}
 
-    let history = userCommandHistory[tags.username];
+		let history = userCommandHistory[tags.username]
 
-    if (history.length >= COMMAND_REPEAT_LIMIT && history.every(hist => hist === command)) {
-      client.say(channel, `@${tags.username}, try a different command before using that one again.`);
-    } else {
-      commandList[command](channel, tags, args, client, obs);
-      history.push(command);
+		if (
+			history.length >= COMMAND_REPEAT_LIMIT &&
+			history.every((hist) => hist === command)
+		) {
+			client.say(
+				channel,
+				`@${tags.username}, try a different command before using that one again.`
+			)
+		} else {
+			if (command in urlCommandList) {
+				commandList[command](channel, tags, args, client, obs, url)
+				history.push(command)
+			} else {
+				commandList[command](channel, tags, args, client, obs)
+				history.push(command)
+			}
 
-      if (history.length > COMMAND_REPEAT_LIMIT) {
-        history.shift();  // Remove the oldest command
-      }
-    }
-  }
+			if (history.length > COMMAND_REPEAT_LIMIT) {
+				history.shift() // Remove the oldest command
+			}
+		}
+	}
 })
