@@ -10,8 +10,7 @@ const createLiveReport = async (url) => {
 		const match = regex.exec(inputString)
 		if (match && match[1]) {
 			// Replace underscores with whitespace
-			const playlistName = match[1].replace(/_/g, ' ')
-			//   console.log(playlistName);
+			const playlistName = match[1].replace(/_/g, ' ')			
 			return playlistName
 		}
 		// Return null if no match is found
