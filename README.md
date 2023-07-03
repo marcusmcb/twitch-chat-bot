@@ -44,6 +44,8 @@ If you wish to display the np/stats commands on screen in OBS, add the following
 
 `OBS_WEBSOCKET_PASSWORD='password'`
 
+For the OBS websocket address, you'll need the specific address for the device that OBS is running on.
+
 <hr>
 
 ## Commands:
