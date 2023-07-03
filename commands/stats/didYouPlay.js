@@ -4,8 +4,8 @@ const createLiveReport = require('./createLiveReport')
 
 dotenv.config()
 
-// const url = `https://serato.com/playlists/${process.env.SERATO_DISPLAY_NAME}/live`;
-const url = 'https://serato.com/playlists/DJ_Marcus_McBride/sunday-night-stream'
+const url = `https://serato.com/playlists/${process.env.SERATO_DISPLAY_NAME}/live`;
+// const url = 'https://serato.com/playlists/DJ_Marcus_McBride/sunday-night-stream'
 
 const dypCommand = async (channel, tags, args, client, obs) => {
 	if (args.length === 0) {

@@ -1,26 +1,5 @@
 const helloCommand = (channel, tags, args, client, obs) => {
 	client.say(channel, `@${tags.username}, what's good homie! 👋👋👋`)
-	const updateTextSource = async() => {
-		try {
-			await obs.call('SetInputSettings', {
-				inputName: 'obs-chat-response',
-				inputSettings: {
-					text: `${tags.username} has played 14 songs so far\nin this stream at an average of 2:36 per song`,					
-				},				
-			})
-			setTimeout(async () => {				
-				await obs.call('SetInputSettings', {
-					inputName: 'obs-chat-response',
-					inputSettings: {
-						text: '',
-					},					
-				})
-			}, 8000)
-		} catch (error) {
-			console.error('Failed to update text source:', error)
-		}
-	}
-	updateTextSource()
 }
 
 const lurkCommand = (channel, tags, args, client) => {

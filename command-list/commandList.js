@@ -1,22 +1,22 @@
 const {
-  helloCommand,
-  lurkCommand,
-  backCommand,
-  fadedCommand,
-  linksCommand,
-  cratestatsCommand,
-  areacodeCommand,
-  scCommand,
-  primeCommand,
-  codeCommand,
-  diceCommand,
-  smortCommand,
+	helloCommand,
+	lurkCommand,
+	backCommand,
+	fadedCommand,
+	linksCommand,
+	cratestatsCommand,
+	areacodeCommand,
+	scCommand,
+	primeCommand,
+	codeCommand,
+	diceCommand,
+	smortCommand,
 } = require('../commands/commands')
 
 const {
-  rockCommand,
-  paperCommand,
-  scissorsCommand
+	rockCommand,
+	paperCommand,
+	scissorsCommand,
 } = require('../commands/rps/rps')
 
 const { eightballCommand } = require('../commands/8ball/eightBall')
@@ -26,33 +26,41 @@ const { factCommand } = require('../commands/fact/fact')
 const { weatherCommand } = require('../commands/weather/weather')
 const { testCommand } = require('../commands/test_command/test_command')
 const { statsCommand } = require('../commands/stats/stats')
-const { npCommands, dypCommand } = require('../commands/nowplaying/npcommands')
+const { dypCommand } = require('../commands/stats/didYouPlay')
+const { doublesCommand } = require('../commands/stats/doublesPlayed')
+const { longestTrackCommand } = require('../commands/stats/longestTrack')
+const { shortestTrackCommand } = require('../commands/stats/shortestTrack')
+const { npCommands } = require('../commands/nowplaying/npcommands')
 
 const commandList = {
-  hello: helloCommand,
-  lurk: lurkCommand,
-  back: backCommand,
-  faded: fadedCommand,
-  links: linksCommand,
-  cratestats: cratestatsCommand,
-  '714': areacodeCommand,
-  sc: scCommand,
-  prime: primeCommand,
-  code: codeCommand,
-  dice: diceCommand,
-  smort: smortCommand,
-  '8ball': eightballCommand,
-  quote: quoteCommand,
-  dadjoke: dadjokeCommand,
-  fact: factCommand,
-  rock: rockCommand,
-  paper: paperCommand,
-  scissors: scissorsCommand,
-  weather: weatherCommand,
-  test: testCommand,
-  np: npCommands,
-  dyp: dypCommand,
-  stats: statsCommand
+	hello: helloCommand,
+	lurk: lurkCommand,
+	back: backCommand,
+	faded: fadedCommand,
+	links: linksCommand,
+	cratestats: cratestatsCommand,
+	714: areacodeCommand,
+	sc: scCommand,
+	prime: primeCommand,
+	code: codeCommand,
+	dice: diceCommand,
+	smort: smortCommand,
+	'8ball': eightballCommand,
+	quote: quoteCommand,
+	dadjoke: dadjokeCommand,
+	fact: factCommand,
+	rock: rockCommand,
+	paper: paperCommand,
+	scissors: scissorsCommand,
+	weather: weatherCommand,
+	test: testCommand,
+	np: npCommands,
+	dyp: dypCommand,
+	stats: statsCommand,
+	doubles: doublesCommand,
+	longestsong: longestTrackCommand,
+	shortestsong: shortestTrackCommand,
+	dyp: dypCommand,
 }
 
 module.exports = commandList

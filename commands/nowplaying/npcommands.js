@@ -4,7 +4,8 @@ const dotenv = require('dotenv')
 
 dotenv.config()
 
-const url = `https://serato.com/playlists/${process.env.SERATO_DISPLAY_NAME}/live`
+// const url = `https://serato.com/playlists/${process.env.SERATO_DISPLAY_NAME}/live`
+const url = 'https://serato.com/playlists/DJ_Marcus_McBride/3-12-2022'
 
 const npCommands = (channel, tags, args, client, obs) => {
 	const channelName = channel.slice(1).split('#')
@@ -158,84 +159,6 @@ const npCommands = (channel, tags, args, client, obs) => {
 	scrapeSeratoData()
 }
 
-const dypCommand = (channel, tags, args, client) => {
-	const channelName = channel.slice(1).split('#')
-	if (args.length === 0) {
-		client.say(
-			channel,
-			`Add an artist's name after the command to see if ${channelName} has played them yet in this stream.`
-		)
-	} else {
-		const searchSeratoData = async () => {
-			try {
-				await axios
-					.get(url)
-					.then(({ data }) => {
-						const $ = cheerio.load(data)
-						const results = $('div.playlist-trackname')
-						// const timestamp = $('div.playlist-tracktime')
-
-						let tracksPlayed = []
-
-						// push tracks played so far to array
-						for (let i = 0; i < results.length; i++) {
-							let trackId = results[i].children[0].data.trim()
-							tracksPlayed.push(trackId)
-						}
-
-						// search array for command option (artist)
-						let searchResults = []
-						let searchTerm = `${args}`.replaceAll(',', ' ')
-						console.log('-------------------------------------')
-						console.log('SEARCH TERM: ', searchTerm)
-						for (let i = 0; i < tracksPlayed.length; i++) {
-							if (
-								tracksPlayed[i].toLowerCase().includes(searchTerm.toLowerCase())
-							) {
-								searchResults.push(tracksPlayed[i])
-							}
-						}
-
-						// dev note - rewrite as proper async/await call
-						setTimeout(() => {
-							if (searchResults.length === 0) {
-								client.say(
-									channel,
-									`${channelName} has not played ${searchTerm} so far in this stream.`
-								)
-							} else if (searchResults.length === 1) {
-								client.say(
-									channel,
-									`${channelName} has played ${searchTerm} ${searchResults.length} time so far in this stream.`
-								)
-							} else if (searchResults.length > 1) {
-								console.log(searchResults)
-								client.say(
-									channel,
-									`${channelName} has played ${searchTerm} ${searchResults.length} times so far in this stream.`
-								)
-							}
-						}, 500)
-					})
-					.catch((error) => {
-						if (error.response.status === 404) {
-							process.stderr.write('Your Serato URL is incorrect.')
-							client.say(
-								channel,
-								"That doesn't appear to be working right now."
-							)
-						}
-					})
-			} catch (err) {
-				console.log(err)
-				// add process.stderr.write statement to handle possible errors
-			}
-		}
-		searchSeratoData()
-	}
-}
-
 module.exports = {
-	npCommands: npCommands,
-	dypCommand: dypCommand,
+	npCommands: npCommands,	
 }
