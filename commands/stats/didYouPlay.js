@@ -5,7 +5,7 @@ const createLiveReport = require('./createLiveReport')
 dotenv.config()
 
 const stringCleanUp = (query, str) => {
-	console.log("anything? ")
+	console.log('anything? ')
 	console.log(query, str)
 	let escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 	let pattern = new RegExp(`\\s*[.,-]*\\s*${escapedQuery}\\s*[.,-]*\\s*`, 'gi')
@@ -13,10 +13,10 @@ const stringCleanUp = (query, str) => {
 	return result.trim()
 }
 
-const dypCommand = async (channel, tags, args, client, obs, url) => {
-	console.log("ARGS: ", args)
-	let searchTerm = args.join(" ")
-	console.log("ARGS JOINED", searchTerm)
+const dypCommand = async (channel, tags, args, client, obs, url) => {	
+	let searchItem = args.join(' ')	
+
+	// check if user has entered a query value after the command
 	if (args.length === 0) {
 		client.say(
 			channel,
@@ -27,8 +27,7 @@ const dypCommand = async (channel, tags, args, client, obs, url) => {
 			const reportData = await createLiveReport(url)
 			let searchResults = []
 			let searchTerm = `${args}`.replaceAll(',', ' ')
-			for (let i = 0; i < reportData.track_array.length; i++) {
-				// console.log(reportData.track_array[i])
+			for (let i = 0; i < reportData.track_array.length; i++) {				
 				if (
 					reportData.track_array[i]
 						.toLowerCase()
@@ -36,22 +35,18 @@ const dypCommand = async (channel, tags, args, client, obs, url) => {
 				) {
 					searchResults.push(reportData.track_array[i])
 				}
-			}
-			console.log('---------------------')
-			console.log('Search Result Length: ')
-			console.log(searchResults[searchResults.length - 1])
-			console.log('---------------------')
-			console.log(stringCleanUp(searchTerm, searchResults[searchResults.length - 1]))
-			const lastSongPlayed = stringCleanUp(searchTerm, searchResults[searchResults.length - 1])
+			}			
+
+			// if query value is not present in search results...
 			if (searchResults.length === 0) {
 				client.say(
 					channel,
-					`${tags.username} has not played '${searchTerm}' so far in this stream.`
+					`${tags.username} has not played '${searchItem}' so far in this stream.`
 				)
 				obs.call('SetInputSettings', {
 					inputName: 'obs-chat-response',
 					inputSettings: {
-						text: `${tags.username} has not played\n'${searchTerm}' so far in this stream.`,
+						text: `${tags.username} has not played\n'${searchItem}' so far in this stream.`,
 					},
 				})
 				setTimeout(() => {
@@ -62,44 +57,52 @@ const dypCommand = async (channel, tags, args, client, obs, url) => {
 						},
 					})
 				}, 5000)
-			} else if (searchResults.length === 1) {
-				client.say(
-					channel,
-					`${tags.username} has played '${searchTerm}' ${searchResults.length} time so far in this stream.`
+			} else {
+				// find the last song played by the queried artist
+				const lastSongPlayed = stringCleanUp(
+					searchTerm,
+					searchResults[searchResults.length - 1]
 				)
-				obs.call('SetInputSettings', {
-					inputName: 'obs-chat-response',
-					inputSettings: {
-						text: `${tags.username} has played\n'${searchTerm}' ${searchResults.length} time so far in this stream.\nLast song played by ${searchTerm} was :\n${lastSongPlayed}`,
-					},
-				})
-				setTimeout(() => {
+				if (searchResults.length === 1) {
+					// add lastSongPlayed logic check here
+					client.say(
+						channel,
+						`${tags.username} has played '${searchItem}' ${searchResults.length} time so far in this stream.`
+					)
 					obs.call('SetInputSettings', {
 						inputName: 'obs-chat-response',
 						inputSettings: {
-							text: '',
+							text: `${tags.username} has played\n'${searchItem}' ${searchResults.length} time so far in this stream.\n\nThe last song played by ${searchTerm} was :\n${lastSongPlayed}`,
 						},
 					})
-				}, 5000)
-			} else if (searchResults.length > 1) {
-				client.say(
-					channel,
-					`${tags.username} has played '${searchTerm}' ${searchResults.length} times so far in this stream.`
-				)
-				obs.call('SetInputSettings', {
-					inputName: 'obs-chat-response',
-					inputSettings: {
-						text: `${tags.username} has played\n'${searchTerm}' ${searchResults.length} times so far in this stream.\n\nLast ${searchTerm} song played was :\n${lastSongPlayed}`,
-					},
-				})
-				setTimeout(() => {
+					setTimeout(() => {
+						obs.call('SetInputSettings', {
+							inputName: 'obs-chat-response',
+							inputSettings: {
+								text: '',
+							},
+						})
+					}, 5000)
+				} else {
+					client.say(
+						channel,
+						`${tags.username} has played '${searchItem}' ${searchResults.length} times so far in this stream.`
+					)
 					obs.call('SetInputSettings', {
 						inputName: 'obs-chat-response',
 						inputSettings: {
-							text: '',
+							text: `${tags.username} has played\n'${searchItem}' ${searchResults.length} times so far in this stream.\n\nThe last ${searchTerm} song played was :\n${lastSongPlayed}`,
 						},
 					})
-				}, 5000)
+					setTimeout(() => {
+						obs.call('SetInputSettings', {
+							inputName: 'obs-chat-response',
+							inputSettings: {
+								text: '',
+							},
+						})
+					}, 5000)
+				}
 			}
 		} catch (error) {
 			console.log('HERE')
