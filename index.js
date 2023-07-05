@@ -12,7 +12,7 @@ let userCommandHistory = {}
 const COMMAND_REPEAT_LIMIT = 5
 
 // const url = `https://serato.com/playlists/${process.env.SERATO_DISPLAY_NAME}/live`;
-const url = 'https://serato.com/playlists/DJ_Marcus_McBride/sunday-night-stream'
+const url = 'https://serato.com/playlists/DJ_Marcus_McBride/npchatbot-test_2'
 
 // create tmi instance
 const client = new tmi.Client({
