@@ -116,17 +116,59 @@ const npCommands = (channel, tags, args, client, obs, url) => {
 									channel,
 									`${channelName} played "${randomTrack.children[0].data.trim()}" ${hours} hours & ${minutes} minutes ago in this stream.`
 								)
+								obs.call('SetInputSettings', {
+									inputName: 'obs-chat-response',
+									inputSettings: {
+										text: `${channelName} played\n"${randomTrack.children[0].data.trim()}"\n${hours} hours & ${minutes} minutes ago in this stream.`,
+									},
+								})
+								setTimeout(() => {
+									obs.call('SetInputSettings', {
+										inputName: 'obs-chat-response',
+										inputSettings: {
+											text: '',
+										},
+									})
+								}, 5000)
 							} else {
 								client.say(
 									channel,
 									`${channelName} played "${randomTrack.children[0].data.trim()}" ${hours} hour & ${minutes} minutes ago in this stream.`
 								)
+								obs.call('SetInputSettings', {
+									inputName: 'obs-chat-response',
+									inputSettings: {
+										text: `${channelName} played\n"${randomTrack.children[0].data.trim()}"\n${hours} hour & ${minutes} minutes ago in this stream.`,
+									},
+								})
+								setTimeout(() => {
+									obs.call('SetInputSettings', {
+										inputName: 'obs-chat-response',
+										inputSettings: {
+											text: '',
+										},
+									})
+								}, 5000)
 							}
 						} else {
 							client.say(
 								channel,
 								`${channelName} played "${randomTrack.children[0].data.trim()}" ${minutes} minutes ago in this stream.`
 							)
+							obs.call('SetInputSettings', {
+								inputName: 'obs-chat-response',
+								inputSettings: {
+									text: `${channelName} played\n"${randomTrack.children[0].data.trim()}"\n${minutes} minutes ago in this stream.`,
+								},
+							})
+							setTimeout(() => {
+								obs.call('SetInputSettings', {
+									inputName: 'obs-chat-response',
+									inputSettings: {
+										text: '',
+									},
+								})
+							}, 5000)
 						}
 
 						// !np options
