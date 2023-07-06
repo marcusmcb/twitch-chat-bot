@@ -4,8 +4,7 @@ const dotenv = require('dotenv')
 
 dotenv.config()
 
-const npCommands = (channel, tags, args, client, obs, url) => {
-	const channelName = channel.slice(1).split('#')
+const npCommands = (channel, tags, args, client, obs, url) => {	
 	const scrapeSeratoData = async () => {
 		try {
 			await axios
@@ -14,7 +13,6 @@ const npCommands = (channel, tags, args, client, obs, url) => {
 					const $ = cheerio.load(data)
 					const results = $('div.playlist-trackname')
 					const timestamp = $('div.playlist-tracktime')
-
 					// check scrape results to see if they're empty
 					// this will occur if the user/streamer isn't sending a live playlist to serato
 					if (results.length === 0) {
@@ -66,15 +64,29 @@ const npCommands = (channel, tags, args, client, obs, url) => {
 						let firstTrack = results.first().text()
 						client.say(
 							channel,
-							`${channelName} kicked off this stream with ${firstTrack.trim()}`
+							`${tags.username} kicked off this stream with ${firstTrack.trim()}`
 						)
+						obs.call('SetInputSettings', {
+							inputName: 'obs-chat-response',
+							inputSettings: {
+								text: `${tags.username} kicked off this stream with :\n${firstTrack.trim()}`,
+							},
+						})
+						setTimeout(() => {
+							obs.call('SetInputSettings', {
+								inputName: 'obs-chat-response',
+								inputSettings: {
+									text: '',
+								},
+							})
+						}, 5000)
 
 						// !np total
 					} else if (args == 'total') {
 						// let currentTrack = results.last().text()
 						client.say(
 							channel,
-							`${channelName} has played ${results.length} tracks so far in this stream.`
+							`${tags.username} has played ${results.length} tracks so far in this stream.`
 						)
 						// axios.post('http://192.168.86.50:8000/display', {
 						//   total: new Number(results.length),
@@ -114,12 +126,12 @@ const npCommands = (channel, tags, args, client, obs, url) => {
 							if (hours > 1) {
 								client.say(
 									channel,
-									`${channelName} played "${randomTrack.children[0].data.trim()}" ${hours} hours & ${minutes} minutes ago in this stream.`
+									`${tags.username} played "${randomTrack.children[0].data.trim()}" ${hours} hours & ${minutes} minutes ago in this stream.`
 								)
 								obs.call('SetInputSettings', {
 									inputName: 'obs-chat-response',
 									inputSettings: {
-										text: `${channelName} played\n"${randomTrack.children[0].data.trim()}"\n${hours} hours & ${minutes} minutes ago in this stream.`,
+										text: `vibecheck:\n\n${tags.username} played\n"${randomTrack.children[0].data.trim()}"\n${hours} hours & ${minutes} minutes ago in this stream.`,
 									},
 								})
 								setTimeout(() => {
@@ -133,12 +145,12 @@ const npCommands = (channel, tags, args, client, obs, url) => {
 							} else {
 								client.say(
 									channel,
-									`${channelName} played "${randomTrack.children[0].data.trim()}" ${hours} hour & ${minutes} minutes ago in this stream.`
+									`${tags.username} played "${randomTrack.children[0].data.trim()}" ${hours} hour & ${minutes} minutes ago in this stream.`
 								)
 								obs.call('SetInputSettings', {
 									inputName: 'obs-chat-response',
 									inputSettings: {
-										text: `${channelName} played\n"${randomTrack.children[0].data.trim()}"\n${hours} hour & ${minutes} minutes ago in this stream.`,
+										text: `vibecheck:\n\n${tags.username} played\n"${randomTrack.children[0].data.trim()}"\n${hours} hour & ${minutes} minutes ago in this stream.`,
 									},
 								})
 								setTimeout(() => {
@@ -153,12 +165,12 @@ const npCommands = (channel, tags, args, client, obs, url) => {
 						} else {
 							client.say(
 								channel,
-								`${channelName} played "${randomTrack.children[0].data.trim()}" ${minutes} minutes ago in this stream.`
+								`${tags.username} played "${randomTrack.children[0].data.trim()}" ${minutes} minutes ago in this stream.`
 							)
 							obs.call('SetInputSettings', {
 								inputName: 'obs-chat-response',
 								inputSettings: {
-									text: `${channelName} played\n"${randomTrack.children[0].data.trim()}"\n${minutes} minutes ago in this stream.`,
+									text: `vibecheck:\n\n${tags.username} played\n"${randomTrack.children[0].data.trim()}"\n${minutes} minutes ago in this stream.`,
 								},
 							})
 							setTimeout(() => {
