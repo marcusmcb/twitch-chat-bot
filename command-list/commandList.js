@@ -31,6 +31,7 @@ const { doublesCommand } = require('../commands/stats/doublesPlayed')
 const { longestTrackCommand } = require('../commands/stats/longestTrack')
 const { shortestTrackCommand } = require('../commands/stats/shortestTrack')
 const { npCommands } = require('../commands/nowplaying/npcommands')
+const shortestTrack = require('../commands/stats/shortestTrack')
 
 const commandList = {
 	hello: helloCommand,
@@ -62,13 +63,16 @@ const commandList = {
 	dyp: dypCommand,
 }
 
-const urlCommandList = [
-	'np',
-	'dyp',
-	'stats',
-	'doubles',
-	'longestsong',
-	'shortestsong',
-]
+const urlCommandList = {	
+	np: npCommands,
+	dyp: dypCommand,
+	stats: statsCommand,
+	doubles: doublesCommand,
+	longestsong: longestTrackCommand,
+	shortestsong: shortestTrack
+}
 
-;(module.exports = commandList), urlCommandList
+module.exports = {
+	commandList: commandList,
+	urlCommandList: urlCommandList
+}

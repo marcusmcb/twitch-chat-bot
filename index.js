@@ -4,11 +4,15 @@ const dotenv = require('dotenv')
 
 dotenv.config()
 
-const commandList = require('./command-list/commandList')
-const urlCommandList = require('./command-list/commandList')
+// const commandList = require('./command-list/commandList')
+// const urlCommandList = require('./command-list/commandList')
+const { commandList, urlCommandList } = require('./command-list/commandList')
+
 const obs = require('./obs/obsConnection')
 
 let userCommandHistory = {}
+let urlCommandCooldown = false
+const COOLDOWN_DURATION = 5000
 const COMMAND_REPEAT_LIMIT = 5
 
 // const url = `https://serato.com/playlists/${process.env.SERATO_DISPLAY_NAME}/live`;
@@ -55,9 +59,23 @@ client.on('message', (channel, tags, message, self) => {
 				`@${tags.username}, try a different command before using that one again.`
 			)
 		} else {
+			// Check for cooldown only for urlCommandList commands
 			if (command in urlCommandList) {
+				if (urlCommandCooldown) {
+					client.say(
+						channel,
+						`@${tags.username}, please wait for the current command to finish before using another.`
+					)
+					return
+				}
+				urlCommandCooldown = true
 				commandList[command](channel, tags, args, client, obs, url)
 				history.push(command)
+
+				// Clear the cooldown after the duration
+				setTimeout(() => {
+					urlCommandCooldown = false
+				}, COOLDOWN_DURATION)
 			} else {
 				commandList[command](channel, tags, args, client, obs)
 				history.push(command)
