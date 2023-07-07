@@ -4,39 +4,10 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-// let previousAverageTrackLength = 0; // Global variable to store the previous average track length
-
 const statsCommand = async (channel, tags, args, client, obs, url) => {
   try {
     const reportData = await createLiveReport(url);
-    const currentAverageTrackLength = reportData.average_track_length; // The current average track length
-    // let change = ""; // Will store the text representing the change in average track length
-    // let percentageChange = 0; // Will store the percentage change in average track length
-
-    // // Check if the average track length has increased, decreased, or remained even
-    // if (currentAverageTrackLength > previousAverageTrackLength) {
-    //   change = "increased";
-    //   if (previousAverageTrackLength !== 0) {
-    //     // To avoid division by zero
-    //     percentageChange =
-    //       ((currentAverageTrackLength - previousAverageTrackLength) /
-    //         previousAverageTrackLength) *
-    //       100;
-    //   }
-    // } else if (currentAverageTrackLength < previousAverageTrackLength) {
-    //   change = "decreased";
-    //   if (previousAverageTrackLength !== 0) {
-    //     // To avoid division by zero
-    //     percentageChange =
-    //       ((previousAverageTrackLength - currentAverageTrackLength) /
-    //         previousAverageTrackLength) *
-    //       100;
-    //   }
-    // } else {
-    //   change = "remained even";
-    // }
-
-    // previousAverageTrackLength = currentAverageTrackLength; // Update the previous average track length
+    const currentAverageTrackLength = reportData.average_track_length    
 
     if (reportData.total_tracks_played === 0) {
       client.say(
