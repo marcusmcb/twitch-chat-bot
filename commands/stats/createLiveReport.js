@@ -10,7 +10,7 @@ const createLiveReport = async (url) => {
 		const match = regex.exec(inputString)
 		if (match && match[1]) {
 			// Replace underscores with whitespace
-			const playlistName = match[1].replace(/_/g, ' ')			
+			const playlistName = match[1].replace(/_/g, ' ')
 			return playlistName
 		}
 		// Return null if no match is found
@@ -81,6 +81,35 @@ const createLiveReport = async (url) => {
 		return result
 	}
 
+	const compareTimes = (currentAverage, previousCurrentAverage) => {		
+		function parseTime(timeStr) {
+			const [hours, minutes] = timeStr.split(':').map(Number)
+			return hours * 60 * 60 * 1000 + minutes * 60 * 1000
+		}
+
+		const current = parseTime(currentAverage)
+		const previous = parseTime(previousCurrentAverage)
+
+		if (current > previous) {
+			const difference = ((current - previous) / previous) * 100
+			return {
+				averageIncrease: true,
+				difference: difference.toFixed(2)
+			}			
+		} else if (current < previous) {
+			const difference = ((previous - current) / previous) * 100
+			return {
+				averageIncrease: false,
+				difference: difference.toFixed(2)
+			}			
+		} else {
+			return {
+				averageIncrease: false,
+				difference: null
+			}			
+		}
+	}
+
 	try {
 		// function to scrape data for report
 		let response = await scrapeData(url)
@@ -139,12 +168,6 @@ const createLiveReport = async (url) => {
 			}
 		}
 
-		// // Example usage
-		// const timeValue1 = "2022-04-04T08:00:00.000Z";
-		// const timeValue2 = "2022-04-04T00:04:23.000Z";
-		// const sum = sumTimeValues(timeValue1, timeValue2);
-		// console.log(sum); // Output: 08:04:23 PM    
-
 		// master track log
 		let trackLog = tracksPlayed.map((result, index) => {
 			return {
@@ -164,7 +187,12 @@ const createLiveReport = async (url) => {
 			msArray.push(trackLog[i]['length'])
 		}
 
+		let lastMSArray = msArray.slice(0, -1)
 		let averageTrackLength = calculateAverageTime(msArray)
+		let previousAverageTrackLength = calculateAverageTime(lastMSArray)
+		console.log(averageTrackLength)
+		console.log(previousAverageTrackLength)
+		let averageDifference = compareTimes(averageTrackLength, previousAverageTrackLength)
 
 		// longest track played
 		let longestSeconds
@@ -236,12 +264,17 @@ const createLiveReport = async (url) => {
 				seconds: shortestSeconds,
 			},
 			average_track_length: averageTrackLength,
+			average_change: {
+				isLarger: averageDifference.averageIncrease,
+				difference: averageDifference.difference
+			},
 			track_log: trackLog,
 			doubles_played: doublesPlayed,
 			playlist_date: playlistDateFormatted,
 			playlist_title: playlistTitle,
-      track_array: tracksPlayed
+			track_array: tracksPlayed,
 		}
+		console.log(seratoLiveReport.average_change)
 		return seratoLiveReport
 	} catch (err) {
 		console.log(err)
