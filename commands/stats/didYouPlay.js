@@ -59,10 +59,8 @@ const dypCommand = async (channel, tags, args, client, obs, url) => {
 				}, 5000)
 			} else {
 				// find the last song played by the queried artist
-				const lastSongPlayed = stringCleanUp(
-					searchTerm,
-					searchResults[searchResults.length - 1]
-				)
+				const lastSongPlayed = searchResults[searchResults.length - 1]
+				
 				if (searchResults.length === 1) {
 					// add lastSongPlayed logic check here
 					client.say(
