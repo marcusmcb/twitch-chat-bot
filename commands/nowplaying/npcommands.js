@@ -187,7 +187,7 @@ const npCommands = (channel, tags, args, client, obs, url) => {
 					} else if (args == 'options') {
 						client.say(
 							channel,
-							'Command Options: !np (current song), !np start (first song), !np previous (previous song), !np vibecheck (try it & find out)'
+							'Command Options: !np (current song), !np previous (previous song), !np start (first song), !np vibecheck (try it & find out), !stats, !doubles, !longestsong, !shortestsong'
 						)
 						// default catch-all for any args passed that are not defined
 					} else {
