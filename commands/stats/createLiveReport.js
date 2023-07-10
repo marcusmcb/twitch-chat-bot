@@ -284,17 +284,9 @@ const createLiveReport = async (url) => {
 //
 // calculate average tracks per hour for longer sets
 //
-// add option for user to publicly submit stats and display their
-// screen name & total number of hours contributed in ui
-//
-// PRIVATE REPORTS
-//
 // check if shortest track is part of a doubles pair
-//
-// is there a way to gen data for private playlists? (probably not...)
 //
 // add logic to determine longest track played @ time
 // add logic to determine shortest track played @ time
-// subtract playtime from set start time
 
 module.exports = createLiveReport

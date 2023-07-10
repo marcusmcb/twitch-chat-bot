@@ -11,6 +11,7 @@ const {
 	codeCommand,
 	diceCommand,
 	smortCommand,
+	shoutOutCommand,
 } = require('../commands/commands')
 
 const {
@@ -61,6 +62,7 @@ const commandList = {
 	longestsong: longestTrackCommand,
 	shortestsong: shortestTrackCommand,
 	dyp: dypCommand,
+	so: shoutOutCommand
 }
 
 const urlCommandList = {	

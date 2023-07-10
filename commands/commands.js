@@ -1,5 +1,21 @@
+const dotenv = require('dotenv')
+dotenv.config()
+
+const shoutOutCommand = (channel, tags, args, client, obs) => {	
+	let argsParsed = args[0].slice(1)	
+	if (tags.username === `${process.env.TWITCH_CHANNEL_NAME}` || tags.mod) {
+		client.say(
+			channel,
+			`Be sure to follow ${args}'s channel here on Twitch: www.twitch.tv/${argsParsed} `
+		)
+	}
+}
+
 const helloCommand = (channel, tags, args, client, obs) => {
-	client.say(channel, `@${tags.username}, what's good homie! 👋👋👋`)
+	client.say(
+		channel,
+		`@${process.env.TWITCH_CHANNEL_NAME}, what's good homie! 👋👋👋`
+	)
 }
 
 const lurkCommand = (channel, tags, args, client) => {
@@ -83,4 +99,5 @@ module.exports = {
 	codeCommand: codeCommand,
 	diceCommand: diceCommand,
 	smortCommand: smortCommand,
+	shoutOutCommand: shoutOutCommand,
 }

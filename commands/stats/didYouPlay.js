@@ -4,15 +4,6 @@ const createLiveReport = require("./createLiveReport");
 
 dotenv.config();
 
-const stringCleanUp = (query, str) => {
-  console.log("anything? ");
-  console.log(query, str);
-  let escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  let pattern = new RegExp(`\\s*[.,-]*\\s*${escapedQuery}\\s*[.,-]*\\s*`, "gi");
-  let result = str.replace(pattern, "");
-  return result.trim();
-};
-
 const dypCommand = async (channel, tags, args, client, obs, url) => {
   let searchItem = args.join(" ");
 
