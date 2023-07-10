@@ -39,8 +39,9 @@ try {
 
 // test code for regular, automated commands
 // let channel = `#${process.env.TWITCH_CHANNEL_NAME}`
+// let tags, args
 // setInterval(() => {
-// 	client.say(channel, 'Automated test post')
+// 	commandList['code'](channel, tags, args, client, obs)
 // }, 5000)
 
 // chat command listener
