@@ -7,6 +7,7 @@ dotenv.config();
 const statsCommand = async (channel, tags, args, client, obs, url) => {
   try {
     const reportData = await createLiveReport(url);
+    console.log(reportData)
     const averageTrackLength = reportData.average_track_length    
 
     if (reportData.total_tracks_played === 0) {
