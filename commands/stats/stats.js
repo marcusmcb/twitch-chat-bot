@@ -23,7 +23,7 @@ const statsCommand = async (channel, tags, args, client, obs, url) => {
       obs.call("SetInputSettings", {
         inputName: "obs-chat-response",
         inputSettings: {
-          text: `${tags.username} has played ${reportData.total_tracks_played} songs so far\nin this stream at an average of ${averageTrackLength} per song (^ ${reportData.average_change.difference}%)`,
+          text: `${tags.username} has played ${reportData.total_tracks_played} songs so far\nin this stream at an average of ${averageTrackLength} per song (↑${reportData.average_change.difference}%)`,
         },
       });
 
@@ -43,7 +43,7 @@ const statsCommand = async (channel, tags, args, client, obs, url) => {
       obs.call("SetInputSettings", {
         inputName: "obs-chat-response",
         inputSettings: {
-          text: `${tags.username} has played ${reportData.total_tracks_played} songs so far\nin this stream at an average of ${averageTrackLength} per song (↓ ${reportData.average_change.difference}%)`,
+          text: `${tags.username} has played ${reportData.total_tracks_played} songs so far\nin this stream at an average of ${averageTrackLength} per song (↓${reportData.average_change.difference}%)`,
         },
       });
 

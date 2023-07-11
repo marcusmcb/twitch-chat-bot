@@ -42,7 +42,7 @@ try {
 // let tags, args
 // setInterval(() => {
 // 	commandList['code'](channel, tags, args, client, obs)
-// }, 5000)
+// }, 5000 * 60)
 
 // chat command listener
 client.on('message', (channel, tags, message, self) => {
