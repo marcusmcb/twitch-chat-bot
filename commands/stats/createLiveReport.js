@@ -207,7 +207,7 @@ const createLiveReport = async (url) => {
 		// master track log
 		let trackLog = tracksPlayed.map((result, index) => {
 			return {
-				trackId: result,				
+				trackId: result,
 				timestamp: sumTimeValues(starttimeParsed, timestampsParsed[index]),
 				timePlayed: timestamps[index].children[0].data.trim(),
 				length: timeDiffs[index],
@@ -279,16 +279,54 @@ const createLiveReport = async (url) => {
 			playlistdate.split(' ')[2]
 
 		console.log('current track played at:')
-		console.log(trackLog[trackLog.length - 1].timestamp, trackLog[trackLog.length - 1])
-    console.log('longest track played at:')
-		console.log(trackLog[maxIndex].timestamp)
-    console.log('difference:')
 		console.log(
-			timeDifference(
-				trackLog[trackLog.length - 1].timestamp,
-				trackLog[maxIndex].timestamp
-			)
+			trackLog[trackLog.length - 1].timestamp,
+			trackLog[trackLog.length - 1]
 		)
+		console.log('longest track played at:')
+		console.log(trackLog[maxIndex].timestamp)
+		console.log('difference:')
+		// console.log(
+		// 	timeDifference(
+		// 		trackLog[trackLog.length - 1].timestamp,
+		// 		trackLog[maxIndex].timestamp
+		// 	)
+		// )
+
+		const timeSincePlayed = timeDifference(
+			trackLog[trackLog.length - 1].timestamp,
+			trackLog[maxIndex].timestamp
+		)
+
+		let timeSinceLongestPlayed
+		let timeSinceShortestPlayed
+
+		if (timeSincePlayed.split(':')[0] === '00') {
+			if (timeSincePlayed.split(':')[1][0] === '0') {
+				timeSinceLongestPlayed = `${
+					timeSincePlayed.split(':')[1][1]
+				} minutes ago`
+				console.log(timeSinceLongestPlayed)
+			} else {
+				timeSinceLongestPlayed = `${timeSincePlayed.split(':')[1]} minutes ago`
+				console.log(timeSinceLongestPlayed)
+			}
+		} else if (timeSincePlayed.split(':')[1] === '00') {
+			if (timeSincePlayed.split(':')[2][0] === '0') {
+				timeSinceLongestPlayed = `${
+					timeSincePlayed.split(':')[2][1]
+				} seconds ago`
+				console.log(timeSinceLongestPlayed)
+			} else {
+				timeSinceLongestPlayed = `${timeSincePlayed.split(':')[2]} seconds ago`
+				console.log(timeSinceLongestPlayed)
+			}
+		} else {
+			timeSinceLongestPlayed = `${timeSincePlayed.split(':')[0]} hours and ${
+				timeSincePlayed.split(':')[1]
+			} minutes ago`
+			console.log(timeSinceLongestPlayed)
+		}
 
 		let seratoLiveReport = {
 			track_length_array: timeDiffs,
