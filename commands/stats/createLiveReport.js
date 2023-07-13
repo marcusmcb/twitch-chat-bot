@@ -278,14 +278,14 @@ const createLiveReport = async (url) => {
 			', ' +
 			playlistdate.split(' ')[2]
 
-		console.log('current track played at:')
-		console.log(
-			trackLog[trackLog.length - 1].timestamp,
-			trackLog[trackLog.length - 1]
-		)
-		console.log('longest track played at:')
-		console.log(trackLog[maxIndex].timestamp)
-		console.log('difference:')
+		// console.log('current track played at:')
+		// console.log(
+		// 	trackLog[trackLog.length - 1].timestamp,
+		// 	trackLog[trackLog.length - 1]
+		// )
+		// console.log('longest track played at:')
+		// console.log(trackLog[maxIndex].timestamp)
+		// console.log('difference:')
 		// console.log(
 		// 	timeDifference(
 		// 		trackLog[trackLog.length - 1].timestamp,
@@ -293,40 +293,76 @@ const createLiveReport = async (url) => {
 		// 	)
 		// )
 
-		const timeSincePlayed = timeDifference(
+		const longestTrackDifference = timeDifference(
 			trackLog[trackLog.length - 1].timestamp,
 			trackLog[maxIndex].timestamp
 		)
+		const shortestTrackDifference = timeDifference(
+			trackLog[trackLog.length - 1].timestamp,
+			trackLog[minIndex].timestamp
+		)
+
+		console.log("STD: ", shortestTrackDifference)
 
 		let timeSinceLongestPlayed
 		let timeSinceShortestPlayed
 
-		if (timeSincePlayed.split(':')[0] === '00') {
-			if (timeSincePlayed.split(':')[1][0] === '0') {
+		if (longestTrackDifference.split(':')[0] === '00') {
+			if (longestTrackDifference.split(':')[1][0] === '0') {
 				timeSinceLongestPlayed = `${
-					timeSincePlayed.split(':')[1][1]
+					longestTrackDifference.split(':')[1][1]
 				} minutes ago`
 				console.log(timeSinceLongestPlayed)
-			} else {
-				timeSinceLongestPlayed = `${timeSincePlayed.split(':')[1]} minutes ago`
+			} else {								
+				timeSinceLongestPlayed = `${longestTrackDifference.split(':')[1]} minutes ago`
 				console.log(timeSinceLongestPlayed)
 			}
-		} else if (timeSincePlayed.split(':')[1] === '00') {
-			if (timeSincePlayed.split(':')[2][0] === '0') {
+		} else if (longestTrackDifference.split(':')[1] === '00') {
+			if (longestTrackDifference.split(':')[2][0] === '0') {
 				timeSinceLongestPlayed = `${
-					timeSincePlayed.split(':')[2][1]
+					longestTrackDifference.split(':')[2][1]
 				} seconds ago`
 				console.log(timeSinceLongestPlayed)
 			} else {
-				timeSinceLongestPlayed = `${timeSincePlayed.split(':')[2]} seconds ago`
+				timeSinceLongestPlayed = `${longestTrackDifference.split(':')[2]} seconds ago`
 				console.log(timeSinceLongestPlayed)
 			}
 		} else {
-			timeSinceLongestPlayed = `${timeSincePlayed.split(':')[0]} hours and ${
-				timeSincePlayed.split(':')[1]
+			timeSinceLongestPlayed = `${longestTrackDifference.split(':')[0]} hours and ${
+				longestTrackDifference.split(':')[1]
 			} minutes ago`
 			console.log(timeSinceLongestPlayed)
 		}
+
+		if (shortestTrackDifference.split(':')[0] === '00') {
+			if (shortestTrackDifference.split(':')[1][0] === '0') {
+				timeSinceShortestPlayed = `${
+					shortestTrackDifference.split(':')[1][1]
+				} minutes ago`
+				console.log(timeSinceShortestPlayed)
+			} else {								
+				timeSinceShortestPlayed = `${shortestTrackDifference.split(':')[1]} minutes ago`
+				console.log(timeSinceShortestPlayed)
+			}
+		} else if (shortestTrackDifference.split(':')[1] === '00') {
+			if (shortestTrackDifference.split(':')[2][0] === '0') {
+				timeSinceShortestPlayed = `${
+					shortestTrackDifference.split(':')[2][1]
+				} seconds ago`
+				console.log(timeSinceShortestPlayed)
+			} else {
+				timeSinceShortestPlayed = `${shortestTrackDifference.split(':')[2]} seconds ago`
+				console.log(timeSinceShortestPlayed)
+			}
+		} else {
+			timeSinceShortestPlayed = `${shortestTrackDifference.split(':')[0]} hours and ${
+				shortestTrackDifference.split(':')[1]
+			} minutes ago`
+			console.log(timeSinceShortestPlayed)
+		}
+
+		console.log("BUELLER?: ", timeSinceLongestPlayed)
+		console.log("BUELLER?: ", timeSinceShortestPlayed)
 
 		let seratoLiveReport = {
 			track_length_array: timeDiffs,
@@ -346,6 +382,7 @@ const createLiveReport = async (url) => {
 					trackLog[trackLog.length - 1].timestamp,
 					trackLog[maxIndex].timestamp
 				),
+				time_since_played_string: timeSinceLongestPlayed,
 				length_value: longestMinutes + ':' + longestSeconds,
 				minutes: longestMinutes,
 				seconds: longestSeconds,
@@ -357,6 +394,7 @@ const createLiveReport = async (url) => {
 					trackLog[trackLog.length - 1].timestamp,
 					trackLog[minIndex].timestamp
 				),
+				time_since_played_string: timeSinceShortestPlayed,
 				length_value: shortestMinutes + ':' + shortestSeconds,
 				minutes: shortestMinutes,
 				seconds: shortestSeconds,
@@ -371,8 +409,7 @@ const createLiveReport = async (url) => {
 			playlist_date: playlistDateFormatted,
 			playlist_title: playlistTitle,
 			track_array: tracksPlayed,
-		}
-		// console.log(seratoLiveReport.average_change)
+		}		
 		return seratoLiveReport
 	} catch (err) {
 		console.log(err)

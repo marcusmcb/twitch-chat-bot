@@ -1,8 +1,25 @@
 const dotenv = require('dotenv')
-
 const createLiveReport = require('./createLiveReport')
 
 dotenv.config()
+
+const displayShortestTrackMessage = (obs, tags, reportData) => {
+	let message = `Shortest song in ${tags.username}'s set so far : \n\n${reportData.shortest_track.name}\n${reportData.shortest_track.length_value} (played ${reportData.shortest_track.time_since_played_string})`
+	obs.call('SetInputSettings', {
+		inputName: 'obs-chat-response',
+		inputSettings: {
+			text: message,
+		},
+	})
+	setTimeout(() => {
+		obs.call('SetInputSettings', {
+			inputName: 'obs-chat-response',
+			inputSettings: {
+				text: '',
+			},
+		})
+	}, 5000)
+}
 
 const shortestTrackCommand = async (channel, tags, args, client, obs, url) => {
 	try {
@@ -17,21 +34,8 @@ const shortestTrackCommand = async (channel, tags, args, client, obs, url) => {
 				channel,
 				`The shortest song in ${tags.username}'s set (so far) is ${reportData.shortest_track.name} (${reportData.shortest_track.length_value})`
 			)
+			displayShortestTrackMessage(obs, tags, reportData)
 		}
-		obs.call('SetInputSettings', {
-			inputName: 'obs-chat-response',
-			inputSettings: {
-				text: `Shortest song in ${tags.username}'s set so far : \n\n${reportData.shortest_track.name}\n(${reportData.shortest_track.length_value})`,
-			},
-		})
-		setTimeout(() => {
-			obs.call('SetInputSettings', {
-				inputName: 'obs-chat-response',
-				inputSettings: {
-					text: '',
-				},
-			})
-		}, 5000)
 	} catch (error) {
 		console.log(error)
 	}

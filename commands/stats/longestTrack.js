@@ -3,24 +3,14 @@ const createLiveReport = require('./createLiveReport')
 
 dotenv.config()
 
-const displayLongestTrackMessage = (obs, tags, reportData, timeSincePlayed) => {
-	let message
-
-	if (timeSincePlayed[0] === '00') {
-		message = `Longest song in ${tags.username}'s set so far : \n\n${reportData.longest_track.name}\n(${reportData.longest_track.length_value}) - played ${timeSincePlayed[1]} minutes ago`
-	} else if (timeSincePlayed[1] === '00') {
-		message = `Longest song in ${tags.username}'s set so far : \n\n${reportData.longest_track.name}\n(${reportData.longest_track.length_value}) - played ${timeSincePlayed[2]} seconds ago`
-	} else {
-		message = `Longest song in ${tags.username}'s set so far : \n\n${reportData.longest_track.name}\n(${reportData.longest_track.length_value}) - played ${timeSincePlayed[0]} hour(s) and ${timeSincePlayed[1]} minute(s) ago`
-	}
-
+const displayLongestTrackMessage = (obs, tags, reportData) => {
+	let message = `Longest song in ${tags.username}'s set so far : \n\n${reportData.longest_track.name}\n${reportData.longest_track.length_value} (played ${reportData.longest_track.time_since_played_string})`
 	obs.call('SetInputSettings', {
 		inputName: 'obs-chat-response',
 		inputSettings: {
 			text: message,
 		},
 	})
-
 	setTimeout(() => {
 		obs.call('SetInputSettings', {
 			inputName: 'obs-chat-response',
@@ -34,9 +24,6 @@ const displayLongestTrackMessage = (obs, tags, reportData, timeSincePlayed) => {
 const longestTrackCommand = async (channel, tags, args, client, obs, url) => {
 	try {
 		const reportData = await createLiveReport(url)
-		const timeSincePlayed =
-			reportData.longest_track.time_since_played.split(':')
-
 		if (reportData.total_tracks_played === 0) {
 			client.say(
 				channel,
@@ -47,7 +34,7 @@ const longestTrackCommand = async (channel, tags, args, client, obs, url) => {
 				channel,
 				`The longest song in ${tags.username}'s set (so far) is ${reportData.longest_track.name} (${reportData.longest_track.length_value})`
 			)
-			displayLongestTrackMessage(obs, tags, reportData, timeSincePlayed)
+			displayLongestTrackMessage(obs, tags, reportData)
 		}
 	} catch (error) {
 		console.log(error)

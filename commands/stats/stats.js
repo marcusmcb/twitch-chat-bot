@@ -28,7 +28,6 @@ const displayStatsMessage = (obs, tags, reportData, direction) => {
 const statsCommand = async (channel, tags, args, client, obs, url) => {
 	try {
 		const reportData = await createLiveReport(url)
-		console.log(typeof reportData.average_change.difference)
 		if (reportData.total_tracks_played === 0) {
 			client.say(
 				channel,
