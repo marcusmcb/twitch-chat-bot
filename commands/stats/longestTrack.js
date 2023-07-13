@@ -1,13 +1,42 @@
 const dotenv = require('dotenv')
-
 const createLiveReport = require('./createLiveReport')
 
 dotenv.config()
 
+const displayLongestTrackMessage = (obs, tags, reportData, timeSincePlayed) => {
+	let message
+
+	if (timeSincePlayed[0] === '00') {
+		message = `Longest song in ${tags.username}'s set so far : \n\n${reportData.longest_track.name}\n(${reportData.longest_track.length_value}) - played ${timeSincePlayed[1]} minutes ago`
+	} else if (timeSincePlayed[1] === '00') {
+		message = `Longest song in ${tags.username}'s set so far : \n\n${reportData.longest_track.name}\n(${reportData.longest_track.length_value}) - played ${timeSincePlayed[2]} seconds ago`
+	} else {
+		message = `Longest song in ${tags.username}'s set so far : \n\n${reportData.longest_track.name}\n(${reportData.longest_track.length_value}) - played ${timeSincePlayed[0]} hour(s) and ${timeSincePlayed[1]} minute(s) ago`
+	}
+
+	obs.call('SetInputSettings', {
+		inputName: 'obs-chat-response',
+		inputSettings: {
+			text: message,
+		},
+	})
+
+	setTimeout(() => {
+		obs.call('SetInputSettings', {
+			inputName: 'obs-chat-response',
+			inputSettings: {
+				text: '',
+			},
+		})
+	}, 5000)
+}
+
 const longestTrackCommand = async (channel, tags, args, client, obs, url) => {
 	try {
 		const reportData = await createLiveReport(url)
-		console.log(reportData.longest_track.time_since_played.split(':'))
+		const timeSincePlayed =
+			reportData.longest_track.time_since_played.split(':')
+
 		if (reportData.total_tracks_played === 0) {
 			client.say(
 				channel,
@@ -18,31 +47,8 @@ const longestTrackCommand = async (channel, tags, args, client, obs, url) => {
 				channel,
 				`The longest song in ${tags.username}'s set (so far) is ${reportData.longest_track.name} (${reportData.longest_track.length_value})`
 			)
+			displayLongestTrackMessage(obs, tags, reportData, timeSincePlayed)
 		}
-		if (reportData.longest_track.time_since_played.split(':')[0] === '00') {
-			obs.call('SetInputSettings', {
-				inputName: 'obs-chat-response',
-				inputSettings: {
-					text: `Longest song in ${tags.username}'s set so far : \n\n${reportData.longest_track.name}\n(${reportData.longest_track.length_value}) - played ${reportData.longest_track.time_since_played.split(':')[1]} minutes ago`,
-				},
-			})
-		} else {
-			obs.call('SetInputSettings', {
-				inputName: 'obs-chat-response',
-				inputSettings: {
-					text: `Longest song in ${tags.username}'s set so far : \n\n${reportData.longest_track.name}\n(${reportData.longest_track.length_value}) - played ${reportData.longest_track.time_since_played.split(':')[0]} hour(s) and ${reportData.longest_track.time_since_played.split(':')[1]} minute(s) ago`,
-				},
-			})
-		}
-
-		setTimeout(() => {
-			obs.call('SetInputSettings', {
-				inputName: 'obs-chat-response',
-				inputSettings: {
-					text: '',
-				},
-			})
-		}, 5000)
 	} catch (error) {
 		console.log(error)
 	}
