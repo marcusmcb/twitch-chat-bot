@@ -32,8 +32,7 @@ const shortestTrackCommand = async (channel, tags, args, client, obs, url) => {
 		} else {
 			client.say(
 				channel,
-				`The shortest song in ${tags.username}'s set (so far) is ${reportData.shortest_track.name} (${reportData.shortest_track.length_value})`
-			)
+				`The shortest song in ${tags.username}'s set (so far) is ${reportData.shortest_track.name} (${reportData.shortest_track.length_value})`			)
 			displayShortestTrackMessage(obs, tags, reportData)
 		}
 	} catch (error) {

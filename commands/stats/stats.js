@@ -4,11 +4,13 @@ const dotenv = require('dotenv')
 dotenv.config()
 
 const displayStatsMessage = (obs, tags, reportData, direction) => {
+	let differenceParsed = parseFloat(reportData.average_change.difference).toString().slice(0, -1)
+	// differenceParsed = differenceParsed.slice(0, -1)
 	const message = `${tags.username} has played ${
 		reportData.total_tracks_played
 	} songs so far\nin this stream at an average of ${
 		reportData.average_track_length
-	} per song ${direction}${parseInt(reportData.average_change.difference)}%)`
+	} per song ${direction}${differenceParsed}%)`
 	obs.call('SetInputSettings', {
 		inputName: 'obs-chat-response',
 		inputSettings: {
@@ -28,6 +30,7 @@ const displayStatsMessage = (obs, tags, reportData, direction) => {
 const statsCommand = async (channel, tags, args, client, obs, url) => {
 	try {
 		const reportData = await createLiveReport(url)
+		// console.log(reportData)
 		if (reportData.total_tracks_played === 0) {
 			client.say(
 				channel,

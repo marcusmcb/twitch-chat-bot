@@ -126,7 +126,7 @@ const createLiveReport = async (url) => {
 		return `${hr}:${minutes}:${seconds}`
 	}
 
-	function timeDifference(currentTimestamp, previousTimestamp) {
+	const calculateTimeDifference = (currentTimestamp, previousTimestamp) => {
 		const current24Hour = convertTo24Hour(currentTimestamp)
 		const previous24Hour = convertTo24Hour(previousTimestamp)
 		const currentDate = new Date(`1970-01-01 ${current24Hour}`)
@@ -136,14 +136,44 @@ const createLiveReport = async (url) => {
 
 		const hours = Math.floor(diff / 3_600_000)
 		diff -= hours * 3_600_000
-
 		const minutes = Math.floor(diff / 60_000)
 		diff -= minutes * 60_000
-
 		const seconds = Math.floor(diff / 1_000)
-
 		const formatTime = (val) => String(val).padStart(2, '0')
 		return `${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`
+	}
+
+	const formatTimeSincePlayedString = (timeString) => {
+		if (timeString.split(':')[0] === '00') {
+			if (timeString.split(':')[1][0] === '0') {
+				timeStringFormatted = `${timeString.split(':')[1][1]} minutes ago`
+				console.log(timeStringFormatted)
+			} else {
+				timeStringFormatted = `${timeString.split(':')[1]} minutes ago`
+				console.log(timeStringFormatted)
+			}
+		} else if (timeString.split(':')[1] === '00') {
+			if (timeString.split(':')[2][0] === '0') {
+				timeStringFormatted = `${timeString.split(':')[2][1]} seconds ago`
+				console.log(timeStringFormatted)
+			} else {
+				timeStringFormatted = `${timeString.split(':')[2]} seconds ago`
+				console.log(timeStringFormatted)
+			}
+		} else {
+			let hours = timeString.split(':')[0]
+			let minutes = timeString.split(':')[1]
+			console.log('HOURS: ', hours, 'MINUTES: ', minutes)
+			if (hours[0] === '0') {
+				hours = hours[1]
+			}
+			if (minutes[0] === '0') {
+				minutes = minutes[1]
+			}
+			timeStringFormatted = `${hours} hour and ${minutes} minutes ago`
+			console.log(timeStringFormatted)
+		}
+		return timeStringFormatted
 	}
 
 	try {
@@ -278,91 +308,21 @@ const createLiveReport = async (url) => {
 			', ' +
 			playlistdate.split(' ')[2]
 
-		// console.log('current track played at:')
-		// console.log(
-		// 	trackLog[trackLog.length - 1].timestamp,
-		// 	trackLog[trackLog.length - 1]
-		// )
-		// console.log('longest track played at:')
-		// console.log(trackLog[maxIndex].timestamp)
-		// console.log('difference:')
-		// console.log(
-		// 	timeDifference(
-		// 		trackLog[trackLog.length - 1].timestamp,
-		// 		trackLog[maxIndex].timestamp
-		// 	)
-		// )
-
-		const longestTrackDifference = timeDifference(
+		const longestTrackDifference = calculateTimeDifference(
 			trackLog[trackLog.length - 1].timestamp,
 			trackLog[maxIndex].timestamp
 		)
-		const shortestTrackDifference = timeDifference(
+		const shortestTrackDifference = calculateTimeDifference(
 			trackLog[trackLog.length - 1].timestamp,
 			trackLog[minIndex].timestamp
 		)
 
-		console.log("STD: ", shortestTrackDifference)
-
-		let timeSinceLongestPlayed
-		let timeSinceShortestPlayed
-
-		if (longestTrackDifference.split(':')[0] === '00') {
-			if (longestTrackDifference.split(':')[1][0] === '0') {
-				timeSinceLongestPlayed = `${
-					longestTrackDifference.split(':')[1][1]
-				} minutes ago`
-				console.log(timeSinceLongestPlayed)
-			} else {								
-				timeSinceLongestPlayed = `${longestTrackDifference.split(':')[1]} minutes ago`
-				console.log(timeSinceLongestPlayed)
-			}
-		} else if (longestTrackDifference.split(':')[1] === '00') {
-			if (longestTrackDifference.split(':')[2][0] === '0') {
-				timeSinceLongestPlayed = `${
-					longestTrackDifference.split(':')[2][1]
-				} seconds ago`
-				console.log(timeSinceLongestPlayed)
-			} else {
-				timeSinceLongestPlayed = `${longestTrackDifference.split(':')[2]} seconds ago`
-				console.log(timeSinceLongestPlayed)
-			}
-		} else {
-			timeSinceLongestPlayed = `${longestTrackDifference.split(':')[0]} hours and ${
-				longestTrackDifference.split(':')[1]
-			} minutes ago`
-			console.log(timeSinceLongestPlayed)
-		}
-
-		if (shortestTrackDifference.split(':')[0] === '00') {
-			if (shortestTrackDifference.split(':')[1][0] === '0') {
-				timeSinceShortestPlayed = `${
-					shortestTrackDifference.split(':')[1][1]
-				} minutes ago`
-				console.log(timeSinceShortestPlayed)
-			} else {								
-				timeSinceShortestPlayed = `${shortestTrackDifference.split(':')[1]} minutes ago`
-				console.log(timeSinceShortestPlayed)
-			}
-		} else if (shortestTrackDifference.split(':')[1] === '00') {
-			if (shortestTrackDifference.split(':')[2][0] === '0') {
-				timeSinceShortestPlayed = `${
-					shortestTrackDifference.split(':')[2][1]
-				} seconds ago`
-				console.log(timeSinceShortestPlayed)
-			} else {
-				timeSinceShortestPlayed = `${shortestTrackDifference.split(':')[2]} seconds ago`
-				console.log(timeSinceShortestPlayed)
-			}
-		} else {
-			timeSinceShortestPlayed = `${shortestTrackDifference.split(':')[0]} hours and ${
-				shortestTrackDifference.split(':')[1]
-			} minutes ago`
-			console.log(timeSinceShortestPlayed)
-		}
-
-		console.log("BUELLER?: ", timeSinceLongestPlayed)
-		console.log("BUELLER?: ", timeSinceShortestPlayed)
+		let timeSinceLongestPlayed = formatTimeSincePlayedString(
+			longestTrackDifference
+		)
+		let timeSinceShortestPlayed = formatTimeSincePlayedString(
+			shortestTrackDifference
+		)
 
 		let seratoLiveReport = {
 			track_length_array: timeDiffs,
@@ -378,7 +338,7 @@ const createLiveReport = async (url) => {
 			longest_track: {
 				name: trackLog[maxIndex].trackId,
 				played_at: trackLog[maxIndex].timestamp,
-				time_since_played: timeDifference(
+				time_since_played: calculateTimeDifference(
 					trackLog[trackLog.length - 1].timestamp,
 					trackLog[maxIndex].timestamp
 				),
@@ -390,7 +350,7 @@ const createLiveReport = async (url) => {
 			shortest_track: {
 				name: trackLog[minIndex].trackId,
 				played_at: trackLog[minIndex].timestamp,
-				time_since_played: timeDifference(
+				time_since_played: calculateTimeDifference(
 					trackLog[trackLog.length - 1].timestamp,
 					trackLog[minIndex].timestamp
 				),
@@ -409,7 +369,7 @@ const createLiveReport = async (url) => {
 			playlist_date: playlistDateFormatted,
 			playlist_title: playlistTitle,
 			track_array: tracksPlayed,
-		}		
+		}
 		return seratoLiveReport
 	} catch (err) {
 		console.log(err)
