@@ -161,6 +161,7 @@ const createLiveReport = async (url) => {
 				console.log(timeStringFormatted)
 			}
 		} else {
+			// finish logic for this case
 			let hours = timeString.split(':')[0]
 			let minutes = timeString.split(':')[1]
 			console.log('HOURS: ', hours, 'MINUTES: ', minutes)
