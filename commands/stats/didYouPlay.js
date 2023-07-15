@@ -1,22 +1,11 @@
 const dotenv = require("dotenv");
 
 const createLiveReport = require("./createLiveReport");
+const clearOBSResponse = require("../../obs/obsHelpers/obsHelpers");
 
 dotenv.config();
 
 const dypCommand = async (channel, tags, args, client, obs, url) => {
-
-  const clearOBSResponse = (obs) => {
-    setTimeout(() => {
-      obs.call("SetInputSettings", {
-        inputName: "obs-chat-response",
-        inputSettings: {
-          text: "",
-        },
-      });
-    }, 5000);
-  }
-
   let searchItem = args.join(" ");
   // check if user has entered a query value after the command
   if (args.length === 0) {
@@ -51,7 +40,7 @@ const dypCommand = async (channel, tags, args, client, obs, url) => {
             text: `${tags.username} has not played\n'${searchItem}' so far in this stream.`,
           },
         });
-        clearOBSResponse(obs)
+        clearOBSResponse(obs);
       } else {
         // find the last song played by the queried artist
         const lastSongPlayed = searchResults[searchResults.length - 1];
@@ -68,7 +57,7 @@ const dypCommand = async (channel, tags, args, client, obs, url) => {
               text: `${tags.username} has played\n'${searchItem}' ${searchResults.length} time so far in this stream.\n\nThe last song played by ${searchTerm} was :\n${lastSongPlayed}`,
             },
           });
-          clearOBSResponse(obs)
+          clearOBSResponse(obs);
         } else {
           client.say(
             channel,
@@ -80,13 +69,13 @@ const dypCommand = async (channel, tags, args, client, obs, url) => {
               text: `${tags.username} has played\n'${searchItem}' ${searchResults.length} times so far in this stream.\n\nThe last ${searchTerm} song played was :\n${lastSongPlayed}`,
             },
           });
-          clearOBSResponse(obs)
+          clearOBSResponse(obs);
         }
       }
     } catch (error) {
       console.log("DYP ERROR:");
       console.log(error);
-      client.say(channel, "That doesn't appear to be working right now.")      
+      client.say(channel, "That doesn't appear to be working right now.");
     }
   }
 };

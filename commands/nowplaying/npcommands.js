@@ -1,6 +1,7 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 const dotenv = require("dotenv");
+const clearOBSResponse = require("../../obs/obsHelpers/obsHelpers");
 
 dotenv.config();
 
@@ -28,14 +29,7 @@ const npCommands = (channel, tags, args, client, obs, url) => {
                 text: `Now playing:\n${nowplaying.trim()}`,
               },
             });
-            setTimeout(() => {
-              obs.call("SetInputSettings", {
-                inputName: "obs-chat-response",
-                inputSettings: {
-                  text: "",
-                },
-              });
-            }, 5000);
+            clearOBSResponse(obs);
 
             // !np previous
           } else if (args == "previous") {
@@ -50,14 +44,7 @@ const npCommands = (channel, tags, args, client, obs, url) => {
                 text: `Previous song:\n${previousTrack.children[0].data.trim()}`,
               },
             });
-            setTimeout(() => {
-              obs.call("SetInputSettings", {
-                inputName: "obs-chat-response",
-                inputSettings: {
-                  text: "",
-                },
-              });
-            }, 5000);
+            clearOBSResponse(obs);
 
             // !np start
           } else if (args == "start") {
@@ -76,14 +63,7 @@ const npCommands = (channel, tags, args, client, obs, url) => {
                 } kicked off this stream with :\n${firstTrack.trim()}`,
               },
             });
-            setTimeout(() => {
-              obs.call("SetInputSettings", {
-                inputName: "obs-chat-response",
-                inputSettings: {
-                  text: "",
-                },
-              });
-            }, 5000);
+            clearOBSResponse(obs);
 
             // !np total
           } else if (args == "total") {
@@ -220,6 +200,7 @@ const npCommands = (channel, tags, args, client, obs, url) => {
         });
     } catch (err) {
       console.log(err);
+      client.say(channel, "That doesn't appear to be working right now.");
       // add process.stderr.write statement to handle possible errors
     }
   };

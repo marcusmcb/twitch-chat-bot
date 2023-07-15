@@ -14,7 +14,7 @@ const COMMAND_REPEAT_LIMIT = 5
 
 // const url = `https://serato.com/playlists/${process.env.SERATO_DISPLAY_NAME}/live`;
 // const url = 'https://serato.com/playlists/DJ_Marcus_McBride/npchatbot-test_2'
-const url = "https://serato.com/playlists/DJ_Marcus_McBride/avg-track-length-test";
+const url = "https://serato.com/playlists/DJ_Marcus_McBride/7-13-2023";
 
 // create tmi instance
 const client = new tmi.Client({

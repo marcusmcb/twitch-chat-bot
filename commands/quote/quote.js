@@ -1,27 +1,25 @@
-const request = require('request')
+const axios = require("axios");
 
-const quoteCommand = (channel, tags, args, client) => {
-  let quote, quoter
+const quoteCommand = async (channel, tags, args, client) => {
   let quoteOptions = {
-    url: 'https://zenquotes.io/api/random/',
-    headers: { Accept: 'application/json' },
-  }
-  const quoteCallback = async (error, response, body) => {
-    if (!error && response.statusCode == 200) {
-      let response = await JSON.parse(body)
-      quote = response[0].q
-      quoter = response[0].a
-      client.say(channel, `'${quote}' - ${quoter}`)
+    url: "https://zenquotes.io/api/random/",
+    headers: { Accept: "application/json" },
+  };
+
+  try {
+    const response = await axios(quoteOptions);
+    if (response.status === 200) {
+      let quote = response.data[0].q;
+      let quoter = response.data[0].a;
+      client.say(channel, `'${quote}' - ${quoter}`);
     } else {
-      client.say(
-        channel,
-        "Looks like that command isn't working right now."
-      )
+      client.say(channel, "Looks like that command isn't working right now.");
     }
+  } catch (error) {
+    client.say(channel, "Looks like that command isn't working right now.");
   }
-  request(quoteOptions, quoteCallback)
-}
+};
 
 module.exports = {
-  quoteCommand: quoteCommand
-}
+  quoteCommand: quoteCommand,
+};

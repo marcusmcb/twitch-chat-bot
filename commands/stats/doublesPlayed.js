@@ -1,6 +1,7 @@
 const dotenv = require("dotenv");
 
 const createLiveReport = require("./createLiveReport");
+const clearOBSResponse = require("../../obs/obsHelpers/obsHelpers")
 
 dotenv.config();
 
@@ -23,14 +24,7 @@ const doublesCommand = async (channel, tags, args, client, obs, url) => {
           text: `${tags.username} has not rocked doubles so far in this set.`,
         },
       });
-      setTimeout(() => {
-        obs.call("SetInputSettings", {
-          inputName: "obs-chat-response",
-          inputSettings: {
-            text: "",
-          },
-        });
-      }, 5000);
+      clearOBSResponse(obs)
     } else {
       client.say(
         channel,
@@ -48,17 +42,11 @@ const doublesCommand = async (channel, tags, args, client, obs, url) => {
           }`,
         },
       });
-      setTimeout(() => {
-        obs.call("SetInputSettings", {
-          inputName: "obs-chat-response",
-          inputSettings: {
-            text: "",
-          },
-        });
-      }, 5000);
+      clearOBSResponse(obs)
     }
   } catch (error) {
     console.log(error);
+    client.say(channel, "That doesn't appear to be working right now.");
   }
 };
 
