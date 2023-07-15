@@ -5,8 +5,19 @@ const createLiveReport = require("./createLiveReport");
 dotenv.config();
 
 const dypCommand = async (channel, tags, args, client, obs, url) => {
-  let searchItem = args.join(" ");
 
+  const clearOBSResponse = (obs) => {
+    setTimeout(() => {
+      obs.call("SetInputSettings", {
+        inputName: "obs-chat-response",
+        inputSettings: {
+          text: "",
+        },
+      });
+    }, 5000);
+  }
+
+  let searchItem = args.join(" ");
   // check if user has entered a query value after the command
   if (args.length === 0) {
     client.say(
@@ -40,14 +51,7 @@ const dypCommand = async (channel, tags, args, client, obs, url) => {
             text: `${tags.username} has not played\n'${searchItem}' so far in this stream.`,
           },
         });
-        setTimeout(() => {
-          obs.call("SetInputSettings", {
-            inputName: "obs-chat-response",
-            inputSettings: {
-              text: "",
-            },
-          });
-        }, 5000);
+        clearOBSResponse(obs)
       } else {
         // find the last song played by the queried artist
         const lastSongPlayed = searchResults[searchResults.length - 1];
@@ -64,14 +68,7 @@ const dypCommand = async (channel, tags, args, client, obs, url) => {
               text: `${tags.username} has played\n'${searchItem}' ${searchResults.length} time so far in this stream.\n\nThe last song played by ${searchTerm} was :\n${lastSongPlayed}`,
             },
           });
-          setTimeout(() => {
-            obs.call("SetInputSettings", {
-              inputName: "obs-chat-response",
-              inputSettings: {
-                text: "",
-              },
-            });
-          }, 5000);
+          clearOBSResponse(obs)
         } else {
           client.say(
             channel,
@@ -83,19 +80,13 @@ const dypCommand = async (channel, tags, args, client, obs, url) => {
               text: `${tags.username} has played\n'${searchItem}' ${searchResults.length} times so far in this stream.\n\nThe last ${searchTerm} song played was :\n${lastSongPlayed}`,
             },
           });
-          setTimeout(() => {
-            obs.call("SetInputSettings", {
-              inputName: "obs-chat-response",
-              inputSettings: {
-                text: "",
-              },
-            });
-          }, 5000);
+          clearOBSResponse(obs)
         }
       }
     } catch (error) {
-      console.log("HERE");
+      console.log("DYP ERROR:");
       console.log(error);
+      client.say(channel, "That doesn't appear to be working right now.")      
     }
   }
 };
