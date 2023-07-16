@@ -3,7 +3,7 @@ const tmi = require("tmi.js");
 const dotenv = require("dotenv");
 
 const { commandList, urlCommandList } = require("./command-list/commandList");
-const autoCommandsConfig = require("./auto-commands-config/autoCommandsConfig");
+const autoCommandsConfig = require("./auto-commands/autoCommandsConfig");
 const obs = require("./obs/obsConnection");
 
 dotenv.config();
