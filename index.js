@@ -39,7 +39,7 @@ try {
 }
 
 // call config for automated bot messages
-// user can set auto commands in .env credentials
+// user can set auto commands status in .env credentials
 autoCommandsConfig(client, obs)
 
 // chat command listener
