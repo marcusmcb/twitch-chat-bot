@@ -1,3 +1,6 @@
+const dotenv = require('dotenv')
+dotenv.config()
+
 const clearOBSResponse = (obs) => {
   setTimeout(() => {
     obs.call("SetInputSettings", {
@@ -6,7 +9,7 @@ const clearOBSResponse = (obs) => {
         text: "",
       },
     });
-  }, 5000);
+  }, parseInt(process.env.OBS_DISPLAY_DURATION, 10));
 };
 
 module.exports = clearOBSResponse;

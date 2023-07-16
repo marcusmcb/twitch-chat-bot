@@ -1,7 +1,7 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
-const [ autoCommandList ] = require("../autocommand-list/autoCommandList");
+const [ autoCommandList ] = require("../auto-commands-list/autoCommandList");
 const { commandList } = require("../command-list/commandList");
 
 const autoCommandsConfig = (client, obs) => {
@@ -10,6 +10,7 @@ const autoCommandsConfig = (client, obs) => {
   let commandIndex = 0;
 
   if (process.env.DISPLAY_INTERVAL_MESSAGES === "true") {
+    console.log("Interval messages will be displayed during this stream.")
     setInterval(() => {
       let command = autoCommandList[commandIndex];
       if (command in commandList) {
@@ -22,9 +23,9 @@ const autoCommandsConfig = (client, obs) => {
       if (commandIndex >= autoCommandList.length) {
         commandIndex = 0;
       }
-    }, 5000);
+    }, parseInt(process.env.AUTO_COMMAND_INTERVAL, 10));
   } else {
-    console.log("No interval messages in this stream");
+    console.log("No interval messages during this stream");
   }
 };
 

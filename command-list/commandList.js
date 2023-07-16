@@ -15,6 +15,7 @@ const {
   listCommands,
   burntCommand,
   mixesCommand,
+  vinylCommand,
 } = require("../commands/commands");
 
 const {
@@ -39,11 +40,17 @@ const { npCommands } = require("../commands/nowplaying/npcommands");
 const { dypInfo, statsInfo, npInfo, lightsInfo } = require("../auto-commands/autoCommands")
 
 const commandList = {
+  test: testCommand,
   hello: helloCommand,
   lurk: lurkCommand,
   back: backCommand,
   faded: fadedCommand,
   links: linksCommand,
+  so: shoutOutCommand, // mods & streamers only
+  commands: listCommands,
+  burnt: burntCommand,
+  mixes: mixesCommand,
+  vinyl: vinylCommand,
   cratestats: cratestatsCommand,
   714: areacodeCommand,
   sc: scCommand,
@@ -58,22 +65,17 @@ const commandList = {
   rock: rockCommand,
   paper: paperCommand,
   scissors: scissorsCommand,
-  weather: weatherCommand,
-  test: testCommand,
+  weather: weatherCommand,  
   np: npCommands,
   stats: statsCommand,
   doubles: doublesCommand,
   longestsong: longestTrackCommand,
   shortestsong: shortestTrackCommand,
-  dyp: dypCommand,
-  so: shoutOutCommand,
-  commands: listCommands,
-  burnt: burntCommand,
-  mixes: mixesCommand,
+  dyp: dypCommand,  
   dypInfo: dypInfo,
   statsInfo: statsInfo,
   npInfo: npInfo,
-  lightsInfo: lightsInfo
+  lightsInfo: lightsInfo,  
 };
 
 const urlCommandList = {

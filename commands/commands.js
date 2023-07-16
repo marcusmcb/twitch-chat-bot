@@ -58,6 +58,13 @@ const linksCommand = (channel, tags, args, client) => {
   );
 };
 
+const vinylCommand = (channel, tags, args, client) => {
+  client.say(
+    channel,
+    `Wanna dig through my record collection?  You can check out some of my favorite remixes and throwbacks over on TikTok @ www.tiktok.com/@djmarcusmcb`
+  );
+};
+
 const cratestatsCommand = (channel, tags, args, client) => {
   client.say(
     channel,
@@ -123,5 +130,6 @@ module.exports = {
   shoutOutCommand: shoutOutCommand,
   listCommands: listCommands,
   burntCommand: burntCommand,
-  mixesCommand: mixesCommand
+  mixesCommand: mixesCommand,
+  vinylCommand: vinylCommand
 };
