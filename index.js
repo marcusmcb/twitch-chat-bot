@@ -13,9 +13,9 @@ let urlCommandCooldown = false;
 const COOLDOWN_DURATION = 5000;
 const COMMAND_REPEAT_LIMIT = 5;
 
-const url = `https://serato.com/playlists/${process.env.SERATO_DISPLAY_NAME}/live`;
+// const url = `https://serato.com/playlists/${process.env.SERATO_DISPLAY_NAME}/live`;
 // const url = 'https://serato.com/playlists/DJ_Marcus_McBride/npchatbot-test_2'
-// const url = "https://serato.com/playlists/DJ_Marcus_McBride/7-13-2023";
+const url = "https://serato.com/playlists/DJ_Marcus_McBride/sunday-twitch-set";
 
 // create tmi instance
 const client = new tmi.Client({

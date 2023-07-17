@@ -9,7 +9,12 @@ const displayStatsMessage = (obs, tags, reportData, direction) => {
     .toString()
     .slice(0, -1);
   // differenceParsed = differenceParsed.slice(0, -1)
-  const message = `${tags.username} has played ${reportData.total_tracks_played} songs so far\nin this stream at an average of ${reportData.average_track_length} per song ${direction}${differenceParsed}%)`;
+  console.log(reportData.average_change.difference);
+  const message = `${tags.username} has played ${
+    reportData.total_tracks_played
+  } songs so far\nin this stream at an average of ${
+    reportData.average_track_length
+  } per song ${direction}${differenceParsed === "Na" ? 0 : differenceParsed}%)`;
   obs.call("SetInputSettings", {
     inputName: "obs-chat-response",
     inputSettings: {
@@ -22,7 +27,7 @@ const displayStatsMessage = (obs, tags, reportData, direction) => {
 const statsCommand = async (channel, tags, args, client, obs, url) => {
   try {
     const reportData = await createLiveReport(url);
-    // console.log(reportData)
+    console.log(reportData.average_change.isLarger);
     if (reportData.total_tracks_played === 0) {
       client.say(
         channel,
@@ -43,6 +48,12 @@ const statsCommand = async (channel, tags, args, client, obs, url) => {
         `${tags.username} has played ${reportData.total_tracks_played} songs so far in this set with an average length of ${reportData.average_track_length} per song.`
       );
       displayStatsMessage(obs, tags, reportData, "(↓");
+    } else {
+      client.say(
+        channel,
+        `${tags.username} has played ${reportData.total_tracks_played} songs so far in this set with an average length of ${reportData.average_track_length} per song.`
+      );
+      displayStatsMessage(obs, tags, reportData, "(-");
     }
   } catch (err) {
     console.log(err);
