@@ -36,6 +36,7 @@ const { doublesCommand } = require("../commands/stats/doublesPlayed");
 const { longestTrackCommand } = require("../commands/stats/longestTrack");
 const { shortestTrackCommand } = require("../commands/stats/shortestTrack");
 const { npCommands } = require("../commands/nowplaying/npcommands");
+const { myCommand } = require("../commands/my/mycommand")
 
 const { dypInfo, statsInfo, npInfo, lightsInfo } = require("../auto-commands/autoCommands")
 
@@ -76,6 +77,7 @@ const commandList = {
   statsInfo: statsInfo,
   npInfo: npInfo,
   lightsInfo: lightsInfo,  
+  my: myCommand
 };
 
 const urlCommandList = {
