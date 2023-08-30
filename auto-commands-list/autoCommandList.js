@@ -5,8 +5,7 @@ const autoCommandList = [
   "dypInfo",
   "sc",
   "lightsInfo",
-  "statsInfo",
-  "npInfo",  
+  "vinyl"  
 ];
 
 module.exports = [autoCommandList];

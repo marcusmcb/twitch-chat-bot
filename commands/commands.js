@@ -98,7 +98,7 @@ const primeCommand = (channel, tags, args, client) => {
   const channelName = channel.slice(1).split("#");
   client.say(
     channel,
-    `Got Amazon Prime? If you do, you can use your free Prime subscription to support my channel for free! subs.twitch.tv/${channelName}`
+    `Got Amazon Prime? If you do, you can use your free Prime subscription to support my channel! subs.twitch.tv/${channelName}`
   );
 };
 

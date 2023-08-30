@@ -31,13 +31,7 @@ const { factCommand } = require('../commands/fact/fact')
 const { weatherCommand } = require('../commands/weather/weather')
 const { testCommand } = require('../commands/test_command/test_command')
 const { myCommand } = require('../commands/my/mycommand')
-
-const {
-	dypInfo,
-	statsInfo,
-	npInfo,
-	lightsInfo,
-} = require('../auto-commands/autoCommands')
+const { lightsInfo } = require('../auto-commands/autoCommands')
 const { lottoCommand } = require('../commands/lotto/lotto')
 
 const commandList = {
@@ -72,16 +66,6 @@ const commandList = {
 	lotto: lottoCommand,
 }
 
-const urlCommandList = {
-	// np: npCommands,
-	// dyp: dypCommand,
-	// stats: statsCommand,
-	// doubles: doublesCommand,
-	// longestsong: longestTrackCommand,
-	// shortestsong: shortestTrackCommand,
-}
-
 module.exports = {
 	commandList: commandList,
-	urlCommandList: urlCommandList,
 }
