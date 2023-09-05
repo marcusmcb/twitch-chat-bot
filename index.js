@@ -4,7 +4,7 @@ const dotenv = require('dotenv')
 
 const { commandList } = require('./command-list/commandList')
 const autoCommandsConfig = require('./auto-commands/config/autoCommandsConfig')
-// const obs = require('./obs/obsConnection')
+const obs = require('./obs/obsConnection')
 
 dotenv.config()
 
@@ -31,7 +31,7 @@ try {
 	console.log(error)
 }
 
-autoCommandsConfig(client)
+autoCommandsConfig(client, obs)
 
 client.on('message', (channel, tags, message, self) => {
 	if (self || !message.startsWith('!')) {
@@ -57,7 +57,7 @@ client.on('message', (channel, tags, message, self) => {
 				`@${tags.username}, try a different command before using that one again.`
 			)
 		} else {
-			commandList[command](channel, tags, args, client)
+			commandList[command](channel, tags, args, client, obs)
 			history.push(command)
 
 			if (history.length > COMMAND_REPEAT_LIMIT) {
