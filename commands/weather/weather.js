@@ -3,7 +3,7 @@ const axios = require("axios");
 const weatherCommand = async (channel, tags, args, client) => {
   // check if user entered location
   if (args.length != 0) {
-    let weather, userLocation, conditions, temperature;
+    let weather, userLocation, conditions, temperature, windSpeed;
     // remove commas from parsed location
     if (args.length > 1) {
       userLocation = args.join(" ");
@@ -17,15 +17,19 @@ const weatherCommand = async (channel, tags, args, client) => {
     try {
       const response = await axios(weatherOptions);
       if (response.status === 200) {
-        weather = response.data;
+        weather = response.data;        
         conditions = weather.weather[0].main;
+        console.log("Conditions: ")
+        console.log(weather)
         temperature = weather.main.temp.toString();
         temperature = temperature.substring(0, temperature.length - 3);
+        windSpeed = weather.wind.speed.toFixed()
+        console.log(windSpeed)
         client.say(
           channel,
-          `Right now in ${userLocation}: ${conditions.toLowerCase()}, ${temperature}F with ${
+          `Right now in ${userLocation}: ${conditions.toLowerCase()} with a temperature of ${temperature}F and ${
             weather.main.humidity
-          }% humidity`
+          }% humidity with winds at ${windSpeed} mph.`
         );
       } else {
         client.say(channel, "Looks like that command isn't working right now.");
