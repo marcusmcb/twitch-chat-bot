@@ -33,6 +33,7 @@ const { testCommand } = require('../commands/test_command/test_command')
 const { myCommand } = require('../commands/my/mycommand')
 const { lightsInfo } = require('../auto-commands/autoCommands')
 const { lottoCommand } = require('../commands/lotto/lotto')
+const { uCommand } = require("../commands/urban_dictionary/urbanDictionary")
 
 const commandList = {
 	test: testCommand,
@@ -64,6 +65,7 @@ const commandList = {
 	lightsInfo: lightsInfo,
 	my: myCommand,
 	lotto: lottoCommand,
+	u: uCommand,
 }
 
 module.exports = {

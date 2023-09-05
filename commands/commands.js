@@ -36,19 +36,33 @@ const backCommand = (channel, tags, args, client) => {
 	client.say(channel, `Lurk no more... @${tags.username} has returned!`)
 }
 
-const fadedCommand = (channel, tags, args, client) => {
+const fadedCommand = (channel, tags, args, client) => {	
 	const fadedResult = Math.floor(Math.random() * 100) + 1
-	client.say(channel, `@${tags.username} is ${fadedResult}% faded right now.`)
+	if (args.length === 0) {
+		client.say(channel, `@${tags.username} is ${fadedResult}% faded right now.`)	
+	} else {
+		client.say(channel, `${args} is ${fadedResult}% faded right now.`)
+	}	
 }
 
-const smortCommand = (channel, tags, args, client) => {
-	let smortValue = Math.floor(Math.random() * 101)
-	client.say(channel, `@${tags.username} is ${smortValue}% SMORT!`)
+const smortCommand = (channel, tags, args, client) => {	
+	let smortValue = Math.floor(Math.random() * 100) + 1
+	if (args.length === 0) {
+		client.say(channel, `@${tags.username} is ${smortValue}% SMORT!`)
+	} else {
+		client.say(channel, `${args} is ${smortValue}% SMORT!`)
+	}
+	
 }
 
 const burntCommand = (channel, tags, args, client) => {
-	let burntValue = Math.floor(Math.random() * 101)
-	client.say(channel, `@${tags.username} is ${burntValue}% burnt right now!`)
+	let burntValue = Math.floor(Math.random() * 100) + 1
+	if (args.length === 0) {
+		client.say(channel, `@${tags.username} is ${burntValue}% burnt right now!`)
+	} else {
+		client.say(channel, `${args} is ${burntValue}% burnt right now!`)
+	}
+	
 }
 
 const linksCommand = (channel, tags, args, client) => {

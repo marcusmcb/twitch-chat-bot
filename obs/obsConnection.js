@@ -15,7 +15,12 @@ const connectToOBS = async () => {
     console.error("Failed to connect to OBS:", error);
   }
 };
+if (process.env.DISPLAY_OBS_MESSAGES === 'false') {
+  console.log("no obs messages")
+  return
+} else {
+  connectToOBS();
+}
 
-connectToOBS();
 
 module.exports = obs;
