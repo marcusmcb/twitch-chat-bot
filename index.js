@@ -66,3 +66,6 @@ client.on('message', (channel, tags, message, self) => {
 		}
 	}
 })
+
+
+// add additional commands
