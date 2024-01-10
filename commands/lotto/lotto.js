@@ -40,7 +40,7 @@ const lottoCommand = async (channel, tags, args, client, obs) => {
 			})
 		setTimeout(async () => {
 			await obs
-				.call('SetCurrentProgramScene', { sceneName: 'LIVE VIEW - Main' })
+				.call('SetCurrentProgramScene', { sceneName: 'PI CAM' })
 				.then((data) => console.log(data))
 		}, 2000)
 
