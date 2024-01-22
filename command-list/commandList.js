@@ -16,6 +16,7 @@ const {
 	burntCommand,
 	mixesCommand,
 	vinylCommand,
+	hugCommand,
 } = require('../commands/commands')
 
 const {
@@ -66,6 +67,7 @@ const commandList = {
 	my: myCommand,
 	lotto: lottoCommand,
 	u: uCommand,
+	hug: hugCommand,
 }
 
 module.exports = {
