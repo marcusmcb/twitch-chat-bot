@@ -128,6 +128,15 @@ const diceCommand = (channel, tags, args, client) => {
 	client.say(channel, `@${tags.username}, you rolled a ${result}. 🎲🎲🎲`)
 }
 
+const hugCommand = (channel, tags, args, client) => {
+	client.say(
+		channel,
+		`${tags.username} sends a big digital hug to ${args} VirtualHug`
+	)
+}
+
+// add gsd and turnt commands and respones
+
 module.exports = {
 	helloCommand: helloCommand,
 	lurkCommand: lurkCommand,
@@ -146,4 +155,5 @@ module.exports = {
 	burntCommand: burntCommand,
 	mixesCommand: mixesCommand,
 	vinylCommand: vinylCommand,
+	hugCommand: hugCommand,
 }

@@ -143,6 +143,8 @@ const nouns = [
 	'doordash order',
 ]
 
+// add verbs and rework response to include it
+
 const getRandomElement = (array) => {
 	return array[Math.floor(Math.random() * array.length)]
 }
