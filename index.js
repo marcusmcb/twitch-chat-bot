@@ -34,12 +34,17 @@ try {
 autoCommandsConfig(client, obs)
 
 client.on('message', (channel, tags, message, self) => {
+	console.log("Message params: ")
+	console.log(channel)
+	console.log(tags.emotes)
+	console.log(message)
+	console.log(self)
 	if (self || !message.startsWith('!')) {
 		return
 	}
 
 	const args = message.slice(1).split(' ')
-	const command = args.shift().toLowerCase()
+	const command = args.shift().toLowerCase()	
 
 	if (command in commandList) {
 		if (!userCommandHistory[tags.username]) {
