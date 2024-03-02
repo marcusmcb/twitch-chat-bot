@@ -28,8 +28,11 @@
     "axios": "^0.26.1",
     "cheerio": "^1.0.0-rc.10",
     "dotenv": "^16.0.0",
+    "express": "^4.18.3",
+    "http": "^0.0.1-security",
     "nodemon": "^2.0.15",
     "obs-websocket-js": "^5.0.3",
+    "socket.io": "^4.7.4",
     "tmi.js": "^1.5.0"
   },
   "engines": {

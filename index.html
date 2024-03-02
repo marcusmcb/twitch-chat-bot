@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script
+			src="https://cdn.socket.io/4.7.4/socket.io.min.js"
+			integrity="sha384-Gr6Lu2Ajx28mzwyVR8CFkULdCU7kMlZ9UthllibdOSo6qAiN+yXNHqtgdTvFXMT4"
+			crossorigin="anonymous"
+		></script>
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			const socket = io('http://127.0.0.1:5000')
+
+			socket.on('chat-emote', function (data) {
+				// Assume data.emotes contains emote IDs and positions
+				// You would need to resolve these IDs to image URLs and display them in the overlay
+				console.log('Emote received:', data)
+				// Update the overlay DOM here to display the emotes
+			})
+		</script>
+	</body>
+</html>

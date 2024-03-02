@@ -1,10 +1,25 @@
 // dependencies
 const tmi = require('tmi.js')
 const dotenv = require('dotenv')
+const http = require('http')
+const express = require('express')
+const { Server } = require('socket.io')
 
 const { commandList } = require('./command-list/commandList')
 const autoCommandsConfig = require('./auto-commands/config/autoCommandsConfig')
 const obs = require('./obs/obsConnection')
+
+const app = express()
+const server = http.createServer(app)
+ 
+const io = new Server(server, {
+	cors: {
+		origin: "http://127.0.0.1:5500",
+		methods: ["GET", "POST"],
+		allowedHeaders: ["my-custom-header"],
+		credentials: true
+	}
+})
 
 dotenv.config()
 
@@ -33,12 +48,27 @@ try {
 
 autoCommandsConfig(client, obs)
 
+io.on('connection', (socket) => {
+	console.log('a user has connected')
+})
+
+server.listen(5000, () => {
+	console.log('listening on port 5000')
+})
+
 client.on('message', (channel, tags, message, self) => {
 	console.log("Message params: ")
 	console.log(channel)
 	console.log(tags.emotes)
 	console.log(message)
 	console.log(self)
+
+	if (tags.emotes) {
+		console.log('has emotes')
+		io.emit('chat-emote', tags.emotes)
+	}
+
+
 	if (self || !message.startsWith('!')) {
 		return
 	}
