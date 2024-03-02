@@ -135,6 +135,8 @@ const hugCommand = (channel, tags, args, client) => {
 	)
 }
 
+// add gsd and turnt commands and respones
+
 module.exports = {
 	helloCommand: helloCommand,
 	lurkCommand: lurkCommand,
