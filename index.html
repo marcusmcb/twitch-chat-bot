@@ -18,7 +18,7 @@
 
 			@keyframes moveAndFade {
 				0% {
-					transform: translate(var(--start-x), var(--start-y)) scale(0.5);
+					transform: translate(var(--start-x), var(--start-y)) scale(0.9); /* Increased size */
 					opacity: 0;
 				}
 				20% {
@@ -28,7 +28,7 @@
 					opacity: 1;
 				}
 				100% {
-					transform: translate(var(--end-x), var(--end-y)) scale(0.5);
+					transform: translate(var(--end-x), var(--end-y)) scale(0.9); /* Keep increased size throughout */
 					opacity: 0;
 				}
 			}
@@ -48,10 +48,10 @@
 						emoteElement.classList.add('emote')
 
 						// Assign random start and end positions
-						const startX = Math.random() * 100 - 50 // Start from -50% to 50%
-						const startY = Math.random() * 100 - 50 // Start from -50% to 50%
-						const endX = Math.random() * 100 - 50 // End from -50% to 50%
-						const endY = Math.random() * 100 - 50 // End from -50% to 50%
+						const startX = Math.random() * 100 - 25 // Start from -25% to 25%
+						const startY = Math.random() * 100 - 25 // Start from -25% to 25%
+						const endX = Math.random() * 100 - 25 // End from -25% to 25%
+						const endY = Math.random() * 100 - 25 // End from -25% to 25%
 
 						emoteElement.style.setProperty('--start-x', `${startX}vw`)
 						emoteElement.style.setProperty('--start-y', `${startY}vh`)
