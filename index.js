@@ -12,15 +12,15 @@ const obs = require('./obs/obsConnection')
 const app = express()
 const server = http.createServer(app)
 const PORT = process.env.PORT || 5000
- 
+
 const io = new Server(server, {
 	cors: {
 		// origin: "http://127.0.0.1:5500",
-		origin: "https://marcusmcb.github.io/twitch-emote-wall",
-		methods: ["GET", "POST"],
-		allowedHeaders: ["my-custom-header"],
-		credentials: true
-	}
+		origin: 'https://marcusmcb.github.io',
+		methods: ['GET', 'POST'],
+		allowedHeaders: ['my-custom-header'],
+		credentials: true,
+	},
 })
 
 dotenv.config()
@@ -59,7 +59,7 @@ server.listen(PORT, () => {
 })
 
 client.on('message', (channel, tags, message, self) => {
-	console.log("Message params: ")
+	console.log('Message params: ')
 	console.log(channel)
 	console.log(tags.emotes)
 	console.log(message)
@@ -70,13 +70,12 @@ client.on('message', (channel, tags, message, self) => {
 		io.emit('chat-emote', tags.emotes)
 	}
 
-
 	if (self || !message.startsWith('!')) {
 		return
 	}
 
 	const args = message.slice(1).split(' ')
-	const command = args.shift().toLowerCase()	
+	const command = args.shift().toLowerCase()
 
 	if (command in commandList) {
 		if (!userCommandHistory[tags.username]) {
@@ -103,6 +102,5 @@ client.on('message', (channel, tags, message, self) => {
 		}
 	}
 })
-
 
 // add additional commands
