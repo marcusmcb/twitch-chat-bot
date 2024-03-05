@@ -11,6 +11,7 @@ const obs = require('./obs/obsConnection')
 
 const app = express()
 const server = http.createServer(app)
+const PORT = process.env.PORT || 5000
  
 const io = new Server(server, {
 	cors: {
@@ -53,8 +54,8 @@ io.on('connection', (socket) => {
 	console.log('a user has connected')
 })
 
-server.listen(5000, () => {
-	console.log('listening on port 5000')
+server.listen(PORT, () => {
+	console.log(`--- listening on PORT ${PORT} ---`)
 })
 
 client.on('message', (channel, tags, message, self) => {
