@@ -1,0 +1,26 @@
+const birdcamCommand = async (channel, tags, args, client, obs) => {
+	let currentScene
+	await obs.call('GetSceneList').then((data) => {
+		currentScene = data.currentProgramSceneName
+	})
+
+	// Generate a random number between 1 and 5
+	const randomNumber = Math.floor(Math.random() * 5) + 1
+	const sceneName = `BIRDCAM ${randomNumber}` // Dynamic scene name based on the random number
+
+	setTimeout(async () => {
+		await obs
+			.call('SetCurrentProgramScene', { sceneName: sceneName })
+			.then((data) => console.log(data))
+	}, 1000)
+
+	setTimeout(() => {
+		obs.call('SetCurrentProgramScene', { sceneName: `${currentScene}` })
+	}, 8000)
+
+	client.say(channel, 'Check out this recent clip from the birdcam!')
+}
+
+module.exports = {
+	birdcamCommand: birdcamCommand,
+}
