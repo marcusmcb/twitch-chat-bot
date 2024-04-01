@@ -26,7 +26,7 @@ const io = new Server(server, {
 dotenv.config()
 
 let userCommandHistory = {}
-const COMMAND_REPEAT_LIMIT = 5
+const COMMAND_REPEAT_LIMIT = 10
 
 // create tmi instance
 const client = new tmi.Client({

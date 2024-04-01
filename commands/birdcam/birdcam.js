@@ -4,7 +4,7 @@ const birdcamCommand = async (channel, tags, args, client, obs) => {
 		currentScene = data.currentProgramSceneName
 	})
 
-	const randomNumber = Math.floor(Math.random() * 4) + 1
+	const randomNumber = Math.floor(Math.random() * 20) + 1
 	const sceneName = `BIRDCAM ${randomNumber}`
 
 	setTimeout(async () => {
