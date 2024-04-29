@@ -28,7 +28,6 @@ dotenv.config()
 let userCommandHistory = {}
 const COMMAND_REPEAT_LIMIT = 10
 
-// create tmi instance
 const client = new tmi.Client({
 	options: { debug: true },
 	connection: {
