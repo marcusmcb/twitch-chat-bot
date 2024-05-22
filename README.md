@@ -24,30 +24,6 @@ If you're looking to create a bot for an existing account, you'll probably want 
 
 Create a .env file in the root directory of this repo with the following values:
 
-<<<<<<< HEAD
-**`TWITCH_OAUTH_TOKEN='oauth_token_value'`**
-
-**`TWITCH_BOT_USERNAME='chatbot_username'`**
-
-**`TWITCH_CHANNEL_NAME='twitch_username'`**
-
-<hr>
-
-If you wish to use the np/stats commands for DJ streams, you'll need to add your Serato.com Playlists display name.  
-
-**`SERATO_DISPLAY_NAME='DJ_Name_Goes_Here'`**
-
-If you go to your Serato.com Playlists page, you'll see your display name in the url immediately after **/playlists/**.
-
-
-For example, mine is:
-
-**serato.com/playlists/DJ_Marcus_McBride**
-
-Which would make my display name:
-
-**DJ_Marcus_McBride**
-=======
 `TWITCH_OAUTH_TOKEN='oauth_token_value'`
 
 `TWITCH_BOT_USERNAME='chatbot_username'`
@@ -59,23 +35,14 @@ Which would make my display name:
 If you wish to use the np/stats commands for DJ streams, you'll need to add your Serato.com profile display name.
 
 `SERATO_DISPLAY_NAME='DJ_Name_Goes_Here'`
->>>>>>> obs-integration
 
 <hr>
 
 If you wish to display the np/stats commands on screen in OBS, add the following values:
 
-<<<<<<< HEAD
-**`OBS_WEBSOCKET_ADDRESS='ws://127.0.0.1:4455'`**
-
-**`OBS_WEBSOCKET_PASSWORD='password'`**
-
-For the OBS websocket address, you'll need the specific address for the device that OBS is running on.
-=======
 `OBS_WEBSOCKET_ADDRESS='ws://127.0.0.1:4455'`
 
 `OBS_WEBSOCKET_PASSWORD='password'`
->>>>>>> obs-integration
 
 <hr>
 
