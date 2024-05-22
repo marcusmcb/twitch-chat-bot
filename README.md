@@ -99,4 +99,9 @@ You can see an example of this in the !birdcam command (/commands/birdcam/birdca
 You can do the same for the text returned from any of the chat commands in this repo by configuring a TextGDI+ element in your OBS and then sending the text response from the command to OBS.  The obs-websocket-js library used to implement this feature has documentation readily available.
 <hr>
 
+## Procfile
+
+The included procfile is for easy deployment and hosting of this chatbot script to Heroku.  Once deployed, be sure to configure Heroku to run this as a worker (not web) script.
+<hr>
+
 Marcus McBride, 2022.
