@@ -2,18 +2,17 @@
 ## Twitch Chat Bot
 <hr>
 
-This is a Node script that you can use to respond to chat commands in your Twitch channel.  Channel connectivity is established via the TMI.js library.
+This is a Node script that acts as a chat-bot that you can use to respond to chat commands in your connected Twitch channel.  Channel connectivity is established via the TMI.js library.
 
-You'll need to generate an OAuth token <a href="https://twitchapps.com/tmi/">to link the bot to Twitch via TMI</a>.
+You'll need to generate an OAuth token <a href="https://twitchapps.com/tmi/">to link the bot to Twitch via TMI</a>.  
 
-If you're looking to create a bot for an existing account, you'll probably want to create a 2nd "bot" account to handle chat commands for the first.
+Make sure that you're logged into the Twitch account that you want the script to respond from, which will typically be a dedicated chat-bot account for your main channel.
 <hr>
 
 ## Current dependencies:
 
-* dotenv
-* request
-* tmi.js 
+* tmi.js
+* dotenv 
 * axios (optional)
 * cheerio (optional)
 * obs-websocket-js (optional)
@@ -32,13 +31,7 @@ Create a .env file in the root directory of this repo with the following values:
 
 <hr>
 
-If you wish to use the np/stats commands for DJ streams, you'll need to add your Serato.com profile display name.
-
-`SERATO_DISPLAY_NAME='DJ_Name_Goes_Here'`
-
-<hr>
-
-If you wish to display the np/stats commands on screen in OBS, add the following values:
+If you wish to display or trigger actions or responses in OBS from your Twitch chat commands, add the following values:
 
 `OBS_WEBSOCKET_ADDRESS='ws://127.0.0.1:4455'`
 
@@ -73,7 +66,6 @@ Commands are easily modified via the files in the commands directory but are sta
 * !dice
 * !smort
 * !faded
-* !cratestats
 
 Keep in mind, these are tailored for my own personal use, but can be easily edited for use with commands in any Twitch channel.
 
@@ -86,51 +78,25 @@ Keep in mind, these are tailored for my own personal use, but can be easily edit
 * !rock, !paper, !scissors
 * !weather (location)
 
+The !weather, !fact, !quote, and !dadjoke commands are all tied to external APIs, some of which may require an API key.  These can easily be stored and referenced in the same ENV file used to handle your Twitch client connection.
+
 <hr>
 
 ## Serato Live Playlist Commands ##
 
-The following commands are for streamers DJing with Serato using the Live Playlists feature.
+I previously included chat commands for use by DJs live-streaming while using Serato Live Playlists.  Those commands and functionality have been moved into a separate repo here on my Github page.
 
-To use this feature, you will need to have Serato's Live Playlist feature enabled and running while DJing.  The link below provides further detail on how to enable this feature.  
-
-[Live Playlists](https://support.serato.com/hc/en-us/articles/228019568-Live-Playlists#:~:text=To%20enable%20the%20Live%20Playlists,stop%20your%20Live%20Playlist%20session.)
-
-<hr>
-
-### -- IMPORTANT --
-
-Once running, make sure that your Serato Live Playlist is set to public; they're set to private by default when created.  If set to private, the commands below will not available to stream viewers.
-
-<hr>
-
-### - np (now playing) commands ###
-
-* !np - returns the current song playing
-* !np previous - returns the previous song played
-* !np start - returns the 1st song played in the stream
-* !np vibecheck - returns a random selection that the streamer played and when they played it
-* !np options - displays options for the np command
-* !dyp [artist name] - checks the streamer's play history to see if the given artist has been played
-
-### - stats commands ###
-* !stats - returns the total tracks played and the average track length
-* !shortestsong - returns the shortest song played in the set thus far
-* !longestsong - returns the longest song played in the set thus far
-* !doubles - checks if the streamer has played doubles (same song on both decks) at any point during the set
+[npChatbot](https://github.com/marcusmcb/serato-nowplaying-twitch)
 
 <hr>
 
 ## OBS Integration
 
-The stats and np commands above all have OBS integration to display their responses on-screen during a user's live stream.  Connection is established and text data is updated via the obs-websocket-js library.
+This was added to trigger momentary scene changes within OBS while live-streaming using chat commands within this repo.
 
-If you wish to display these responses during a live stream, you'll need a TextGDI+ element named obs-chat-response configured as a source within your OBS stream.
+You can see an example of this in the !birdcam command (/commands/birdcam/birdcam.js). When used, the command triggers a scene change within OBS that displays a randomly selected scene momentarily before returning the view to the previous scene.  Provided the scene name sent from this script matches one in your OBS configuration, this functionality should be relatively simple to modify for use in your own channel.
 
-The bot response updates just the TextGDI+ element's text but none of the corresponding properties (font, color, etc) so you'll need to determine how to best style the response and it's placement on screen.
-
-If you're not using OBS or don't wish to display the responses on screen, the bot responses will still appear as text in the Twitch chat, with the script disregarding the OBS response if a socket connection cannot be established.
-
+You can do the same for the text returned from any of the chat commands in this repo by configuring a TextGDI+ element in your OBS and then sending the text response from the command to OBS.  The obs-websocket-js library used to implement this feature has documentation readily available.
 <hr>
 
 Marcus McBride, 2022.
