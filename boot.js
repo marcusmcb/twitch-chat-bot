@@ -1,8 +1,8 @@
 const loadConfigurations = require('./config')
 const initializeBot = require('./index')
 
-loadConfigurations().then((config) => {
-  console.log("CONFIG? ", config)
+// run token check and then init chatbot script
+loadConfigurations().then((config) => {  
   setTimeout(() => {
     initializeBot(config)
   }, 1000)
