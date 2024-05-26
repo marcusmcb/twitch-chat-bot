@@ -13,8 +13,9 @@ const birbCommand = async (channel, tags, args, client, obs) => {
 		await obs
 			.call('GetSceneItemList', { sceneName: currentScene })
 			.then((data) => {
+				console.log("DATA: ", data)
 				const sceneItem = data.sceneItems.find(
-					(item) => item.sourceName === 'Birdcam1'
+					(item) => item.sourceName === 'birb_clip'
 				)
 				if (sceneItem) {
 					sceneItemId = sceneItem.sceneItemId
@@ -33,10 +34,9 @@ const birbCommand = async (channel, tags, args, client, obs) => {
 					sceneItemId: sceneItemId,
 					sceneItemEnabled: false,
 				})
-			}, 5000)
-			// client.say(channel, 'BIRB IS VISIBLE!')
+			}, 5000)			
 		} else {
-			client.say(channel, 'Media source not found in the current scene.')
+			client.say(channel, 'Yo, the BIRBS are asleep!')
 		}
 	} else {
 		client.say(channel, `NO BIRBS FOR YOU, ${tags.username}!`)

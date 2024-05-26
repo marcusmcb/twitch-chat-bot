@@ -47,7 +47,7 @@ Commands with simple, text-based responses are grouped together for convenience 
 
 Commands with additional logic/helpers or API-based responses can each be found in their own directory.
 
-Commands are easily modified via the files in the commands directory but are static for the moment (no ability for moderators to add, modify, etc commands).
+Commands are easily modified via the files in the commands directory but are static for the moment. No ability for moderators to add, modify, etc commands on the fly, but you could update this script to set command use by viewer level (follower, sub, moderator, etc) which can be parsed from each message event.
 
 <hr>
 
@@ -94,7 +94,11 @@ I previously included chat commands for use by DJs live-streaming while using Se
 
 This was added to trigger momentary scene changes within OBS while live-streaming using chat commands within this repo.
 
-You can see an example of this in the !birdcam command (/commands/birdcam/birdcam.js). When used, the command triggers a scene change within OBS that displays a randomly selected scene momentarily before returning the view to the previous scene.  Provided the scene name sent from this script matches one in your OBS configuration, this functionality should be relatively simple to modify for use in your own channel.
+You can see an example of this in the !birdcam command (/commands/birdcam/birdcam.js). When used, the command triggers a scene change within OBS that displays a randomly selected scene momentarily before returning the view to the previous scene.  
+
+Provided the scene name sent from this script matches one in your OBS configuration, this functionality should be relatively simple to modify for use in your own channel.
+
+Another example can be found in the !birb command (/commands/birb/birb.js).  In this instance, I have an OBS scene with a hidden media source (a video loop) that is momentarily visible on-stream when the command is used before resetting the media source's visibility to hidden.  Like the previous example, this functionality should be easy to modify for your own channel's use.
 
 You can do the same for the text returned from any of the chat commands in this repo by configuring a TextGDI+ element in your OBS and then sending the text response from the command to OBS.  The obs-websocket-js library used to implement this feature has documentation readily available.
 <hr>
