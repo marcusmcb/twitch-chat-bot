@@ -36,6 +36,7 @@ const { lightsInfo } = require('../auto-commands/autoCommands')
 const { lottoCommand } = require('../commands/lotto/lotto')
 const { birdcamCommand } = require('../commands/birdcam/birdcam')
 const { uCommand } = require("../commands/urban_dictionary/urbanDictionary")
+const { birbCommand } = require("../commands/birb/birb")
 
 const commandList = {
 	test: testCommand,
@@ -70,6 +71,7 @@ const commandList = {
 	birdcam: birdcamCommand,
 	u: uCommand,
 	hug: hugCommand,
+	birb: birbCommand
 }
 
 module.exports = {
