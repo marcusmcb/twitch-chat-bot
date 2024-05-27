@@ -36,23 +36,25 @@ const backCommand = (channel, tags, args, client) => {
 	client.say(channel, `Lurk no more... @${tags.username} has returned!`)
 }
 
-const fadedCommand = (channel, tags, args, client) => {	
+const fadedCommand = (channel, tags, args, client) => {
 	const fadedResult = Math.floor(Math.random() * 100) + 1
 	if (args.length === 0) {
-		client.say(channel, `@${tags.username} is ${fadedResult}% faded right now. 😎😎😎`)	
+		client.say(
+			channel,
+			`@${tags.username} is ${fadedResult}% faded right now. 😎😎😎`
+		)
 	} else {
 		client.say(channel, `${args} is ${fadedResult}% faded right now. 😎😎😎`)
-	}	
+	}
 }
 
-const smortCommand = (channel, tags, args, client) => {	
+const smortCommand = (channel, tags, args, client) => {
 	let smortValue = Math.floor(Math.random() * 100) + 1
 	if (args.length === 0) {
 		client.say(channel, `@${tags.username} is ${smortValue}% SMORT! 🧠🧠🧠`)
 	} else {
 		client.say(channel, `${args} is ${smortValue}% SMORT! 🧠🧠🧠`)
 	}
-	
 }
 
 const burntCommand = (channel, tags, args, client) => {
@@ -61,13 +63,16 @@ const burntCommand = (channel, tags, args, client) => {
 		client.say(channel, `@${tags.username} is ${burntValue}% burnt right now!`)
 	} else {
 		client.say(channel, `${args} is ${burntValue}% burnt right now!`)
-	}	
+	}
 }
 
 const floatyCommand = (channel, tags, args, client) => {
 	let floatyValue = Math.floor(Math.random() * 100) + 1
 	if (args.length === 0) {
-		client.say(channel, `@${tags.username} is ${floatyValue}% floaty right now! 🤪🤪🤪`)
+		client.say(
+			channel,
+			`@${tags.username} is ${floatyValue}% floaty right now! 🤪🤪🤪`
+		)
 	} else {
 		client.say(channel, `${args} is ${floatyValue}% floaty right now! 🤪🤪🤪`)
 	}
@@ -78,6 +83,10 @@ const linksCommand = (channel, tags, args, client) => {
 		channel,
 		`You can find all of my socials & links @ http://www.djmarcusmcbride.com`
 	)
+}
+
+const postCommand = (channel, tags, args, client) => {
+	client.say(channel, 'HIT THAT POST, DJ! 🎧')
 }
 
 const vinylCommand = (channel, tags, args, client) => {
@@ -165,4 +174,5 @@ module.exports = {
 	vinylCommand: vinylCommand,
 	hugCommand: hugCommand,
 	floatyCommand: floatyCommand,
+	postCommand: postCommand,
 }

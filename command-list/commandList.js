@@ -18,6 +18,7 @@ const {
 	vinylCommand,
 	hugCommand,
 	floatyCommand,
+	postCommand,
 } = require('../commands/commands')
 
 const {
@@ -40,7 +41,6 @@ const { uCommand } = require("../commands/urban_dictionary/urbanDictionary")
 const { birbCommand } = require("../commands/birb/birb")
 const { heyCommand } = require("../commands/hey/hey")
 const { blackjackCommand } = require("../commands/blackjack/blackjack")	
-const blackjack = require('../commands/blackjack/blackjack')
 
 const commandList = {
 	test: testCommand,
@@ -79,6 +79,7 @@ const commandList = {
 	floaty: floatyCommand,
 	hey: heyCommand,
 	blackjack: blackjackCommand,
+	post: postCommand
 }
 
 module.exports = {
