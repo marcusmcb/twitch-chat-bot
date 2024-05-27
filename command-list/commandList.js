@@ -17,6 +17,7 @@ const {
 	mixesCommand,
 	vinylCommand,
 	hugCommand,
+	floatyCommand,
 } = require('../commands/commands')
 
 const {
@@ -37,6 +38,9 @@ const { lottoCommand } = require('../commands/lotto/lotto')
 const { birdcamCommand } = require('../commands/birdcam/birdcam')
 const { uCommand } = require("../commands/urban_dictionary/urbanDictionary")
 const { birbCommand } = require("../commands/birb/birb")
+const { heyCommand } = require("../commands/hey/hey")
+const { blackjackCommand } = require("../commands/blackjack/blackjack")	
+const blackjack = require('../commands/blackjack/blackjack')
 
 const commandList = {
 	test: testCommand,
@@ -71,7 +75,10 @@ const commandList = {
 	birdcam: birdcamCommand,
 	u: uCommand,
 	hug: hugCommand,
-	birb: birbCommand
+	birb: birbCommand,
+	floaty: floatyCommand,
+	hey: heyCommand,
+	blackjack: blackjackCommand,
 }
 
 module.exports = {

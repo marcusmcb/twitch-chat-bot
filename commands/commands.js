@@ -39,18 +39,18 @@ const backCommand = (channel, tags, args, client) => {
 const fadedCommand = (channel, tags, args, client) => {	
 	const fadedResult = Math.floor(Math.random() * 100) + 1
 	if (args.length === 0) {
-		client.say(channel, `@${tags.username} is ${fadedResult}% faded right now.`)	
+		client.say(channel, `@${tags.username} is ${fadedResult}% faded right now. 😎😎😎`)	
 	} else {
-		client.say(channel, `${args} is ${fadedResult}% faded right now.`)
+		client.say(channel, `${args} is ${fadedResult}% faded right now. 😎😎😎`)
 	}	
 }
 
 const smortCommand = (channel, tags, args, client) => {	
 	let smortValue = Math.floor(Math.random() * 100) + 1
 	if (args.length === 0) {
-		client.say(channel, `@${tags.username} is ${smortValue}% SMORT!`)
+		client.say(channel, `@${tags.username} is ${smortValue}% SMORT! 🧠🧠🧠`)
 	} else {
-		client.say(channel, `${args} is ${smortValue}% SMORT!`)
+		client.say(channel, `${args} is ${smortValue}% SMORT! 🧠🧠🧠`)
 	}
 	
 }
@@ -61,8 +61,16 @@ const burntCommand = (channel, tags, args, client) => {
 		client.say(channel, `@${tags.username} is ${burntValue}% burnt right now!`)
 	} else {
 		client.say(channel, `${args} is ${burntValue}% burnt right now!`)
+	}	
+}
+
+const floatyCommand = (channel, tags, args, client) => {
+	let floatyValue = Math.floor(Math.random() * 100) + 1
+	if (args.length === 0) {
+		client.say(channel, `@${tags.username} is ${floatyValue}% floaty right now! 🤪🤪🤪`)
+	} else {
+		client.say(channel, `${args} is ${floatyValue}% floaty right now! 🤪🤪🤪`)
 	}
-	
 }
 
 const linksCommand = (channel, tags, args, client) => {
@@ -75,7 +83,7 @@ const linksCommand = (channel, tags, args, client) => {
 const vinylCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		`Wanna dig through my record collection?  You can check out some of my favorite remixes and throwbacks over on TikTok @ www.tiktok.com/@djmarcusmcb`
+		`Wanna dig through my record collection?  You can check out some of my favorite remixes and throwbacks over on TikTok @ www.tiktok.com/@djmarcusmcb `
 	)
 }
 
@@ -156,4 +164,5 @@ module.exports = {
 	mixesCommand: mixesCommand,
 	vinylCommand: vinylCommand,
 	hugCommand: hugCommand,
+	floatyCommand: floatyCommand,
 }
