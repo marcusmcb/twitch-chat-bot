@@ -3,27 +3,37 @@ const tmi = require('tmi.js')
 const dotenv = require('dotenv')
 const http = require('http')
 const express = require('express')
+const cors = require('cors')
 const { Server } = require('socket.io')
 
 const { commandList } = require('./command-list/commandList')
 const autoCommandsConfig = require('./auto-commands/config/autoCommandsConfig')
 const obs = require('./obs/obsConnection')
 
+dotenv.config()
+
 const app = express()
 const server = http.createServer(app)
 const PORT = process.env.PORT || 5000
 
+// Configure CORS for the Express app
+app.use(
+	cors({
+		origin: 'https://marcusmcb.github.io',
+		methods: ['GET', 'POST'],
+		allowedHeaders: ['my-custom-header'],
+		credentials: true,
+	})
+)
+
 const io = new Server(server, {
 	cors: {
-		// origin: "http://127.0.0.1:5500",
 		origin: 'https://marcusmcb.github.io',
 		methods: ['GET', 'POST'],
 		allowedHeaders: ['my-custom-header'],
 		credentials: true,
 	},
 })
-
-dotenv.config()
 
 let userCommandHistory = {}
 const COMMAND_REPEAT_LIMIT = 10
