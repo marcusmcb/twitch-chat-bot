@@ -152,7 +152,33 @@ const hugCommand = (channel, tags, args, client) => {
 	)
 }
 
-// add gsd and turnt commands and respones
+const turntCommand = (channel, tags, args, client) => {
+	let turntValue = Math.floor(Math.random() * 100) + 1
+	if (args.length === 0) {
+		client.say(
+			channel,
+			`@${tags.username} is ${turntValue}% turnt right now! 🎉🎉🎉`
+		)
+	} else {
+		client.say(channel, `${args} is ${turntValue}% turnt right now! 🎉🎉🎉`)
+	}
+}
+
+const stuffedCommand = (channel, tags, args, client) => {
+	// generate a random number between 2 and 1000
+	// to indicate how many extra "calories" the user
+	// is sitting on right now
+	client.say(channel, `@${tags.username} is stuffed! 🦃🦃🦃`)
+}
+
+const gsdCommand = (channel, tags, args, client) => {
+	client.say(
+		channel,
+		`@${tags.username} is getting sh*t *done* right now! 💪💪💪`
+	)
+}
+
+// add gsd and turnt commands and responses
 
 module.exports = {
 	helloCommand: helloCommand,
@@ -175,4 +201,7 @@ module.exports = {
 	hugCommand: hugCommand,
 	floatyCommand: floatyCommand,
 	postCommand: postCommand,
+	stuffedCommand: stuffedCommand,
+	gsdCommand: gsdCommand,
+	turntCommand: turntCommand,
 }
