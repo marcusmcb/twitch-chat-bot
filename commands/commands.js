@@ -178,8 +178,6 @@ const gsdCommand = (channel, tags, args, client) => {
 	)
 }
 
-// add gsd and turnt commands and responses
-
 module.exports = {
 	helloCommand: helloCommand,
 	lurkCommand: lurkCommand,
@@ -205,3 +203,6 @@ module.exports = {
 	gsdCommand: gsdCommand,
 	turntCommand: turntCommand,
 }
+
+// refactor random number generated values
+// into single helper method
