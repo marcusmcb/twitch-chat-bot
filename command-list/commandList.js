@@ -86,7 +86,10 @@ const commandList = {
 }
 
 const sceneChangeCommandList = {
-	stuck: sceneChangeCommand
+	stuck: sceneChangeCommand,
+	jeep: sceneChangeCommand,
+	sunset: sceneChangeCommand,
+	cruise: sceneChangeCommand
 }
 
 module.exports = {
