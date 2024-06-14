@@ -19,6 +19,7 @@ const {
 	hugCommand,
 	floatyCommand,
 	postCommand,
+	noMicCommand
 } = require('../commands/commands')
 
 const {
@@ -81,6 +82,7 @@ const commandList = {
 	hey: heyCommand,
 	blackjack: blackjackCommand,
 	post: postCommand,	
+	nomic: noMicCommand
 }
 
 const sceneChangeCommandList = {

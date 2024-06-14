@@ -165,16 +165,28 @@ const turntCommand = (channel, tags, args, client) => {
 }
 
 const stuffedCommand = (channel, tags, args, client) => {
-	// generate a random number between 2 and 1000
-	// to indicate how many extra "calories" the user
-	// is sitting on right now
-	client.say(channel, `@${tags.username} is stuffed! 🦃🦃🦃`)
+	let stuffedValue = Math.floor(Math.random() * 1000) + 2
+	if (args.length === 0) {
+		client.say(
+			channel,
+			`@${tags.username} is ${stuffedValue}% stuffed! 🦃🦃🦃`
+		)
+	} else {
+		client.say(channel, `${args} is ${stuffedValue}% stuffed! 🦃🦃🦃`)
+	}	
 }
 
 const gsdCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
 		`@${tags.username} is getting sh*t *done* right now! 💪💪💪`
+	)
+}
+
+const noMicCommand = (channel, tags, args, client) => {	
+	client.say(
+		channel,
+		`@djmarcusmcb is currently recording this mix. If you hear him on the mic, it means he's between sets (or he a tanked a transition!)`
 	)
 }
 
@@ -202,6 +214,7 @@ module.exports = {
 	stuffedCommand: stuffedCommand,
 	gsdCommand: gsdCommand,
 	turntCommand: turntCommand,
+	noMicCommand: noMicCommand,
 }
 
 // refactor random number generated values

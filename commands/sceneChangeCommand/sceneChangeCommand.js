@@ -23,6 +23,10 @@ const sceneChangeCommand = async (channel, tags, args, client, obs, command) => 
       currentScene = data.currentProgramSceneName
     })
 
+    // check typeof scene_name value
+    // if array, select a random element from array
+    // to return as the scene change in OBS
+
     const sceneName = sceneChangeCommandData[command].scene_name
 
     setTimeout(async () => {
@@ -34,7 +38,6 @@ const sceneChangeCommand = async (channel, tags, args, client, obs, command) => 
     setTimeout(() => {
       obs.call('SetCurrentProgramScene', { sceneName: `${currentScene}` })
     }, 8000)
-
     client.say(channel, `${sceneChangeCommandData[command].text}`)
   } else {
     client.say(channel, `${sceneChangeCommandData[command].error_text}`)
