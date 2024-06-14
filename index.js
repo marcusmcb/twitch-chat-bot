@@ -6,9 +6,14 @@ const express = require('express')
 const cors = require('cors')
 const { Server } = require('socket.io')
 
-const { commandList } = require('./command-list/commandList')
+const {
+	commandList,
+	sceneChangeCommandList,
+} = require('./command-list/commandList')
+
 const autoCommandsConfig = require('./auto-commands/config/autoCommandsConfig')
 const obs = require('./obs/obsConnection')
+const sceneChangeCommand = require('./commands/sceneChangeCommand/sceneChangeCommand')
 
 dotenv.config()
 
@@ -86,7 +91,7 @@ client.on('message', (channel, tags, message, self) => {
 	const args = message.slice(1).split(' ')
 	const command = args.shift().toLowerCase()
 
-	if (command in commandList) {
+	if (command in commandList || command in sceneChangeCommandList) {
 		if (!userCommandHistory[tags.username]) {
 			userCommandHistory[tags.username] = []
 		}
@@ -101,6 +106,14 @@ client.on('message', (channel, tags, message, self) => {
 				channel,
 				`@${tags.username}, try a different command before using that one again.`
 			)
+		} else if (command in sceneChangeCommandList) {			
+			console.log("HERE")
+			sceneChangeCommandList[command](channel, tags, args, client, obs, command)
+			history.push(command)
+
+			if (history.length > COMMAND_REPEAT_LIMIT) {
+				history.shift()
+			}
 		} else {
 			commandList[command](channel, tags, args, client, obs)
 			history.push(command)

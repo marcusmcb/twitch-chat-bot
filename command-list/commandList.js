@@ -41,6 +41,7 @@ const { uCommand } = require("../commands/urban_dictionary/urbanDictionary")
 const { birbCommand } = require("../commands/birb/birb")
 const { heyCommand } = require("../commands/hey/hey")
 const { blackjackCommand } = require("../commands/blackjack/blackjack")	
+const { sceneChangeCommand } = require("../commands/sceneChangeCommand/sceneChangeCommand")	
 
 const commandList = {
 	test: testCommand,
@@ -79,9 +80,14 @@ const commandList = {
 	floaty: floatyCommand,
 	hey: heyCommand,
 	blackjack: blackjackCommand,
-	post: postCommand
+	post: postCommand,	
+}
+
+const sceneChangeCommandList = {
+	stuck: sceneChangeCommand
 }
 
 module.exports = {
 	commandList: commandList,
+	sceneChangeCommandList: sceneChangeCommandList,
 }
