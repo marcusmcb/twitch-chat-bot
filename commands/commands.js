@@ -186,7 +186,7 @@ const gsdCommand = (channel, tags, args, client) => {
 const noMicCommand = (channel, tags, args, client) => {	
 	client.say(
 		channel,
-		`@djmarcusmcb is currently recording this mix. If you hear him on the mic, it means he's between sets (or he a tanked a transition!)`
+		`@djmarcusmcb is currently recording this mix. If you hear him on the mic, it means he's between sets (or he tanked a transition!)`
 	)
 }
 
