@@ -20,7 +20,8 @@ const {
 	floatyCommand,
 	postCommand,
 	noMicCommand,
-	gsdCommand
+	gsdCommand,
+	turntCommand
 } = require('../commands/commands')
 
 const {
@@ -84,7 +85,8 @@ const commandList = {
 	blackjack: blackjackCommand,
 	post: postCommand,	
 	nomic: noMicCommand,
-	gsd: gsdCommand
+	gsd: gsdCommand,
+	turnt: turntCommand
 }
 
 const sceneChangeCommandList = {
