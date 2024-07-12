@@ -21,7 +21,8 @@ const {
 	postCommand,
 	noMicCommand,
 	gsdCommand,
-	turntCommand
+	turntCommand,
+	cakeCommand
 } = require('../commands/commands')
 
 const {
@@ -86,7 +87,8 @@ const commandList = {
 	post: postCommand,	
 	nomic: noMicCommand,
 	gsd: gsdCommand,
-	turnt: turntCommand
+	turnt: turntCommand,
+	cake: cakeCommand
 }
 
 const sceneChangeCommandList = {

@@ -99,7 +99,7 @@ const vinylCommand = (channel, tags, args, client) => {
 const cratestatsCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		"DJs - Want to learn more about what you actually did during your last set?  Check out www.cratestats.com to learn more about data analytics for DJs (and beta testing if you're up for it!)"
+		"DJs - Want to learn more about your last set?  Check out www.cratestats.com to learn more about data analytics for DJs (and beta testing if you're up for it!)"
 	)
 }
 
@@ -152,6 +152,17 @@ const hugCommand = (channel, tags, args, client) => {
 	)
 }
 
+const cakeCommand = (channel, tags, args, client) => {
+	if (args.length === 0) {
+		client.say(
+			channel,
+			`@${tags.username} has that slice ready! 🎂🎂🎂`
+		)
+	} else {
+		client.say(channel, `@${tags.username} has a slice ready for ${args}! 🎂🎂🎂`)
+	}
+}
+
 const turntCommand = (channel, tags, args, client) => {
 	let turntValue = Math.floor(Math.random() * 100) + 1
 	if (args.length === 0) {
@@ -167,13 +178,10 @@ const turntCommand = (channel, tags, args, client) => {
 const stuffedCommand = (channel, tags, args, client) => {
 	let stuffedValue = Math.floor(Math.random() * 1000) + 2
 	if (args.length === 0) {
-		client.say(
-			channel,
-			`@${tags.username} is ${stuffedValue}% stuffed! 🦃🦃🦃`
-		)
+		client.say(channel, `@${tags.username} is ${stuffedValue}% stuffed! 🦃🦃🦃`)
 	} else {
 		client.say(channel, `${args} is ${stuffedValue}% stuffed! 🦃🦃🦃`)
-	}	
+	}
 }
 
 const gsdCommand = (channel, tags, args, client) => {
@@ -183,7 +191,7 @@ const gsdCommand = (channel, tags, args, client) => {
 	)
 }
 
-const noMicCommand = (channel, tags, args, client) => {	
+const noMicCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
 		`@djmarcusmcb is currently recording this mix. If you hear him on the mic, it means he's between sets (or he tanked a transition!)`
@@ -215,6 +223,7 @@ module.exports = {
 	gsdCommand: gsdCommand,
 	turntCommand: turntCommand,
 	noMicCommand: noMicCommand,
+	cakeCommand: cakeCommand,
 }
 
 // refactor random number generated values
