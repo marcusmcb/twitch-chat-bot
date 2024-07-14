@@ -154,12 +154,12 @@ const hugCommand = (channel, tags, args, client) => {
 
 const cakeCommand = (channel, tags, args, client) => {
 	if (args.length === 0) {
+		client.say(channel, `@${tags.username} has that slice ready! 🎂🎂🎂`)
+	} else {
 		client.say(
 			channel,
-			`@${tags.username} has that slice ready! 🎂🎂🎂`
+			`@${tags.username} has a slice ready for ${args}! 🎂🎂🎂`
 		)
-	} else {
-		client.say(channel, `@${tags.username} has a slice ready for ${args}! 🎂🎂🎂`)
 	}
 }
 

@@ -22,7 +22,7 @@ const {
 	noMicCommand,
 	gsdCommand,
 	turntCommand,
-	cakeCommand
+	cakeCommand,
 } = require('../commands/commands')
 
 const {
@@ -41,11 +41,14 @@ const { myCommand } = require('../commands/my/mycommand')
 const { lightsInfo } = require('../auto-commands/autoCommands')
 const { lottoCommand } = require('../commands/lotto/lotto')
 const { birdcamCommand } = require('../commands/birdcam/birdcam')
-const { uCommand } = require("../commands/urban_dictionary/urbanDictionary")
-const { birbCommand } = require("../commands/birb/birb")
-const { heyCommand } = require("../commands/hey/hey")
-const { blackjackCommand } = require("../commands/blackjack/blackjack")	
-const { sceneChangeCommand } = require("../commands/sceneChangeCommand/sceneChangeCommand")	
+const { uCommand } = require('../commands/urban_dictionary/urbanDictionary')
+const { birbCommand } = require('../commands/birb/birb')
+const { heyCommand } = require('../commands/hey/hey')
+const { blackjackCommand } = require('../commands/blackjack/blackjack')
+const {
+	sceneChangeCommand,
+} = require('../commands/sceneChangeCommand/sceneChangeCommand')
+const { fortuneCommand } = require('../commands/fortune/fortune')
 
 const commandList = {
 	test: testCommand,
@@ -84,18 +87,19 @@ const commandList = {
 	floaty: floatyCommand,
 	hey: heyCommand,
 	blackjack: blackjackCommand,
-	post: postCommand,	
+	post: postCommand,
 	nomic: noMicCommand,
 	gsd: gsdCommand,
 	turnt: turntCommand,
-	cake: cakeCommand
+	cake: cakeCommand,
+	fortune: fortuneCommand,
 }
 
 const sceneChangeCommandList = {
 	stuck: sceneChangeCommand,
 	jeep: sceneChangeCommand,
 	sunset: sceneChangeCommand,
-	cruise: sceneChangeCommand
+	cruise: sceneChangeCommand,
 }
 
 module.exports = {

@@ -106,8 +106,8 @@ client.on('message', (channel, tags, message, self) => {
 				channel,
 				`@${tags.username}, try a different command before using that one again.`
 			)
-		} else if (command in sceneChangeCommandList) {			
-			console.log("HERE")
+		} else if (command in sceneChangeCommandList) {
+			console.log('HERE')
 			sceneChangeCommandList[command](channel, tags, args, client, obs, command)
 			history.push(command)
 
