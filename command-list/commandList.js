@@ -45,6 +45,7 @@ const { uCommand } = require('../commands/urban_dictionary/urbanDictionary')
 const { birbCommand } = require('../commands/birb/birb')
 const { heyCommand } = require('../commands/hey/hey')
 const { blackjackCommand } = require('../commands/blackjack/blackjack')
+const { yeQuoteCommand } = require('../commands/yeQuote/yeQuote')
 const {
 	sceneChangeCommand,
 } = require('../commands/sceneChangeCommand/sceneChangeCommand')
@@ -93,6 +94,7 @@ const commandList = {
 	turnt: turntCommand,
 	cake: cakeCommand,
 	fortune: fortuneCommand,
+	ye: yeQuoteCommand,
 }
 
 const sceneChangeCommandList = {
