@@ -2,10 +2,10 @@ const autoCommandList = [
   "links",
   "cratestats",
   "mixes",
-  "dypInfo",
-  "sc",
+  "dypInfo",  
   "lightsInfo",
-  "vinyl"  
+  "vinyl",  
+  "npChatbotInfo",
 ];
 
 module.exports = [autoCommandList];

@@ -5,6 +5,7 @@ dotenv.config()
 const obsEnabled = process.env.DISPLAY_OBS_MESSAGES
 
 const lottoCommand = async (channel, tags, args, client, obs) => {
+	console.log("TAGS: ", tags)
 	const numberSet = new Set()
 	while (numberSet.size < 6) {
 		const randomNumber = Math.floor(Math.random() * 70) + 1

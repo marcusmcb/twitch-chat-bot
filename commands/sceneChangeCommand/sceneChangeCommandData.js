@@ -18,11 +18,17 @@ const sceneChangeCommandData = {
     display_time: 16000
   },
   cruise: {
-    scene_name: "JEEP TL SHORT",
+    scene_name: "JEEP 73 FWY",
     text: "Let's go for a ride!",
     error_text: "Looks like the cruise command isn't working right now.",
     display_time: 14000
   },
+  nuts: {
+    scene_name: "SQUIRREL 1",
+    text: "Go feed that squirrel!",
+    error_text: "No squirrels for you today!",
+    display_time: 10000
+  }
 
 }
 
