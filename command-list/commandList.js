@@ -51,6 +51,7 @@ const {
 	sceneChangeCommand,
 } = require('../commands/sceneChangeCommand/sceneChangeCommand')
 const { fortuneCommand } = require('../commands/fortune/fortune')
+const { nutsCommand } = require('../commands/nuts/nuts')
 
 const commandList = {
 	test: testCommand,
@@ -97,14 +98,14 @@ const commandList = {
 	cake: cakeCommand,
 	fortune: fortuneCommand,
 	ye: yeQuoteCommand,	
+	nuts: nutsCommand
 }
 
 const sceneChangeCommandList = {
 	stuck: sceneChangeCommand,
 	jeep: sceneChangeCommand,
 	sunset: sceneChangeCommand,
-	cruise: sceneChangeCommand,
-	nuts: sceneChangeCommand,
+	cruise: sceneChangeCommand,	
 }
 
 module.exports = {

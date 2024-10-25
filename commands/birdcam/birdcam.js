@@ -23,9 +23,9 @@ const birdcamCommand = async (channel, tags, args, client, obs) => {
 			obs.call('SetCurrentProgramScene', { sceneName: `${currentScene}` })
 		}, 8000)
 
-		client.say(channel, 'Check out this recent clip from the birdcam!')
+		client.say(channel, 'Check out this recent clip from the birdcam! 🐦')
 	} else {
-		client.say(channel, "Looks like the birdcam command isn't working right now.")
+		client.say(channel, "No birds to show you right now!")
 	}
 }
 
