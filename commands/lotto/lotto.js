@@ -30,7 +30,7 @@ const lottoCommand = async (channel, tags, args, client, obs) => {
 		})	
 
 		axios
-			.post('http://192.168.86.50:8000/display', {
+			.post('http://192.168.86.50:5000/display_lotto', {
 				message: message,
 			})
 			.then((response) => {
@@ -47,7 +47,7 @@ const lottoCommand = async (channel, tags, args, client, obs) => {
 
 		setTimeout(() => {
 			obs.call('SetCurrentProgramScene', { sceneName: `${currentScene}` })
-		}, 10000)
+		}, 12000)
 	} else {
 		client.say(
 			channel,
@@ -59,3 +59,6 @@ const lottoCommand = async (channel, tags, args, client, obs) => {
 module.exports = {
 	lottoCommand: lottoCommand,
 }
+
+// local URL for e-Paper display server
+// http://192.168.86.50:8000/display
