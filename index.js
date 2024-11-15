@@ -1,10 +1,9 @@
 // dependencies
 const tmi = require('tmi.js');
 const dotenv = require('dotenv');
-const https = require('https'); // Use https instead of http
+const https = require('https'); 
 const fs = require('fs');
 const express = require('express');
-const axios = require('axios');
 const cors = require('cors');
 const { Server } = require('socket.io');
 
@@ -40,7 +39,14 @@ app.use(
 
 app.use(express.json());
 
-// Endpoint to capture the authorization code
+// endpoint to capture the authorization code
+// when authorizing the script with Twitch
+
+// the app authorization code returned should
+// be stored in a local .env file for later use
+// to generate the necessary access token
+// used to validate channel point redemptions
+
 app.get('/auth/callback', (req, res) => {
   const authCode = req.query.code;
   if (authCode) {
