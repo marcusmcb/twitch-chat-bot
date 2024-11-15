@@ -1,128 +1,152 @@
 // dependencies
-const tmi = require('tmi.js')
-const dotenv = require('dotenv')
-const http = require('http')
-const express = require('express')
-const cors = require('cors')
-const { Server } = require('socket.io')
+const tmi = require('tmi.js');
+const dotenv = require('dotenv');
+const https = require('https'); // Use https instead of http
+const fs = require('fs');
+const express = require('express');
+const axios = require('axios');
+const cors = require('cors');
+const { Server } = require('socket.io');
 
 const {
-	commandList,
-	sceneChangeCommandList,
-} = require('./command-list/commandList')
+  commandList,
+  sceneChangeCommandList,
+} = require('./command-list/commandList');
 
-const autoCommandsConfig = require('./auto-commands/config/autoCommandsConfig')
-const obs = require('./obs/obsConnection')
-const sceneChangeCommand = require('./commands/sceneChangeCommand/sceneChangeCommand')
+const autoCommandsConfig = require('./auto-commands/config/autoCommandsConfig');
+const obs = require('./obs/obsConnection');
+const sceneChangeCommand = require('./commands/sceneChangeCommand/sceneChangeCommand');
 
-dotenv.config()
+dotenv.config();
 
-const app = express()
-const server = http.createServer(app)
-const PORT = process.env.PORT || 5000
+const app = express();
+const PORT = process.env.PORT || 5000;
 
-// Configure CORS for the Express app
+// SSL options
+const sslOptions = {
+  key: fs.readFileSync('./server.key'),
+  cert: fs.readFileSync('./server.cert'),
+};
+
+// Configure CORS for the emote wall overlay
 app.use(
-	cors({
-		origin: 'https://marcusmcb.github.io',
-		methods: ['GET', 'POST'],
-		allowedHeaders: ['my-custom-header'],
-		credentials: true,
-	})
-)
+  cors({
+    origin: 'https://marcusmcb.github.io',
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['my-custom-header'],
+    credentials: true,
+  })
+);
+
+app.use(express.json());
+
+// Endpoint to capture the authorization code
+app.get('/auth/callback', (req, res) => {
+  const authCode = req.query.code;
+  if (authCode) {
+    console.log("Authorization Code:", authCode);
+    res.send("Authorization Code received. Check your console for the code.");
+  } else {
+    res.send("Authorization Code not found.");
+  }
+});
+
+// Set up the HTTPS server with SSL options
+const server = https.createServer(sslOptions, app);
 
 const io = new Server(server, {
-	cors: {
-		origin: 'https://marcusmcb.github.io',
-		methods: ['GET', 'POST'],
-		allowedHeaders: ['my-custom-header'],
-		credentials: true,
-	},
-})
+  cors: {
+    origin: 'https://marcusmcb.github.io',
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['my-custom-header'],
+    credentials: true,
+  },
+});
 
-let userCommandHistory = {}
-const COMMAND_REPEAT_LIMIT = 10
+// Remove the old HTTP server setup and start the HTTPS server
+server.listen(PORT, () => {
+  console.log(`--- HTTPS server is listening on https://localhost:${PORT} ---`);
+});
+
+// Remaining bot and socket.io logic
+let userCommandHistory = {};
+const COMMAND_REPEAT_LIMIT = 10;
 
 const client = new tmi.Client({
-	options: { debug: true },
-	connection: {
-		secure: true,
-		reconnect: true,
-	},
-	identity: {
-		username: process.env.TWITCH_BOT_USERNAME,
-		password: process.env.TWITCH_OAUTH_TOKEN,
-	},
-	channels: [process.env.TWITCH_CHANNEL_NAME],
-})
+  options: { debug: true },
+  connection: {
+    secure: true,
+    reconnect: true,
+  },
+  identity: {
+    username: process.env.TWITCH_BOT_USERNAME,
+    password: process.env.TWITCH_OAUTH_TOKEN,
+  },
+  channels: [process.env.TWITCH_CHANNEL_NAME],
+});
 
 try {
-	client.connect()
+  client.connect();
 } catch (error) {
-	console.log(error)
+  console.log(error);
 }
 
-autoCommandsConfig(client, obs)
+autoCommandsConfig(client, obs);
 
 io.on('connection', (socket) => {
-	console.log('a user has connected')
-})
-
-server.listen(PORT, () => {
-	console.log(`--- listening on PORT ${PORT} ---`)
-})
+  console.log('a user has connected');
+});
 
 client.on('message', (channel, tags, message, self) => {
-	console.log('Message params: ')
-	console.log(channel)
-	console.log(tags.emotes)
-	console.log(message)
-	console.log(self)
+  console.log('Message params: ');
+  console.log(channel);
+  console.log(tags);
+  console.log(tags.emotes);
+  console.log(message);
+  console.log(self);
 
-	if (tags.emotes) {
-		console.log('has emotes')
-		io.emit('chat-emote', tags.emotes)
-	}
+  if (tags.emotes) {
+    console.log('has emotes');
+    io.emit('chat-emote', tags.emotes);
+  }
 
-	if (self || !message.startsWith('!')) {
-		return
-	}
+  if (self || !message.startsWith('!')) {
+    return;
+  }
 
-	const args = message.slice(1).split(' ')
-	const command = args.shift().toLowerCase()
+  const args = message.slice(1).split(' ');
+  const command = args.shift().toLowerCase();
 
-	if (command in commandList || command in sceneChangeCommandList) {
-		if (!userCommandHistory[tags.username]) {
-			userCommandHistory[tags.username] = []
-		}
+  if (command in commandList || command in sceneChangeCommandList) {
+    if (!userCommandHistory[tags.username]) {
+      userCommandHistory[tags.username] = [];
+    }
 
-		let history = userCommandHistory[tags.username]
+    let history = userCommandHistory[tags.username];
 
-		if (
-			history.length >= COMMAND_REPEAT_LIMIT &&
-			history.every((hist) => hist === command)
-		) {
-			client.say(
-				channel,
-				`@${tags.username}, try a different command before using that one again.`
-			)
-		} else if (command in sceneChangeCommandList) {
-			console.log('HERE')
-			sceneChangeCommandList[command](channel, tags, args, client, obs, command)
-			history.push(command)
+    if (
+      history.length >= COMMAND_REPEAT_LIMIT &&
+      history.every((hist) => hist === command)
+    ) {
+      client.say(
+        channel,
+        `@${tags.username}, try a different command before using that one again.`
+      );
+    } else if (command in sceneChangeCommandList) {
+      console.log('HERE');
+      sceneChangeCommandList[command](channel, tags, args, client, obs, command);
+      history.push(command);
 
-			if (history.length > COMMAND_REPEAT_LIMIT) {
-				history.shift()
-			}
-		} else {
-			commandList[command](channel, tags, args, client, obs)
-			history.push(command)
+      if (history.length > COMMAND_REPEAT_LIMIT) {
+        history.shift();
+      }
+    } else {
+      commandList[command](channel, tags, args, client, obs);
+      history.push(command);
 
-			if (history.length > COMMAND_REPEAT_LIMIT) {
-				history.shift()
-			}
-		}
-	}
-})
-
-// add additional commands
+      if (history.length > COMMAND_REPEAT_LIMIT) {
+        history.shift();
+      }
+    }
+  }
+});
