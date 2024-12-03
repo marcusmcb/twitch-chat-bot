@@ -104,12 +104,12 @@ io.on('connection', (socket) => {
 });
 
 client.on('message', (channel, tags, message, self) => {
-  console.log('Message params: ');
-  console.log(channel);
-  console.log(tags);
-  console.log(tags.emotes);
-  console.log(message);
-  console.log(self);
+  // console.log('Message params: ');
+  // console.log(channel);
+  // console.log(tags);
+  // console.log(tags.emotes);
+  // console.log(message);
+  // console.log(self);
 
   if (tags.emotes) {
     console.log('has emotes');

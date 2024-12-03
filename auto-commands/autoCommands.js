@@ -1,7 +1,7 @@
 const lightsInfo = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		'You can control my smart lighting by entering !lights and any of the following options: on, off, random, morph, green, blue, red, purple, pink, teal, gold, peach '
+		'You can use your channel points at any time to change the color of the smart lighting during my stream!'
 	)
 }
 
