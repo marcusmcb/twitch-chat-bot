@@ -6,6 +6,7 @@ const fs = require('fs')
 const express = require('express')
 const cors = require('cors')
 const { Server } = require('socket.io')
+const http = require('http')
 
 const {
 	commandList,
@@ -21,11 +22,11 @@ dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 5000
 
-// SSL options
-const sslOptions = {
-	key: Buffer.from(process.env.SERVER_KEY_BASE64, 'base64'),
-	cert: Buffer.from(process.env.SERVER_CERT_BASE64, 'base64'),
-}
+// // SSL options
+// const sslOptions = {
+// 	key: Buffer.from(process.env.SERVER_KEY_BASE64, 'base64'),
+// 	cert: Buffer.from(process.env.SERVER_CERT_BASE64, 'base64'),
+// }
 
 // Configure CORS for the emote wall overlay
 app.use(
@@ -58,7 +59,7 @@ app.get('/auth/callback', (req, res) => {
 })
 
 // Set up the HTTPS server with SSL options
-const server = https.createServer(sslOptions, app)
+const server = http.createServer(app)
 
 const io = new Server(server, {
 	cors: {
@@ -71,8 +72,8 @@ const io = new Server(server, {
 })
 
 // Remove the old HTTP server setup and start the HTTPS server
-server.listen(PORT, () => {
-	console.log(`--- HTTPS server is listening on https://localhost:${PORT} ---`)
+server.listen(PORT, '0.0.0.0', () => {
+	console.log(`--- HTTPS server is listening on port ${PORT} ---`)
 })
 
 // Remaining bot and socket.io logic
@@ -101,7 +102,16 @@ try {
 autoCommandsConfig(client, obs)
 
 io.on('connection', (socket) => {
-	console.log('a user has connected')
+	console.log('A user connected:', socket.id)
+
+	socket.on('disconnect', (reason) => {
+		console.log('A user disconnected:', socket.id, reason)
+	})
+
+	socket.on('ping', () => {
+		console.log('Ping received from client')
+		socket.emit('pong')
+	})
 })
 
 client.on('message', (channel, tags, message, self) => {
