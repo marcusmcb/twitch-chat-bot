@@ -74,8 +74,8 @@ typings/
 
 /server.cert
 /server.key
-/server.cert.base64
-/server.key.base64
+server.cert.base64
+server.key.base64
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
