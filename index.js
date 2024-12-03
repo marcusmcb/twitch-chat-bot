@@ -67,6 +67,7 @@ const io = new Server(server, {
 		allowedHeaders: ['my-custom-header'],
 		credentials: true,
 	},
+	transports: ['polling', 'websocket'], // Ensure fallback support
 })
 
 // Remove the old HTTP server setup and start the HTTPS server
