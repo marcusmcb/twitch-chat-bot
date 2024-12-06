@@ -10,7 +10,7 @@ const nutsCommand = async (channel, tags, args, client, obs) => {
       currentScene = data.currentProgramSceneName
     })
 
-    const randomNumber = Math.floor(Math.random() * 7) + 1
+    const randomNumber = Math.floor(Math.random() * 12) + 1
     const sceneName = `SQUIRREL ${randomNumber}`
 
     setTimeout(async () => {
