@@ -1,8 +1,6 @@
 // dependencies
 const tmi = require('tmi.js')
 const dotenv = require('dotenv')
-const https = require('https')
-const fs = require('fs')
 const express = require('express')
 const cors = require('cors')
 const { Server } = require('socket.io')
@@ -15,20 +13,14 @@ const {
 
 const autoCommandsConfig = require('./auto-commands/config/autoCommandsConfig')
 const obs = require('./obs/obsConnection')
-const sceneChangeCommand = require('./commands/sceneChangeCommand/sceneChangeCommand')
+// const sceneChangeCommand = require('./commands/sceneChangeCommand/sceneChangeCommand')
 
 dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT || 5000
 
-// // SSL options
-// const sslOptions = {
-// 	key: Buffer.from(process.env.SERVER_KEY_BASE64, 'base64'),
-// 	cert: Buffer.from(process.env.SERVER_CERT_BASE64, 'base64'),
-// }
-
-// Configure CORS for the emote wall overlay
+// configure CORS for the emote wall overlay
 app.use(
 	cors({
 		origin: 'https://marcusmcb.github.io',
@@ -58,7 +50,7 @@ app.get('/auth/callback', (req, res) => {
 	}
 })
 
-// Set up the HTTPS server with SSL options
+// set up the HTTPS server with SSL options
 const server = http.createServer(app)
 
 const io = new Server(server, {
@@ -71,12 +63,12 @@ const io = new Server(server, {
 	transports: ['polling', 'websocket'], // Ensure fallback support
 })
 
-// Remove the old HTTP server setup and start the HTTPS server
+// remove the old HTTP server setup and start the HTTPS server
 server.listen(PORT, '0.0.0.0', () => {
 	console.log(`--- HTTPS server is listening on port ${PORT} ---`)
 })
 
-// Remaining bot and socket.io logic
+// bot logic and TMI client config and connection
 let userCommandHistory = {}
 const COMMAND_REPEAT_LIMIT = 10
 
@@ -99,8 +91,10 @@ try {
 	console.log(error)
 }
 
+// load in the auto commands config
 autoCommandsConfig(client, obs)
 
+// create a socket connection to the static emotes overlay page
 io.on('connection', (socket) => {
 	console.log('A user connected:', socket.id)
 
@@ -114,14 +108,8 @@ io.on('connection', (socket) => {
 	})
 })
 
+// Twitch chat message listener and responder logic
 client.on('message', (channel, tags, message, self) => {
-	// console.log('Message params: ');
-	// console.log(channel);
-	// console.log(tags);
-	// console.log(tags.emotes);
-	// console.log(message);
-	// console.log(self);
-
 	if (tags.emotes) {
 		console.log('has emotes')
 		io.emit('chat-emote', tags.emotes)
