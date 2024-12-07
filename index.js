@@ -13,7 +13,6 @@ const {
 
 const autoCommandsConfig = require('./auto-commands/config/autoCommandsConfig')
 const obs = require('./obs/obsConnection')
-// const sceneChangeCommand = require('./commands/sceneChangeCommand/sceneChangeCommand')
 
 dotenv.config()
 
