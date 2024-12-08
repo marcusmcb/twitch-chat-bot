@@ -17,10 +17,10 @@ const birdcamCommand = async (
 				channel,
 				'Hold on! A scene change is already in progress. Please wait.'
 			)
-			return // Exit if another scene change is in progress
+			return // exit if another scene change is in progress
 		}
 
-		sceneChangeLock.active = true // Lock all scene changes
+		sceneChangeLock.active = true // lock all scene changes
 
 		try {
 			const currentScene = await obs.call('GetCurrentProgramScene')
@@ -37,7 +37,7 @@ const birdcamCommand = async (
 					sceneName: currentSceneName,
 				})
 				console.log(`Reverted to previous scene: ${currentSceneName}`)
-				sceneChangeLock.active = false // Unlock after the scene reverts
+				sceneChangeLock.active = false // unlock after the scene reverts
 			}, 8000)
 
 			client.say(channel, 'Check out this recent clip from the birdcam! 🐦')
@@ -47,7 +47,7 @@ const birdcamCommand = async (
 				channel,
 				"Sorry, I'm having trouble with the birdcam right now!"
 			)
-			sceneChangeLock.active = false // Unlock if an error occurs
+			sceneChangeLock.active = false // unlock if an error occurs
 		}
 	} else {
 		client.say(channel, 'No birds to show you right now!')

@@ -12,22 +12,12 @@ const {
 } = require('./command-list/commandList')
 
 const autoCommandsConfig = require('./auto-commands/config/autoCommandsConfig')
-const obs = require('./obs/obsConnection') // Import the obs wrapper
+const obs = require('./obs/obsConnection') 
 
 dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT || 5000
-
-// Command locks to prevent overlapping execution per command
-const commandLocks = {
-	birdcam: false,
-	nuts: false,
-	stuck: false,
-	jeep: false,
-	sunset: false,
-	cruise: false,
-}
 
 // configure CORS for the emote wall overlay
 app.use(
@@ -63,7 +53,7 @@ const io = new Server(server, {
 		allowedHeaders: ['my-custom-header'],
 		credentials: true,
 	},
-	transports: ['polling', 'websocket'], // Ensure fallback support
+	transports: ['polling', 'websocket'], // ensure fallback support
 })
 
 // remove the old HTTP server setup and start the HTTPS server
@@ -96,8 +86,7 @@ try {
 
 // OBS connection initialization
 ;(async () => {
-	try {
-		// Wait for OBS connection to be established
+	try {		
 		await obs.connect()
 		console.log('OBS connection ready for commands')
 	} catch (error) {
@@ -122,7 +111,7 @@ io.on('connection', (socket) => {
 	})
 })
 
-// Global scene change lock
+// global scene change lock value
 const sceneChangeLock = { active: false }
 
 client.on('message', (channel, tags, message, self) => {
@@ -161,7 +150,7 @@ client.on('message', (channel, tags, message, self) => {
 				client,
 				obs,
 				command,
-				sceneChangeLock // Pass the global scene change lock
+				sceneChangeLock
 			)
 			history.push(command)
 
@@ -175,7 +164,7 @@ client.on('message', (channel, tags, message, self) => {
 				args,
 				client,
 				obs,
-				sceneChangeLock // Pass the global scene change lock
+				sceneChangeLock
 			)
 			history.push(command)
 
