@@ -12,7 +12,7 @@ const {
 } = require('./command-list/commandList')
 
 const autoCommandsConfig = require('./auto-commands/config/autoCommandsConfig')
-const obs = require('./obs/obsConnection')
+const { connectToOBS, obsConnection } = require('./obs/obsConnection')
 
 dotenv.config()
 
@@ -90,8 +90,16 @@ try {
 	console.log(error)
 }
 
-// load in the auto commands config
-autoCommandsConfig(client, obs)
+;(async () => {
+	try {
+		await connectToOBS() // Connection and test message are handled inside
+	} catch (error) {
+		console.error('Failed to connect to OBS via ngrok:', error.message)
+	}
+})()
+
+// // load in the auto commands config
+// autoCommandsConfig(client, obs)
 
 // create a socket connection to the static emotes overlay page
 io.on('connection', (socket) => {
