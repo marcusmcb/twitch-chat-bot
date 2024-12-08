@@ -4,74 +4,110 @@ const crypto = require('crypto')
 const OBS_TCP_ADDRESS = process.env.OBS_TCP_ADDRESS // ngrok TCP address (e.g., ws://7.tcp.ngrok.io:21711)
 const OBS_PASSWORD = process.env.OBS_WEBSOCKET_PASSWORD // Your OBS WebSocket password
 
-let obsConnection // Declare obsConnection here
+let obsConnection
 let challenge = ''
 let salt = ''
+let requestIdCounter = 0 // To manage unique request IDs
+const pendingRequests = new Map() // Map to store pending requests
 
 const connectToOBS = async () => {
-	try {
-		obsConnection = new WebSocket(OBS_TCP_ADDRESS)
+	return new Promise((resolve, reject) => {
+		try {
+			obsConnection = new WebSocket(OBS_TCP_ADDRESS)
 
-		obsConnection.on('open', async () => {
-			console.log('Connected to OBS WebSocket via ngrok')
-		})
+			obsConnection.on('open', async () => {
+				console.log('Connected to OBS WebSocket via ngrok')
+			})
 
-		obsConnection.on('message', (data) => {
-			const parsedData = JSON.parse(data)
-			console.log('Received from OBS:', parsedData)
+			obsConnection.on('message', (data) => {
+				const parsedData = JSON.parse(data)
+				// console.log('Received from OBS:', parsedData)
 
-			if (parsedData.op === 0) {
-				// Handle Hello message
-				challenge = parsedData.d.authentication.challenge
-				salt = parsedData.d.authentication.salt
+				if (parsedData.op === 0) {
+					// Handle Hello message
+					challenge = parsedData.d.authentication.challenge
+					salt = parsedData.d.authentication.salt
 
-				// Debugging values
-				console.log('Password:', OBS_PASSWORD)
-				console.log('Salt:', salt)
-				console.log('Challenge:', challenge)
+					const authToken = generateAuthenticationToken(
+						OBS_PASSWORD,
+						salt,
+						challenge
+					)
 
-				const authToken = generateAuthenticationToken(
-					OBS_PASSWORD,
-					salt,
-					challenge
-				)
+					const authMessage = {
+						op: 1,
+						d: {
+							rpcVersion: 1,
+							authentication: authToken,
+						},
+					}
 
-				console.log('Generated Auth Token:', authToken)
-
-				const authMessage = {
-					op: 1,
-					d: {
-						rpcVersion: 1,
-						authentication: authToken,
-					},
+					obsConnection.send(JSON.stringify(authMessage))
+					console.log('Sent Identify message')
+				} else if (parsedData.op === 2) {
+					// Handle Identified message
+					console.log('OBS WebSocket connection authenticated successfully')
+					resolve()
+				} else if (parsedData.op === 7) {
+					// Handle Request Response
+					const requestId = parsedData.d.requestId
+					if (pendingRequests.has(requestId)) {
+						const { resolve } = pendingRequests.get(requestId)
+						resolve(parsedData.d.responseData)
+						pendingRequests.delete(requestId)
+					}
 				}
+			})
 
-				obsConnection.send(JSON.stringify(authMessage))
-				console.log('Sent Identify message')
-			} else if (parsedData.op === 2) {
-				// Handle Identified message
-				console.log('OBS WebSocket connection authenticated successfully')
-			} else if (parsedData.op === 7) {
-				// Handle request response
-				console.log('Request response from OBS:', parsedData)
-			}
-		})
+			obsConnection.on('close', (code, reason) => {
+				console.log(
+					`OBS WebSocket disconnected. Code: ${code}, Reason: ${reason}`
+				)
+				console.log('Attempting to reconnect...')
+				setTimeout(() => connectToOBS().then(resolve).catch(reject), 1000) // Reconnect after 1 second
+			})
 
-		obsConnection.on('close', (code, reason) => {
-			console.log(
-				`OBS WebSocket disconnected. Code: ${code}, Reason: ${reason}`
-			)
-			console.log('Attempting to reconnect...')
-			setTimeout(connectToOBS, 1000) // Reconnect after 1 second
-		})
+			obsConnection.on('error', (error) => {
+				console.error('OBS WebSocket error:', error.message)
+				reject(error)
+			})
+		} catch (error) {
+			console.error('Failed to connect to OBS WebSocket:', error.message)
+			reject(error)
+		}
+	})
+}
 
-		obsConnection.on('error', (error) => {
-			console.error('OBS WebSocket error:', error.message)
-		})
-	} catch (error) {
-		console.error('Failed to connect to OBS WebSocket:', error.message)
-		setTimeout(connectToOBS, 1000) // Retry connection after 1 second
-	}
+const call = (requestType, requestData = {}) => {
+	return new Promise((resolve, reject) => {
+		const requestId = `request-${++requestIdCounter}`
+		const request = {
+			op: 6, // Request operation code
+			d: {
+				requestType,
+				requestId,
+				requestData, // Send requestData properly nested
+			},
+		}
+
+		console.log('Sending OBS Request:', request) // Log the request for debugging
+
+		pendingRequests.set(requestId, { resolve, reject })
+
+		// Add error handling for when obsConnection is not ready
+		if (obsConnection && obsConnection.readyState === WebSocket.OPEN) {
+			obsConnection.send(JSON.stringify(request))
+		} else {
+			console.error('OBS WebSocket is not open. Request not sent.')
+			reject(new Error('OBS WebSocket is not open.'))
+		}
+	})
+}
+
+// Wrapper to expose both `obsConnection` and `call`
+const obs = {
+	connect: connectToOBS,
+	call,
 }
 
 const generateAuthenticationToken = (password, salt, challenge) => {
@@ -85,4 +121,4 @@ const generateAuthenticationToken = (password, salt, challenge) => {
 		.digest('base64')
 }
 
-module.exports = { connectToOBS, obsConnection }
+module.exports = obs

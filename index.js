@@ -12,7 +12,7 @@ const {
 } = require('./command-list/commandList')
 
 const autoCommandsConfig = require('./auto-commands/config/autoCommandsConfig')
-const { connectToOBS, obsConnection } = require('./obs/obsConnection')
+const obs = require('./obs/obsConnection') // Import the obs wrapper
 
 dotenv.config()
 
@@ -33,12 +33,6 @@ app.use(express.json())
 
 // endpoint to capture the authorization code
 // when authorizing the script with Twitch
-
-// the app authorization code returned should
-// be stored in a local .env file for later use
-// to generate the necessary access token
-// used to validate channel point redemptions
-
 app.get('/auth/callback', (req, res) => {
 	const authCode = req.query.code
 	if (authCode) {
@@ -90,16 +84,19 @@ try {
 	console.log(error)
 }
 
+// OBS connection initialization
 ;(async () => {
 	try {
-		await connectToOBS() // Connection and test message are handled inside
+		// Wait for OBS connection to be established
+		await obs.connect()
+		console.log('OBS connection ready for commands')
 	} catch (error) {
 		console.error('Failed to connect to OBS via ngrok:', error.message)
 	}
 })()
 
-// // load in the auto commands config
-// autoCommandsConfig(client, obs)
+// load in the auto commands config
+autoCommandsConfig(client, obs)
 
 // create a socket connection to the static emotes overlay page
 io.on('connection', (socket) => {
@@ -145,15 +142,21 @@ client.on('message', (channel, tags, message, self) => {
 				`@${tags.username}, try a different command before using that one again.`
 			)
 		} else if (command in sceneChangeCommandList) {
-			console.log('HERE')
-			sceneChangeCommandList[command](channel, tags, args, client, obsConnection, command)
+			sceneChangeCommandList[command](
+				channel,
+				tags,
+				args,
+				client,
+				obs, // Pass the OBS wrapper to the command
+				command
+			)
 			history.push(command)
 
 			if (history.length > COMMAND_REPEAT_LIMIT) {
 				history.shift()
 			}
 		} else {
-			commandList[command](channel, tags, args, client, obsConnection)
+			commandList[command](channel, tags, args, client, obs) // Pass OBS here too
 			history.push(command)
 
 			if (history.length > COMMAND_REPEAT_LIMIT) {
