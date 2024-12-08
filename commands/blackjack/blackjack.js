@@ -12,8 +12,7 @@ const showVideoClip = async (obs) => {
 	let sceneItemId
 	await obs
 		.call('GetSceneItemList', { sceneName: currentScene })
-		.then((data) => {
-			console.log('DATA: ', data)
+		.then((data) => {			
 			const sceneItem = data.sceneItems.find(
 				(item) => item.sourceName === 'cash_drop'
 			)
