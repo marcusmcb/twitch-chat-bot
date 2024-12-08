@@ -5,71 +5,73 @@ const OBS_TCP_ADDRESS = process.env.OBS_TCP_ADDRESS // ngrok TCP address (e.g., 
 const OBS_PASSWORD = process.env.OBS_WEBSOCKET_PASSWORD // Your OBS WebSocket password
 
 let obsConnection // Declare obsConnection here
+let challenge = ''
+let salt = ''
 
-const connectToOBS = () => {
-	return new Promise((resolve, reject) => {
+const connectToOBS = async () => {
+	try {
 		obsConnection = new WebSocket(OBS_TCP_ADDRESS)
 
-		obsConnection.on('open', () => {
+		obsConnection.on('open', async () => {
 			console.log('Connected to OBS WebSocket via ngrok')
 		})
 
-		obsConnection.on('message', async (data) => {
-			const message = JSON.parse(data)
-			console.log('Received from OBS:', message)
+		obsConnection.on('message', (data) => {
+			const parsedData = JSON.parse(data)
+			console.log('Received from OBS:', parsedData)
 
-			if (message.op === 0) {
-				// Handle the "Hello" message from OBS
-				const { authentication, rpcVersion } = message.d
+			if (parsedData.op === 0) {
+				// Handle Hello message
+				challenge = parsedData.d.authentication.challenge
+				salt = parsedData.d.authentication.salt
 
-				if (authentication) {
-					const { challenge, salt } = authentication
-					const authToken = generateAuthenticationToken(
-						OBS_PASSWORD,
-						salt,
-						challenge
-					)
+				// Debugging values
+				console.log('Password:', OBS_PASSWORD)
+				console.log('Salt:', salt)
+				console.log('Challenge:', challenge)
 
-					// Send Identify message
-					const identifyPayload = {
-						op: 1,
-						d: {
-							rpcVersion,
-							authentication: authToken,
-						},
-					}
+				const authToken = generateAuthenticationToken(
+					OBS_PASSWORD,
+					salt,
+					challenge
+				)
 
-					obsConnection.send(JSON.stringify(identifyPayload))
-					console.log('Sent Identify message')
-				}
-			} else if (message.op === 2 && message.d?.negotiatedRpcVersion) {
-				// Handle "Identified" response
-				console.log('OBS WebSocket connection authenticated successfully')
+				console.log('Generated Auth Token:', authToken)
 
-				const testMessage = {
-					op: 6,
+				const authMessage = {
+					op: 1,
 					d: {
-						requestType: 'GetCurrentProgramScene', // Updated request type
-						requestId: 'test-request-1',
+						rpcVersion: 1,
+						authentication: authToken,
 					},
 				}
 
-				obsConnection.send(JSON.stringify(testMessage))
-				console.log('Test message sent to OBS')
-
-				resolve(obsConnection) // Resolve the promise after authentication and message send
+				obsConnection.send(JSON.stringify(authMessage))
+				console.log('Sent Identify message')
+			} else if (parsedData.op === 2) {
+				// Handle Identified message
+				console.log('OBS WebSocket connection authenticated successfully')
+			} else if (parsedData.op === 7) {
+				// Handle request response
+				console.log('Request response from OBS:', parsedData)
 			}
 		})
 
-		obsConnection.on('error', (error) => {
-			console.error('Error connecting to OBS WebSocket:', error.message)
-			reject(error)
+		obsConnection.on('close', (code, reason) => {
+			console.log(
+				`OBS WebSocket disconnected. Code: ${code}, Reason: ${reason}`
+			)
+			console.log('Attempting to reconnect...')
+			setTimeout(connectToOBS, 1000) // Reconnect after 1 second
 		})
 
-		obsConnection.on('close', () => {
-			console.log('Disconnected from OBS WebSocket')
+		obsConnection.on('error', (error) => {
+			console.error('OBS WebSocket error:', error.message)
 		})
-	})
+	} catch (error) {
+		console.error('Failed to connect to OBS WebSocket:', error.message)
+		setTimeout(connectToOBS, 1000) // Retry connection after 1 second
+	}
 }
 
 const generateAuthenticationToken = (password, salt, challenge) => {
