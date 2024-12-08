@@ -1,9 +1,3 @@
-const sceneChangeCommandData = require('./sceneChangeCommandData')
-const dotenv = require('dotenv')
-dotenv.config()
-
-const obsEnabled = process.env.DISPLAY_OBS_MESSAGES
-
 const sceneChangeCommand = async (
 	channel,
 	tags,
@@ -11,18 +5,20 @@ const sceneChangeCommand = async (
 	client,
 	obs,
 	command,
-	commandLocks
+	sceneChangeLock
 ) => {
+	const obsEnabled = process.env.DISPLAY_OBS_MESSAGES
+
 	if (obsEnabled === 'true') {
-		if (commandLocks[command]) {
+		if (sceneChangeLock.active) {
 			client.say(
 				channel,
-				'Hold on! A scene change is already in progress for this command.'
+				'Hold on! A scene change is already in progress. Please wait.'
 			)
-			return // Exit if the command is locked
+			return // Exit if another scene change is in progress
 		}
 
-		commandLocks[command] = true // Lock the command
+		sceneChangeLock.active = true // Lock all scene changes
 
 		try {
 			const currentScene = await obs.call('GetCurrentProgramScene')
@@ -39,13 +35,13 @@ const sceneChangeCommand = async (
 				await obs.call('SetCurrentProgramScene', {
 					sceneName: currentSceneName,
 				})
-				commandLocks[command] = false // Unlock the command
 				console.log(`Reverted to previous scene: ${currentSceneName}`)
+				sceneChangeLock.active = false // Unlock after the scene reverts
 			}, display_time)
 		} catch (error) {
 			console.error(`Error handling ${command} scene change:`, error.message)
 			client.say(channel, sceneChangeCommandData[command].error_text)
-			commandLocks[command] = false // Unlock the command on error
+			sceneChangeLock.active = false // Unlock on error
 		}
 	} else {
 		client.say(channel, sceneChangeCommandData[command].error_text)

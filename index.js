@@ -122,7 +122,9 @@ io.on('connection', (socket) => {
 	})
 })
 
-// Twitch chat message listener and responder logic
+// Global scene change lock
+const sceneChangeLock = { active: false }
+
 client.on('message', (channel, tags, message, self) => {
 	if (tags.emotes) {
 		console.log('has emotes')
@@ -159,7 +161,7 @@ client.on('message', (channel, tags, message, self) => {
 				client,
 				obs,
 				command,
-				commandLocks // Pass locks to sceneChangeCommand
+				sceneChangeLock // Pass the global scene change lock
 			)
 			history.push(command)
 
@@ -173,7 +175,7 @@ client.on('message', (channel, tags, message, self) => {
 				args,
 				client,
 				obs,
-				commandLocks // Pass locks to other commands
+				sceneChangeLock // Pass the global scene change lock
 			)
 			history.push(command)
 

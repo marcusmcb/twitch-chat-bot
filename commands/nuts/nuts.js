@@ -1,45 +1,50 @@
-const dotenv = require('dotenv')
-dotenv.config()
+const nutsCommand = async (
+	channel,
+	tags,
+	args,
+	client,
+	obs,
+	sceneChangeLock
+) => {
+	const obsEnabled = process.env.DISPLAY_OBS_MESSAGES
 
-const obsEnabled = process.env.DISPLAY_OBS_MESSAGES
-
-let nutsLock = false // lock to prevent re-triggering the command while active
-
-const nutsCommand = async (channel, tags, args, client, obs) => {
 	if (obsEnabled === 'true') {
-		if (nutsLock) {
+		if (sceneChangeLock.active) {
 			client.say(
 				channel,
-				'Hold on! The squirrel is already getting a snack. 🐿️'
+				'Hold on! A scene change is already in progress. Please wait.'
 			)
-			return // exit if the command is locked
+			return // Exit if another scene change is in progress
 		}
 
-		nutsLock = true // lock the command
+		sceneChangeLock.active = true // Lock all scene changes
 
-		try {			
-			const currentSceneData = await obs.call('GetCurrentProgramScene')
-			const currentSceneName = currentSceneData.currentProgramSceneName
-			// select a random squirrel scene
+		try {
+			const currentScene = await obs.call('GetCurrentProgramScene')
+			const currentSceneName = currentScene.currentProgramSceneName
+
 			const randomNumber = Math.floor(Math.random() * 12) + 1
-			const sceneName = `SQUIRREL ${randomNumber}`			
-			await obs.call('SetCurrentProgramScene', { sceneName })			
-			client.say(channel, "Let's give our buddy a snack! 🐿️")
-			
+			const sceneName = `SQUIRREL ${randomNumber}`
+
+			await obs.call('SetCurrentProgramScene', { sceneName })
+			console.log(`Switched to Squirrel scene: ${sceneName}`)
+
 			setTimeout(async () => {
-				console.log(`Reverting to previous scene: ${currentSceneName}`)
 				await obs.call('SetCurrentProgramScene', {
 					sceneName: currentSceneName,
 				})
-				nutsLock = false // unlock the command after reverting
+				console.log(`Reverted to previous scene: ${currentSceneName}`)
+				sceneChangeLock.active = false // Unlock after the scene reverts
 			}, 12000)
+
+			client.say(channel, "Let's give our buddy a snack! 🐿️")
 		} catch (error) {
 			console.error('Error handling Nuts command:', error.message)
 			client.say(
 				channel,
 				"Sorry, I'm having trouble giving the squirrel a snack right now!"
 			)
-			nutsLock = false // unlock the command if an error occurs
+			sceneChangeLock.active = false // Unlock if an error occurs
 		}
 	} else {
 		client.say(channel, 'No squirrels to show you right now!')
