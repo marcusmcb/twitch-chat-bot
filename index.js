@@ -146,14 +146,14 @@ client.on('message', (channel, tags, message, self) => {
 			)
 		} else if (command in sceneChangeCommandList) {
 			console.log('HERE')
-			sceneChangeCommandList[command](channel, tags, args, client, obs, command)
+			sceneChangeCommandList[command](channel, tags, args, client, obsConnection, command)
 			history.push(command)
 
 			if (history.length > COMMAND_REPEAT_LIMIT) {
 				history.shift()
 			}
 		} else {
-			commandList[command](channel, tags, args, client, obs)
+			commandList[command](channel, tags, args, client, obsConnection)
 			history.push(command)
 
 			if (history.length > COMMAND_REPEAT_LIMIT) {
