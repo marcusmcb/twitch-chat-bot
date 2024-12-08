@@ -1,3 +1,7 @@
+const sceneChangeCommandData = require('./sceneChangeCommandData')
+const dotenv = require('dotenv')
+dotenv.config()
+
 const sceneChangeCommand = async (
 	channel,
 	tags,
