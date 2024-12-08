@@ -1,42 +1,51 @@
-const dotenv = require('dotenv')
-dotenv.config()
+const birdcamCommand = async (
+	channel,
+	tags,
+	args,
+	client,
+	obs,
+	commandLocks
+) => {
+	const obsEnabled = process.env.DISPLAY_OBS_MESSAGES
 
-const obsEnabled = process.env.DISPLAY_OBS_MESSAGES
-
-let birdcamLock = false // lock to ensure the command is not re-triggered while active
-
-const birdcamCommand = async (channel, tags, args, client, obs) => {
 	if (obsEnabled === 'true') {
-		if (birdcamLock) {
-			client.say(channel, 'Hold on! The birdcam is already in action. 🐦')
-			return // exit if the command is locked
+		if (commandLocks.birdcam) {
+			client.say(channel, 'Hold on! The birdcam is already running.')
+			return // Exit if the command is locked
 		}
 
-		birdcamLock = true // lock the command
+		commandLocks.birdcam = true // Lock the command
 
 		try {
+			// Get the current scene
 			const currentScene = await obs.call('GetCurrentProgramScene')
 			const currentSceneName = currentScene.currentProgramSceneName
-			// randomly select a birdcam scene
+
+			// Randomly select a Birdcam scene
 			const randomNumber = Math.floor(Math.random() * 20) + 1
 			const sceneName = `BIRDCAM ${randomNumber}`
+
+			// Switch to Birdcam scene
 			await obs.call('SetCurrentProgramScene', { sceneName })
-			client.say(channel, 'Check out this recent clip from the birdcam! 🐦')
+			console.log(`Switched to Birdcam scene: ${sceneName}`)
 
 			setTimeout(async () => {
-				console.log(`Reverting to previous scene: ${currentSceneName}`)
+				// Switch back to the previous scene after 8 seconds
 				await obs.call('SetCurrentProgramScene', {
 					sceneName: currentSceneName,
 				})
-				birdcamLock = false // unlock the command after reverting
+				commandLocks.birdcam = false // Unlock the command
+				console.log(`Reverted to previous scene: ${currentSceneName}`)
 			}, 8000)
+
+			client.say(channel, 'Check out this recent clip from the birdcam! 🐦')
 		} catch (error) {
 			console.error('Error handling Birdcam command:', error.message)
 			client.say(
 				channel,
 				"Sorry, I'm having trouble with the birdcam right now!"
 			)
-			birdcamLock = false // unlock the command if an error occurs
+			commandLocks.birdcam = false // Unlock the command if an error occurs
 		}
 	} else {
 		client.say(channel, 'No birds to show you right now!')

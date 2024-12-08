@@ -19,6 +19,16 @@ dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 5000
 
+// Command locks to prevent overlapping execution per command
+const commandLocks = {
+	birdcam: false,
+	nuts: false,
+	stuck: false,
+	jeep: false,
+	sunset: false,
+	cruise: false,
+}
+
 // configure CORS for the emote wall overlay
 app.use(
 	cors({
@@ -147,8 +157,9 @@ client.on('message', (channel, tags, message, self) => {
 				tags,
 				args,
 				client,
-				obs, // Pass the OBS wrapper to the command
-				command
+				obs,
+				command,
+				commandLocks // Pass locks to sceneChangeCommand
 			)
 			history.push(command)
 
@@ -156,7 +167,14 @@ client.on('message', (channel, tags, message, self) => {
 				history.shift()
 			}
 		} else {
-			commandList[command](channel, tags, args, client, obs) // Pass OBS here too
+			commandList[command](
+				channel,
+				tags,
+				args,
+				client,
+				obs,
+				commandLocks // Pass locks to other commands
+			)
 			history.push(command)
 
 			if (history.length > COMMAND_REPEAT_LIMIT) {
