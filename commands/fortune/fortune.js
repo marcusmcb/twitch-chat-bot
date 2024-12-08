@@ -13,44 +13,48 @@ const fortuneCommand = async (channel, tags, args, client, obs) => {
 	try {
 		const response = await axios(fortuneOptions)
 		if (response.data.meta.status === 200) {
-			if (obsEnabled === 'true') {
-				client.say(
-					channel,
-					`${tags.username}, check the PiBot for your fortune!`
-				)
+			client.say(channel, `${response.data.data.message}`)
+			// if (obsEnabled === 'true') {
+			// 	client.say(
+			// 		channel,
+			// 		`${tags.username}, check the PiBot for your fortune!`
+			// 	)
 
-				let currentScene
-				let message = response.data.data.message
+			// 	let currentScene
+			// 	let message = response.data.data.message
 
-				await obs.call('GetSceneList').then((data) => {
-					console.log('CURRENT SCENE: ', data.currentProgramSceneName)
-					currentScene = data.currentProgramSceneName
-				})
+			// 	await obs.call('GetSceneList').then((data) => {
+			// 		console.log('CURRENT SCENE: ', data.currentProgramSceneName)
+			// 		currentScene = data.currentProgramSceneName
+			// 	})
 
-				axios
-					.post('http://192.168.86.50:5000/display_fortune', {
-						message: message,
-					})
-					.then((response) => {
-						console.log('Response from Pi: ', response.data)
-					})
-					.catch((error) => {
-						console.log('ERROR: ', error)
-					})
-				setTimeout(async () => {
-					await obs
-						.call('SetCurrentProgramScene', { sceneName: 'PI CAM' })
-						.then((data) => console.log(data))
-				}, 2000)
+			// 	axios
+			// 		.post('http://192.168.86.50:5000/display_fortune', {
+			// 			message: message,
+			// 		})
+			// 		.then((response) => {
+			// 			console.log('Response from Pi: ', response.data)
+			// 		})
+			// 		.catch((error) => {
+			// 			console.log('ERROR: ', error)
+			// 		})
+			// 	setTimeout(async () => {
+			// 		await obs
+			// 			.call('SetCurrentProgramScene', { sceneName: 'PI CAM' })
+			// 			.then((data) => console.log(data))
+			// 	}, 2000)
 
-				setTimeout(() => {
-					obs.call('SetCurrentProgramScene', { sceneName: `${currentScene}` })
-				}, 12000)
-			} else {
-				client.say(channel, `${response.data.data.message}`)
-			}
+			// 	setTimeout(() => {
+			// 		obs.call('SetCurrentProgramScene', { sceneName: `${currentScene}` })
+			// 	}, 12000)
+			// } else {
+			// 	client.say(channel, `${response.data.data.message}`)
+			// }
 		} else {
-			client.say(channel, "Hmmm... looks like fortunes aren't working right now. 💀")
+			client.say(
+				channel,
+				"Hmmm... looks like fortunes aren't working right now. 💀"
+			)
 		}
 	} catch (error) {
 		console.log('ERROR: ', error)
