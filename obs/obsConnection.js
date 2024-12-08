@@ -1,14 +1,14 @@
 const WebSocket = require('ws')
 const crypto = require('crypto')
 
-const OBS_TCP_ADDRESS = process.env.OBS_TCP_ADDRESS // ngrok TCP address (e.g., ws://7.tcp.ngrok.io:21711)
-const OBS_PASSWORD = process.env.OBS_WEBSOCKET_PASSWORD // Your OBS WebSocket password
+const OBS_TCP_ADDRESS = process.env.OBS_TCP_ADDRESS
+const OBS_PASSWORD = process.env.OBS_WEBSOCKET_PASSWORD
 
 let obsConnection
 let challenge = ''
 let salt = ''
-let requestIdCounter = 0 // To manage unique request IDs
-const pendingRequests = new Map() // Map to store pending requests
+let requestIdCounter = 0 // to manage unique request IDs
+const pendingRequests = new Map() // map to store pending requests
 
 const connectToOBS = async () => {
 	return new Promise((resolve, reject) => {
@@ -20,14 +20,12 @@ const connectToOBS = async () => {
 			})
 
 			obsConnection.on('message', (data) => {
-				const parsedData = JSON.parse(data)
-				// console.log('Received from OBS:', parsedData)
+				const parsedData = JSON.parse(data)				
 
-				if (parsedData.op === 0) {
-					// Handle Hello message
+				if (parsedData.op === 0) {					
+          // handle hello/init message
 					challenge = parsedData.d.authentication.challenge
 					salt = parsedData.d.authentication.salt
-
 					const authToken = generateAuthenticationToken(
 						OBS_PASSWORD,
 						salt,
@@ -45,11 +43,11 @@ const connectToOBS = async () => {
 					obsConnection.send(JSON.stringify(authMessage))
 					console.log('Sent Identify message')
 				} else if (parsedData.op === 2) {
-					// Handle Identified message
+					// handle identified message
 					console.log('OBS WebSocket connection authenticated successfully')
 					resolve()
 				} else if (parsedData.op === 7) {
-					// Handle Request Response
+					// handle request response
 					const requestId = parsedData.d.requestId
 					if (pendingRequests.has(requestId)) {
 						const { resolve } = pendingRequests.get(requestId)
@@ -71,6 +69,7 @@ const connectToOBS = async () => {
 				console.error('OBS WebSocket error:', error.message)
 				reject(error)
 			})
+
 		} catch (error) {
 			console.error('Failed to connect to OBS WebSocket:', error.message)
 			reject(error)
@@ -82,19 +81,17 @@ const call = (requestType, requestData = {}) => {
 	return new Promise((resolve, reject) => {
 		const requestId = `request-${++requestIdCounter}`
 		const request = {
-			op: 6, // Request operation code
+			op: 6, // request operation code
 			d: {
 				requestType,
 				requestId,
-				requestData, // Send requestData properly nested
+				requestData,
 			},
 		}
 
-		console.log('Sending OBS Request:', request) // Log the request for debugging
-
+		// console.log('Sending OBS Request:', request)
 		pendingRequests.set(requestId, { resolve, reject })
-
-		// Add error handling for when obsConnection is not ready
+		// error handling for when obsConnection is not ready
 		if (obsConnection && obsConnection.readyState === WebSocket.OPEN) {
 			obsConnection.send(JSON.stringify(request))
 		} else {
@@ -104,7 +101,7 @@ const call = (requestType, requestData = {}) => {
 	})
 }
 
-// Wrapper to expose both `obsConnection` and `call`
+// wrapper to expose both `obsConnection` and `call` throughout script
 const obs = {
 	connect: connectToOBS,
 	call,
