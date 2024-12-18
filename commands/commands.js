@@ -8,13 +8,35 @@ const listCommands = (channel, tags, args, client) => {
 	)
 }
 
+const bitsCommand = (channel, tags, args, client) => {
+	if (args.length === 0) {
+		return
+	} else {
+		let argsParsed = args[0].slice(1)		
+		if (tags.username === `${process.env.TWITCH_CHANNEL_NAME}` || tags.mod) {
+			client.say(channel, `${argsParsed}, thank you so much for the BITS fam! 🎉🎉🎉`)
+		}
+	}
+}
+
+const raidCommand = (channel, tags, args, client, obs) => {
+	client.say(
+		channel,
+		`TombRaid TombRaid 🎉🎉 DJMarcusMCB just rolled up with a raid! 🎉🎉 TombRaid TombRaid`
+	)
+}
+
 const shoutOutCommand = (channel, tags, args, client, obs) => {
-	let argsParsed = args[0].slice(1)
-	if (tags.username === `${process.env.TWITCH_CHANNEL_NAME}` || tags.mod) {
-		client.say(
-			channel,
-			`Be sure to follow ${args}'s channel here on Twitch: www.twitch.tv/${argsParsed} `
-		)
+	if (args.length === 0) {
+		client.say(channel, `Uhh... who should I shout out here? 📣📣📣`)
+	} else {
+		let argsParsed = args[0].slice(1)		
+		if (tags.username === `${process.env.TWITCH_CHANNEL_NAME}` || tags.mod) {
+			client.say(
+				channel,
+				`Be sure to follow ${args}'s channel here on Twitch: www.twitch.tv/${argsParsed} `
+			)
+		}
 	}
 }
 
@@ -224,6 +246,8 @@ module.exports = {
 	turntCommand: turntCommand,
 	noMicCommand: noMicCommand,
 	cakeCommand: cakeCommand,
+	raidCommand: raidCommand,
+	bitsCommand: bitsCommand,
 }
 
 // refactor random number generated values

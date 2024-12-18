@@ -116,7 +116,8 @@ const sceneChangeLock = { active: false }
 
 client.on('message', (channel, tags, message, self) => {
 	if (tags.emotes) {
-		console.log('has emotes')
+		// console.log('has emotes')
+		console.log("EMOTES: ", tags.emotes)
 		io.emit('chat-emote', tags.emotes)
 	}
 

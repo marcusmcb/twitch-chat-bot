@@ -23,6 +23,8 @@ const {
 	gsdCommand,
 	turntCommand,
 	cakeCommand,
+	raidCommand,
+	bitsCommand
 } = require('../commands/commands')
 
 const {
@@ -98,7 +100,9 @@ const commandList = {
 	cake: cakeCommand,
 	fortune: fortuneCommand,
 	ye: yeQuoteCommand,	
-	nuts: nutsCommand
+	nuts: nutsCommand,
+	raid: raidCommand,
+	bits: bitsCommand // mods & streamers only
 }
 
 const sceneChangeCommandList = {
