@@ -35,15 +35,19 @@ const getChatGPTResponse = async (prompt) => {
 	}
 }
 
-const askGPTCommand = async (channel, tags, args, client) => {
-  console.log("---------------------")
-  console.log("ARGS: ", args)
-  console.log("---------------------")
-	const newArgs = message.slice(1).split(' ')
-	const prompt = newArgs.join(' ')
-	await getChatGPTResponse(prompt).then((response) => {
-		client.say(channel, `${response}`)
-	})
+const askGPTCommand = async (channel, tags, args, client) => {	
+	const prompt = args.join(' ')
+  if (args.length === 0) {
+    client.say(channel, `Please provide a prompt for me to respond to!`)
+    return
+  }
+	try {
+		await getChatGPTResponse(prompt).then((response) => {
+			client.say(channel, `${response}`)
+		})
+	} catch (error) {
+		console.error(error)
+	}
 }
 
 module.exports = {

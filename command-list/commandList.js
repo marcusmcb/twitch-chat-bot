@@ -54,6 +54,7 @@ const {
 } = require('../commands/sceneChangeCommand/sceneChangeCommand')
 const { fortuneCommand } = require('../commands/fortune/fortune')
 const { nutsCommand } = require('../commands/nuts/nuts')
+const { askGPTCommand } = require('../commands/chatgpt/askgpt')
 
 const commandList = {
 	test: testCommand,
@@ -102,7 +103,8 @@ const commandList = {
 	ye: yeQuoteCommand,	
 	nuts: nutsCommand,
 	raid: raidCommand,
-	bits: bitsCommand // mods & streamers only
+	bits: bitsCommand, // mods & streamers only
+	askgpt: askGPTCommand,
 }
 
 const sceneChangeCommandList = {
