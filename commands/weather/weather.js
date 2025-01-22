@@ -45,7 +45,7 @@ const weatherCommand = async (channel, tags, args, client) => {
 			}
 		} catch (error) {
 			console.log(error)
-			client.say(channel, "Looks like that command isn't working right now.")
+			client.say(channel, "Apparently... the weather is broken right now.")
 		}
 	} else {
 		// ...prompt user to add their location

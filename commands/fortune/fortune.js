@@ -58,7 +58,7 @@ const fortuneCommand = async (channel, tags, args, client, obs) => {
 		}
 	} catch (error) {
 		console.log('ERROR: ', error)
-		client.say(channel, "Hmmm... looks like that's not working right now. 💀")
+		client.say(channel, "Hmmm... looks like there are no fortunes right now. 💀")
 	}
 }
 

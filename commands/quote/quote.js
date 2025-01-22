@@ -16,7 +16,7 @@ const quoteCommand = async (channel, tags, args, client) => {
       client.say(channel, "Looks like that command isn't working right now.");
     }
   } catch (error) {
-    client.say(channel, "Looks like that command isn't working right now.");
+    client.say(channel, "Looks like we are fresh out of quotes right now.");
   }
 };
 

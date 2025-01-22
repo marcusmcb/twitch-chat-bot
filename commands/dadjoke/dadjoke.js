@@ -16,7 +16,7 @@ const dadjokeCommand = async (channel, tags, args, client) => {
 			client.say(channel, "Hmmm... looks like that's not working right now. 💀")
 		}
 	} catch (error) {
-		client.say(channel, "Hmmm... looks like that's not working right now. 💀")
+		client.say(channel, "Hmmm... looks like there's no dad jokes right now. 💀")
 	}
 }
 

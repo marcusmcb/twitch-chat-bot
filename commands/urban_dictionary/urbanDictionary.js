@@ -46,6 +46,10 @@ const uCommand = async (channel, tags, args, client) => {
 			`Urban Dictionary result for "${newArgs}": ${response.data.list[0].definition}.`
 		)
 	} catch (error) {
+		client.say(
+			channel,
+			'Looks like Urban Dictionary is having trouble with that one right now.'
+		)
 		console.error(error)
 	}
 }

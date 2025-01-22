@@ -19,7 +19,7 @@ const factCommand = async (channel, tags, args, client) => {
       );
     }
   } catch (error) {
-    client.say(channel, "Hmmm... looks like that's not working right now. 💀");
+    client.say(channel, "Hmmm... looks like we're out of facts right now. 💀");
   }
 };
 
