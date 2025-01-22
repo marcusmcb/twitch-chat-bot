@@ -198,6 +198,7 @@ const turntCommand = (channel, tags, args, client) => {
 }
 
 const stuffedCommand = (channel, tags, args, client) => {
+	console.log("*** HERE ***")
 	let stuffedValue = Math.floor(Math.random() * 1000) + 2
 	if (args.length === 0) {
 		client.say(channel, `@${tags.username} is ${stuffedValue}% stuffed! 🦃🦃🦃`)
