@@ -47,6 +47,7 @@ const { lottoCommand } = require('../commands/lotto/lotto')
 const { birdcamCommand } = require('../commands/birdcam/birdcam')
 const { uCommand } = require('../commands/urban_dictionary/urbanDictionary')
 const { birbCommand } = require('../commands/birb/birb')
+const { turkCommand } = require('../commands/turk/turk')
 const { heyCommand } = require('../commands/hey/hey')
 const { blackjackCommand } = require('../commands/blackjack/blackjack')
 const { yeQuoteCommand } = require('../commands/yeQuote/yeQuote')
@@ -92,6 +93,7 @@ const commandList = {
 	u: uCommand,
 	hug: hugCommand,
 	birb: birbCommand,
+	turk: turkCommand,
 	floaty: floatyCommand,
 	hey: heyCommand,
 	blackjack: blackjackCommand,
