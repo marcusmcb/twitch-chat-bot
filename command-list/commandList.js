@@ -25,7 +25,10 @@ const {
 	cakeCommand,
 	raidCommand,
 	bitsCommand,
-	stuffedCommand
+	stuffedCommand,
+	ericCommand,
+	guttercheckCommand,
+	cansCommand,
 } = require('../commands/commands')
 
 const {
@@ -111,6 +114,9 @@ const commandList = {
 	askgpt: askGPTCommand,
 	stuffed: stuffedCommand,
 	countdown: countdownCommand,
+	eric: ericCommand,
+	guttercheck: guttercheckCommand,
+	cans: cansCommand,
 }
 
 const sceneChangeCommandList = {

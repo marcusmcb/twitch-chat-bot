@@ -12,9 +12,12 @@ const bitsCommand = (channel, tags, args, client) => {
 	if (args.length === 0) {
 		return
 	} else {
-		let argsParsed = args[0].slice(1)		
+		let argsParsed = args[0].slice(1)
 		if (tags.username === `${process.env.TWITCH_CHANNEL_NAME}` || tags.mod) {
-			client.say(channel, `${argsParsed}, thank you so much for the BITS fam! 🎉🎉🎉`)
+			client.say(
+				channel,
+				`${argsParsed}, thank you so much for the BITS fam! 🎉🎉🎉`
+			)
 		}
 	}
 }
@@ -30,7 +33,7 @@ const shoutOutCommand = (channel, tags, args, client, obs) => {
 	if (args.length === 0) {
 		client.say(channel, `Uhh... who should I shout out here? 📣📣📣`)
 	} else {
-		let argsParsed = args[0].slice(1)		
+		let argsParsed = args[0].slice(1)
 		if (tags.username === `${process.env.TWITCH_CHANNEL_NAME}` || tags.mod) {
 			client.say(
 				channel,
@@ -197,8 +200,23 @@ const turntCommand = (channel, tags, args, client) => {
 	}
 }
 
+const guttercheckCommand = (channel, tags, args, client) => {
+	let guttercheckValue = Math.floor(Math.random() * 100) + 1
+	if (args.length === 0) {
+		client.say(
+			channel,
+			`@${tags.username} better go check their gutters because they're ${guttercheckValue}% loose right right now! 🎉🎉🎉`
+		)
+	} else {
+		client.say(
+			channel,
+			`${args} better go check their gutters because they're ${guttercheckValue}% loose right now! 🎉🎉🎉`
+		)
+	}
+}
+
 const stuffedCommand = (channel, tags, args, client) => {
-	console.log("*** HERE ***")
+	console.log('*** HERE ***')
 	let stuffedValue = Math.floor(Math.random() * 1000) + 2
 	if (args.length === 0) {
 		client.say(channel, `@${tags.username} is ${stuffedValue}% stuffed! 🦃🦃🦃`)
@@ -207,11 +225,22 @@ const stuffedCommand = (channel, tags, args, client) => {
 	}
 }
 
+const cansCommand = (channel, tags, args, client) => {
+	client.say(
+		channel,
+		"Headphones ON for this one! 🎧🎧🎧"
+	)
+}
+
 const gsdCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
 		`@${tags.username} is getting sh*t *done* right now! 💪💪💪`
 	)
+}
+
+const ericCommand = (channel, tags, args, client) => {
+	client.say(channel, `Happy Birthday, @Cynsaytional! 🎉🎉🎉`)
 }
 
 const noMicCommand = (channel, tags, args, client) => {
@@ -249,6 +278,9 @@ module.exports = {
 	cakeCommand: cakeCommand,
 	raidCommand: raidCommand,
 	bitsCommand: bitsCommand,
+	ericCommand: ericCommand,
+	guttercheckCommand: guttercheckCommand,
+	cansCommand: cansCommand,
 }
 
 // refactor random number generated values
