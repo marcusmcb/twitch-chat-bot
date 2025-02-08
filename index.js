@@ -12,7 +12,7 @@ const {
 } = require('./command-list/commandList')
 
 const autoCommandsConfig = require('./auto-commands/config/autoCommandsConfig')
-const obs = require('./obs/obsConnection') 
+const obs = require('./obs/obsConnection')
 
 dotenv.config()
 
@@ -86,11 +86,13 @@ try {
 
 // OBS connection initialization
 ;(async () => {
-	try {		
-		await obs.connect()
-		console.log('OBS connection ready for commands')
-	} catch (error) {
-		console.error('Failed to connect to OBS via ngrok:', error.message)
+	if (process.env.DISPLAY_OBS_MESSAGES === 'true') {
+		try {
+			await obs.connect()
+			console.log('OBS connection ready for commands')
+		} catch (error) {
+			console.error('Failed to connect to OBS via ngrok:', error.message)
+		}
 	}
 })()
 
@@ -117,7 +119,7 @@ const sceneChangeLock = { active: false }
 client.on('message', (channel, tags, message, self) => {
 	if (tags.emotes) {
 		// console.log('has emotes')
-		console.log("EMOTES: ", tags.emotes)
+		console.log('EMOTES: ', tags.emotes)
 		io.emit('chat-emote', tags.emotes)
 	}
 
@@ -159,14 +161,7 @@ client.on('message', (channel, tags, message, self) => {
 				history.shift()
 			}
 		} else {
-			commandList[command](
-				channel,
-				tags,
-				args,
-				client,
-				obs,
-				sceneChangeLock
-			)
+			commandList[command](channel, tags, args, client, obs, sceneChangeLock)
 			history.push(command)
 
 			if (history.length > COMMAND_REPEAT_LIMIT) {

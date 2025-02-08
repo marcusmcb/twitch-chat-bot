@@ -61,6 +61,8 @@ const { fortuneCommand } = require('../commands/fortune/fortune')
 const { nutsCommand } = require('../commands/nuts/nuts')
 const { askGPTCommand } = require('../commands/chatgpt/askgpt')
 const { countdownCommand } = require('../commands/countdown/countdown')	
+const { highLowCommand } = require('../commands/highlow/highLow')
+const { cultureCommand } = require('../commands/djculture/djCulture')	
 
 const commandList = {
 	test: testCommand,
@@ -117,6 +119,8 @@ const commandList = {
 	eric: ericCommand,
 	guttercheck: guttercheckCommand,
 	cans: cansCommand,
+	highlow: highLowCommand,
+	culture: cultureCommand,
 }
 
 const sceneChangeCommandList = {
