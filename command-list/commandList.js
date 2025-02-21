@@ -29,6 +29,7 @@ const {
 	ericCommand,
 	guttercheckCommand,
 	cansCommand,
+	knowsCommand,
 } = require('../commands/commands')
 
 const {
@@ -121,6 +122,7 @@ const commandList = {
 	cans: cansCommand,
 	highlow: highLowCommand,
 	culture: cultureCommand,
+	knows: knowsCommand,
 }
 
 const sceneChangeCommandList = {

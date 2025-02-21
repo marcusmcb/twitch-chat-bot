@@ -188,6 +188,14 @@ const cakeCommand = (channel, tags, args, client) => {
 	}
 }
 
+const knowsCommand = (channel, tags, args, client) => {
+	if (args.length === 0) {
+		client.say(channel, `@${tags.username} knows a guy... 🔨`)
+	} else {
+		client.say(channel, `${args} knows knows a guy... 🔨`)
+	}	
+}
+
 const turntCommand = (channel, tags, args, client) => {
 	let turntValue = Math.floor(Math.random() * 100) + 1
 	if (args.length === 0) {
@@ -281,6 +289,7 @@ module.exports = {
 	ericCommand: ericCommand,
 	guttercheckCommand: guttercheckCommand,
 	cansCommand: cansCommand,
+	knowsCommand: knowsCommand,
 }
 
 // refactor random number generated values
