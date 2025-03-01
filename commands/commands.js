@@ -247,6 +247,13 @@ const gsdCommand = (channel, tags, args, client) => {
 	)
 }
 
+const discordCommand = (channel, tags, args, client) => {
+	client.say(
+		channel,
+		`Join the MCB community for more tunes, tech, squirrels, and antics over on Discord: https://discord.gg/mrQsuyQv`
+	)
+}
+
 const ericCommand = (channel, tags, args, client) => {
 	client.say(channel, `Happy Birthday, @Cynsaytional! 🎉🎉🎉`)
 }
@@ -290,6 +297,7 @@ module.exports = {
 	guttercheckCommand: guttercheckCommand,
 	cansCommand: cansCommand,
 	knowsCommand: knowsCommand,
+	discordCommand: discordCommand,
 }
 
 // refactor random number generated values

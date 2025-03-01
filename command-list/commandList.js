@@ -30,6 +30,7 @@ const {
 	guttercheckCommand,
 	cansCommand,
 	knowsCommand,
+	discordCommand,
 } = require('../commands/commands')
 
 const {
@@ -123,6 +124,7 @@ const commandList = {
 	highlow: highLowCommand,
 	culture: cultureCommand,
 	knows: knowsCommand,
+	discord: discordCommand,
 }
 
 const sceneChangeCommandList = {
