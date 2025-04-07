@@ -62,9 +62,9 @@ const {
 const { fortuneCommand } = require('../commands/fortune/fortune')
 const { nutsCommand } = require('../commands/nuts/nuts')
 const { askGPTCommand } = require('../commands/chatgpt/askgpt')
-const { countdownCommand } = require('../commands/countdown/countdown')	
+const { countdownCommand } = require('../commands/countdown/countdown')
 const { highLowCommand } = require('../commands/highlow/highLow')
-const { cultureCommand } = require('../commands/djculture/djCulture')	
+const { cultureCommand } = require('../commands/djculture/djCulture')
 
 const commandList = {
 	test: testCommand,
@@ -111,7 +111,7 @@ const commandList = {
 	turnt: turntCommand,
 	cake: cakeCommand,
 	fortune: fortuneCommand,
-	ye: yeQuoteCommand,	
+	ye: yeQuoteCommand,
 	nuts: nutsCommand,
 	raid: raidCommand,
 	bits: bitsCommand, // mods & streamers only
@@ -131,7 +131,7 @@ const sceneChangeCommandList = {
 	stuck: sceneChangeCommand,
 	jeep: sceneChangeCommand,
 	sunset: sceneChangeCommand,
-	cruise: sceneChangeCommand,	
+	cruise: sceneChangeCommand,
 }
 
 module.exports = {

@@ -250,7 +250,7 @@ const gsdCommand = (channel, tags, args, client) => {
 const discordCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		`Join the MCB community for more tunes, tech, squirrels, and antics over on Discord: https://discord.gg/mrQsuyQv`
+		`Join the MCB community for more tunes, tech, squirrels, and antics over on Discord: https://discord.gg/YCUGhxyRJR`
 	)
 }
 
