@@ -46,7 +46,7 @@ const { factCommand } = require('../commands/fact/fact')
 const { weatherCommand } = require('../commands/weather/weather')
 const { testCommand } = require('../commands/test_command/test_command')
 const { myCommand } = require('../commands/my/mycommand')
-const { lightsInfo, npChatbotInfo } = require('../auto-commands/autoCommands')
+const { lightsInfo, npChatbotInfo, discordInfo, generalCommandInfo } = require('../auto-commands/autoCommands')
 
 const { lottoCommand } = require('../commands/lotto/lotto')
 const { birdcamCommand } = require('../commands/birdcam/birdcam')
@@ -95,6 +95,8 @@ const commandList = {
 	weather: weatherCommand,
 	lightsInfo: lightsInfo,
 	npChatbotInfo: npChatbotInfo,
+	discordInfo: discordInfo,
+	generalCommandInfo: generalCommandInfo,
 	my: myCommand,
 	lotto: lottoCommand,
 	birdcam: birdcamCommand,

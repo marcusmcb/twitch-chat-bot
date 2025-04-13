@@ -8,7 +8,7 @@ const lightsInfo = (channel, tags, args, client) => {
 const npChatbotInfo = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		'DJ streamers: learn more about adding the "now playing" and "did you play?" commands in my channel to your own with npChatbot.  Check it out at www.npchatbot.com'
+		'DJ streamers: learn more about adding the music discovery commands in my channel to your own with npChatbot.  You can also use it to create Spotify playlists of your live-streamed sets to share with your community. Check it out at www.npchatbot.com'
 	)
 }
 
@@ -26,9 +26,25 @@ const generalCommandInfo = (channel, tags, args, client) => {
 	)
 }
 
+const birdInfo = (channel, tags, args, client) => {
+	client.say(
+		channel,
+		'Check out what our feathered friends have been up to with the !birdcam command.'
+	)
+}
+
+const dashInfo = (channel, tags, args, client) => {
+	client.say(
+		channel,
+		'Say hello to Dash, my super camera-friendly squirrel buddy, any time with the !nuts command.'
+	)
+}
+
 module.exports = {
 	lightsInfo: lightsInfo,
 	npChatbotInfo: npChatbotInfo,
 	discordInfo: discordInfo,
 	generalCommandInfo: generalCommandInfo,
+	birdInfo: birdInfo,
+	dashInfo: dashInfo,
 }
