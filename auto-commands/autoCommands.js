@@ -12,7 +12,23 @@ const npChatbotInfo = (channel, tags, args, client) => {
 	)
 }
 
+const discordInfo = (channel, tags, args, client) => {
+	client.say(
+		channel,
+		`Join the MCB community for more tunes, tech, squirrels, and playlists from past Twitch streams over on Discord: https://discord.gg/YCUGhxyRJR`
+	)
+}
+
+const generalCommandInfo = (channel, tags, args, client) => {
+	client.say(
+		channel,
+		'Commands you say?  Try one of these: !turnt, !smort, !jeep, !birb, !faded, !stuck, !cruise, !dadjoke, !rock, !paper, !scissors, !hey, !sunset, !nuts, !birdcam'
+	)
+}
+
 module.exports = {
 	lightsInfo: lightsInfo,
 	npChatbotInfo: npChatbotInfo,
+	discordInfo: discordInfo,
+	generalCommandInfo: generalCommandInfo,
 }
