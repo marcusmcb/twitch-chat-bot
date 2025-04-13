@@ -22,7 +22,7 @@ const discordInfo = (channel, tags, args, client) => {
 const generalCommandInfo = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		'Commands you say?  Try one of these: !turnt, !smort, !jeep, !birb, !faded, !stuck, !cruise, !dadjoke, !rock, !paper, !scissors, !hey, !sunset, !nuts, !birdcam'
+		'Commands you say?  Try one of these: !turnt, !smort, !jeep, !birb, !faded, !stuck, !cruise, !dadjoke, !rock, !paper, !scissors, !hey, !sunset, !nuts, !birdcam, !ye, !fact, !quote, !knows, !my'
 	)
 }
 
