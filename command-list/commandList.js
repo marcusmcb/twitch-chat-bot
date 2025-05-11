@@ -31,6 +31,7 @@ const {
 	cansCommand,
 	knowsCommand,
 	discordCommand,
+	tonightCommand,
 } = require('../commands/commands')
 
 const {
@@ -127,6 +128,7 @@ const commandList = {
 	culture: cultureCommand,
 	knows: knowsCommand,
 	discord: discordCommand,
+	tonight: tonightCommand,
 }
 
 const sceneChangeCommandList = {

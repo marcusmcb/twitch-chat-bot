@@ -193,7 +193,7 @@ const knowsCommand = (channel, tags, args, client) => {
 		client.say(channel, `@${tags.username} knows a guy... 🔨`)
 	} else {
 		client.say(channel, `${args} knows knows a guy... 🔨`)
-	}	
+	}
 }
 
 const turntCommand = (channel, tags, args, client) => {
@@ -234,10 +234,7 @@ const stuffedCommand = (channel, tags, args, client) => {
 }
 
 const cansCommand = (channel, tags, args, client) => {
-	client.say(
-		channel,
-		"Headphones ON for this one! 🎧🎧🎧"
-	)
+	client.say(channel, 'Headphones ON for this one! 🎧🎧🎧')
 }
 
 const gsdCommand = (channel, tags, args, client) => {
@@ -262,6 +259,13 @@ const noMicCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
 		`@djmarcusmcb is currently recording this mix. If you hear him on the mic, it means he's between sets (or he tanked a transition!)`
+	)
+}
+
+const tonightCommand = (channel, tags, args, client) => {
+	client.say(
+		channel,
+		`Our good friend @maltliquorkicker has been a MAJOR supporter and friend of the Twitch communities in this raid train today, and right now he could use our help!  Every little bit helps and if you'd like to contribute, you can do so via the link with our sincerest thanks! https://www.gofundme.com/malty`
 	)
 }
 
@@ -298,6 +302,7 @@ module.exports = {
 	cansCommand: cansCommand,
 	knowsCommand: knowsCommand,
 	discordCommand: discordCommand,
+	tonightCommand: tonightCommand,
 }
 
 // refactor random number generated values
