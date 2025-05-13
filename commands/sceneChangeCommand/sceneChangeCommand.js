@@ -12,12 +12,13 @@ const sceneChangeCommand = async (
 	sceneChangeLock
 ) => {
 	const obsEnabled = process.env.DISPLAY_OBS_MESSAGES
-
+	console.log("Scene change command called")
+	console.log("Command: ", command)
 	if (obsEnabled === 'true') {
 		if (sceneChangeLock.active) {
 			client.say(
 				channel,
-				'Hold on! A scene change is already in progress. Please wait.'
+				`${tags.username}, somebody beat you to the camera!  Try that command again in a few seconds.`
 			)
 			return // exit if another scene change is in progress
 		}

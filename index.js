@@ -9,6 +9,7 @@ const http = require('http')
 const {
 	commandList,
 	sceneChangeCommandList,
+	popupChangeCommandList,
 } = require('./command-list/commandList')
 
 const autoCommandsConfig = require('./auto-commands/config/autoCommandsConfig')
@@ -115,6 +116,7 @@ io.on('connection', (socket) => {
 
 // global scene change lock value
 const sceneChangeLock = { active: false }
+const popupChangeLock = { active: false }
 
 client.on('message', (channel, tags, message, self) => {
 	if (tags.emotes) {
@@ -130,7 +132,11 @@ client.on('message', (channel, tags, message, self) => {
 	const args = message.slice(1).split(' ')
 	const command = args.shift().toLowerCase()
 
-	if (command in commandList || command in sceneChangeCommandList) {
+	if (
+		command in commandList ||
+		command in popupChangeCommandList ||
+		command in sceneChangeCommandList
+	) {
 		if (!userCommandHistory[tags.username]) {
 			userCommandHistory[tags.username] = []
 		}
@@ -145,7 +151,23 @@ client.on('message', (channel, tags, message, self) => {
 				channel,
 				`@${tags.username}, try a different command before using that one again.`
 			)
+		} else if (command in popupChangeCommandList) {
+			console.log('Pop up command called')
+			popupChangeCommandList[command](
+				channel,
+				tags,
+				args,
+				client,
+				obs,
+				command,
+				popupChangeLock
+			)
+			history.push(command)
+			if (history.length > COMMAND_REPEAT_LIMIT) {
+				history.shift()
+			}
 		} else if (command in sceneChangeCommandList) {
+			console.log('Why is this being called?')
 			sceneChangeCommandList[command](
 				channel,
 				tags,

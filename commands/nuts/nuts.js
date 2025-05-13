@@ -15,7 +15,7 @@ const nutsCommand = async (
 		if (sceneChangeLock.active) {
 			client.say(
 				channel,
-				'Hold on! A scene change is already in progress. Please wait.'
+				`${tags.username}, somebody beat you to the camera!  Try that command again in a few seconds.`
 			);
 			return; // exit if another scene change is in progress
 		}

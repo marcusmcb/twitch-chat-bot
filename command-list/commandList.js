@@ -30,8 +30,7 @@ const {
 	guttercheckCommand,
 	cansCommand,
 	knowsCommand,
-	discordCommand,
-	tonightCommand,
+	discordCommand,	
 } = require('../commands/commands')
 
 const {
@@ -40,27 +39,33 @@ const {
 	scissorsCommand,
 } = require('../commands/rps/rps')
 
+const {
+	sceneChangeCommand,
+} = require('../commands/sceneChangeCommand/sceneChangeCommand')
+
+const { popupChangeCommand } = require('../commands/popupChangeCommand/popupChangeCommand')
+
 const { eightballCommand } = require('../commands/8ball/eightBall')
 const { quoteCommand } = require('../commands/quote/quote')
 const { dadjokeCommand } = require('../commands/dadjoke/dadjoke')
 const { factCommand } = require('../commands/fact/fact')
 const { weatherCommand } = require('../commands/weather/weather')
-const { testCommand } = require('../commands/test_command/test_command')
-const { myCommand } = require('../commands/my/mycommand')
-const { lightsInfo, npChatbotInfo, discordInfo, generalCommandInfo } = require('../auto-commands/autoCommands')
+const { fortuneCommand } = require('../commands/fortune/fortune')
 
+const {
+	lightsInfo,
+	npChatbotInfo,
+	discordInfo,
+	generalCommandInfo,
+} = require('../auto-commands/autoCommands')
+const { testCommand } = require('../commands/test_command/test_command')
+
+const { myCommand } = require('../commands/my/mycommand')
 const { lottoCommand } = require('../commands/lotto/lotto')
 const { birdcamCommand } = require('../commands/birdcam/birdcam')
 const { uCommand } = require('../commands/urban_dictionary/urbanDictionary')
-const { birbCommand } = require('../commands/birb/birb')
-const { turkCommand } = require('../commands/turk/turk')
-const { heyCommand } = require('../commands/hey/hey')
 const { blackjackCommand } = require('../commands/blackjack/blackjack')
 const { yeQuoteCommand } = require('../commands/yeQuote/yeQuote')
-const {
-	sceneChangeCommand,
-} = require('../commands/sceneChangeCommand/sceneChangeCommand')
-const { fortuneCommand } = require('../commands/fortune/fortune')
 const { nutsCommand } = require('../commands/nuts/nuts')
 const { askGPTCommand } = require('../commands/chatgpt/askgpt')
 const { countdownCommand } = require('../commands/countdown/countdown')
@@ -103,11 +108,8 @@ const commandList = {
 	lotto: lottoCommand,
 	birdcam: birdcamCommand,
 	u: uCommand,
-	hug: hugCommand,
-	birb: birbCommand,
-	turk: turkCommand,
-	floaty: floatyCommand,
-	hey: heyCommand,
+	hug: hugCommand,	
+	floaty: floatyCommand,	
 	blackjack: blackjackCommand,
 	post: postCommand,
 	nomic: noMicCommand,
@@ -128,10 +130,9 @@ const commandList = {
 	highlow: highLowCommand,
 	culture: cultureCommand,
 	knows: knowsCommand,
-	discord: discordCommand,
-	// tonight: tonightCommand,
+	discord: discordCommand,	
 	malt: maltCommand,
-	lineup: lineupCommand,
+	lineup: lineupCommand,	
 }
 
 const sceneChangeCommandList = {
@@ -141,7 +142,19 @@ const sceneChangeCommandList = {
 	cruise: sceneChangeCommand,
 }
 
+const popupChangeCommandList = {
+	birb: popupChangeCommand,
+	hey: popupChangeCommand,
+	turk: popupChangeCommand,
+	naplife: popupChangeCommand,
+	wellplayed: popupChangeCommand,
+	yay: popupChangeCommand,
+	noted: popupChangeCommand,
+	dotell: popupChangeCommand,
+}
+
 module.exports = {
 	commandList: commandList,
 	sceneChangeCommandList: sceneChangeCommandList,
+	popupChangeCommandList: popupChangeCommandList,
 }
