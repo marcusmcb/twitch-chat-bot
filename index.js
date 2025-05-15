@@ -117,6 +117,7 @@ io.on('connection', (socket) => {
 // global scene change lock value
 const sceneChangeLock = { active: false }
 const popupChangeLock = { active: false }
+const countdownLock = { active: false }
 
 client.on('message', (channel, tags, message, self) => {
 	if (tags.emotes) {
@@ -183,7 +184,8 @@ client.on('message', (channel, tags, message, self) => {
 				history.shift()
 			}
 		} else {
-			commandList[command](channel, tags, args, client, obs, sceneChangeLock)
+			console.log("Count Down Lock: ", countdownLock)
+			commandList[command](channel, tags, args, client, obs, sceneChangeLock, countdownLock)
 			history.push(command)
 
 			if (history.length > COMMAND_REPEAT_LIMIT) {

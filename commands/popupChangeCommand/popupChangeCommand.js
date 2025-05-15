@@ -10,18 +10,18 @@ const popupChangeCommand = async (
 	obs,
 	command,
 	popupChangeLock
-) => {  
-  const obsEnabled = process.env.DISPLAY_OBS_MESSAGES
+) => {
+	const obsEnabled = process.env.DISPLAY_OBS_MESSAGES
 	if (obsEnabled === 'true') {
 		if (popupChangeLock.active) {
 			client.say(
 				channel,
 				`${tags.username}, somebody beat you to the popup!  Try that command again in a few seconds.`
 			)
-			return // exit if another popup change is in progress
+			return
 		}
 
-		popupChangeLock.active = true // lock all popup changes
+		popupChangeLock.active = true
 
 		try {
 			let currentScene
@@ -51,21 +51,22 @@ const popupChangeCommand = async (
 						sceneName: currentScene,
 						sceneItemId: sceneItemId,
 						sceneItemEnabled: false,
-					})    
-          popupChangeLock.active = false // unlock after the popup reverts  
+					})
+					popupChangeLock.active = false
 				}, popupChangeCommandData[command].display_time)
-        
 			} else {
 				client.say(channel, popupChangeCommandData[command].error_text)
+				popupChangeLock.active = false
 			}
 		} catch (error) {
 			console.error(`Error handling ${command} popup change:`, error.message)
 			client.say(channel, popupChangeCommandData[command].error_text)
-			popupChangeLock.active = false // unlock on error
+			popupChangeLock.active = false
 		}
 	} else {
-    client.say(channel, popupChangeCommandData[command].error_text)
-  }
+		client.say(channel, popupChangeCommandData[command].error_text)
+		popupChangeLock.active = false
+	}
 }
 
 module.exports = {

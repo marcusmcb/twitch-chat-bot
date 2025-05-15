@@ -39,10 +39,7 @@ const {
 	scissorsCommand,
 } = require('../commands/rps/rps')
 
-const {
-	sceneChangeCommand,
-} = require('../commands/sceneChangeCommand/sceneChangeCommand')
-
+const {	sceneChangeCommand } = require('../commands/sceneChangeCommand/sceneChangeCommand')
 const { popupChangeCommand } = require('../commands/popupChangeCommand/popupChangeCommand')
 
 const { eightballCommand } = require('../commands/8ball/eightBall')
