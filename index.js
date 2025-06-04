@@ -44,6 +44,10 @@ app.get('/auth/callback', (req, res) => {
 	}
 })
 
+app.post('/webhook', (req, res) => {
+	
+})
+
 // set up the HTTPS server with SSL options
 const server = http.createServer(app)
 
