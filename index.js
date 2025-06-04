@@ -14,7 +14,9 @@ const {
 
 const { getAppAccessToken } = require('./auth/getAppAccessToken')
 
-const { createEventSubSubscription } = require('./event-sub-handlers/eventSubHandlers')
+const {
+	createEventSubSubscription,
+} = require('./event-sub-handlers/eventSubHandlers')
 
 const autoCommandsConfig = require('./auto-commands/config/autoCommandsConfig')
 const obs = require('./obs/obsConnection')
@@ -33,7 +35,6 @@ const PORT = process.env.PORT || 5000
 	} catch (error) {
 		console.error('Error setting up the Twitch EventSub: ', error.message)
 	}
-
 })()
 
 // configure CORS for the emote wall overlay
@@ -46,7 +47,13 @@ app.use(
 	})
 )
 
-app.use(express.json())
+app.use(
+	express.json({
+		verify: (req, res, buf) => {
+			req.rawBody = buf // store the raw body as a buffer
+		},
+	})
+)
 
 // endpoint to capture the authorization code
 // when authorizing the script with Twitch
@@ -98,6 +105,9 @@ app.post('/webhook', async (req, res) => {
 		console.log('Handling notification')
 		console.log('Event Type: ', req.body.subscription.type)
 		console.log('Channel Point Redemption Name: ', req.body.event.reward.title)
+
+		// execute the requested scene change here
+		
 		res.status(204).end()
 	} else {
 		console.error(`Unknown message type: ${messageType}`)
