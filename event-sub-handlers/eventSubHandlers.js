@@ -71,4 +71,4 @@ const createEventSubSubscription = async (callbackURL, appAccessToken) => {
 	}
 }
 
-module.exports = createEventSubSubscription
+module.exports = { createEventSubSubscription, deleteExistingSubscriptions }

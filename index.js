@@ -12,6 +12,10 @@ const {
 	popupChangeCommandList,
 } = require('./command-list/commandList')
 
+const { getAppAccessToken } = require('./auth/getAppAccessToken')
+
+const { createEventSubSubscription } = require('./event-sub-handlers/eventSubHandlers')
+
 const autoCommandsConfig = require('./auto-commands/config/autoCommandsConfig')
 const obs = require('./obs/obsConnection')
 
@@ -19,6 +23,18 @@ dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT || 5000
+
+;(async () => {
+	try {
+		const callbackUrl = `${process.env.HEROKU_URL}/webhook`
+		console.log(`Using callback URL: ${callbackUrl}`)
+		const accessToken = await getAppAccessToken()
+		await createEventSubSubscription(callbackUrl, accessToken)
+	} catch (error) {
+		console.error('Error setting up the Twitch EventSub: ', error.message)
+	}
+
+})()
 
 // configure CORS for the emote wall overlay
 app.use(
@@ -44,8 +60,49 @@ app.get('/auth/callback', (req, res) => {
 	}
 })
 
-app.post('/webhook', (req, res) => {
-	
+app.post('/webhook', async (req, res) => {
+	console.log('Raw Body:', req.rawBody.toString())
+	console.log('-----------------')
+
+	// verify the signature of the incoming notification
+	const secret = process.env.TWITCH_EVENTSUB_SECRET
+	const expectedSignature = verifySignature(req, secret)
+	const actualSignature = req.header('Twitch-Eventsub-Message-Signature')
+
+	if (
+		!crypto.timingSafeEqual(
+			Buffer.from(expectedSignature),
+			Buffer.from(actualSignature || '')
+		)
+	) {
+		console.error('Invalid signature')
+		return res.status(403).send('Forbidden')
+	} else {
+		console.log('Valid signature')
+	}
+
+	// process the message type
+	const messageType = req.header('Twitch-Eventsub-Message-Type')
+	console.log('Message Type:', messageType)
+
+	if (messageType === 'webhook_callback_verification') {
+		try {
+			const challenge = req.body.challenge
+			res.set('Content-Type', 'text/plain').status(200).send(challenge)
+			console.log('Verification challenge sent')
+		} catch (error) {
+			console.error('Error handling verification:', error.message)
+			res.status(500).send('Internal Server Error')
+		}
+	} else if (messageType === 'notification') {
+		console.log('Handling notification')
+		console.log('Event Type: ', req.body.subscription.type)
+		console.log('Channel Point Redemption Name: ', req.body.event.reward.title)
+		res.status(204).end()
+	} else {
+		console.error(`Unknown message type: ${messageType}`)
+		res.status(400).send('Unknown message type')
+	}
 })
 
 // set up the HTTPS server with SSL options
@@ -188,8 +245,16 @@ client.on('message', (channel, tags, message, self) => {
 				history.shift()
 			}
 		} else {
-			console.log("Count Down Lock: ", countdownLock)
-			commandList[command](channel, tags, args, client, obs, sceneChangeLock, countdownLock)
+			console.log('Count Down Lock: ', countdownLock)
+			commandList[command](
+				channel,
+				tags,
+				args,
+				client,
+				obs,
+				sceneChangeLock,
+				countdownLock
+			)
 			history.push(command)
 
 			if (history.length > COMMAND_REPEAT_LIMIT) {
