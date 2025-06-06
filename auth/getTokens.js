@@ -1,5 +1,8 @@
 const axios = require('axios');
 
+// not currently being utilized anywhere
+// utility function to generate tokens from Twitch auth code
+
 const getTokens = async() => {
 	console.log("CALLED")
 	try {
