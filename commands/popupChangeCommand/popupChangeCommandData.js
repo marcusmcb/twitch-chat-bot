@@ -47,6 +47,36 @@ const popupChangeCommandData = {
     error_text: 'Do tell! 🤔',
     display_time: 5000,
   },
+  hangon: {
+    source_name: 'hang_on',
+    text: '',
+    error_text: 'Gimme just a sec... ⏳',
+    display_time: 5000,
+  },
+  golfclap: {
+    source_name: 'golf_clap',
+    text: '',
+    error_text: 'Golf clap? ...Golf clap! 👏',
+    display_time: 5000,
+  },
+  sweaty: {
+    source_name: 'sweat_loop',
+    text: '',
+    error_text: 'MCB over here putting in work! 💦',
+    display_time: 5000,
+  },
+  highfive: {
+    source_name: 'lily_shake',
+    text: '',
+    error_text: 'Back at ya! ✋',
+    display_time: 5000,
+  },
+  high5: {
+    source_name: 'lily_shake',
+    text: '',
+    error_text: 'Back at ya! ✋',
+    display_time: 5000,
+  }
 }
 
 module.exports = popupChangeCommandData

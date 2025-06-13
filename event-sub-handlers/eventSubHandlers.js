@@ -35,6 +35,12 @@ const deleteExistingSubscriptions = async (appAccessToken) => {
 	}
 }
 
+// add header handler method and import here to resolve
+// subscription creation missing proper auth issue
+
+// check with GPT if new EVENTSUB credentials are required
+// here as well
+
 // method to create a new event subscription
 const createEventSubSubscription = async (callbackURL, appAccessToken) => {
 	try {

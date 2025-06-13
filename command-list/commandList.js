@@ -30,7 +30,7 @@ const {
 	guttercheckCommand,
 	cansCommand,
 	knowsCommand,
-	discordCommand,	
+	discordCommand,
 } = require('../commands/commands')
 
 const {
@@ -39,8 +39,12 @@ const {
 	scissorsCommand,
 } = require('../commands/rps/rps')
 
-const {	sceneChangeCommand } = require('../commands/sceneChangeCommand/sceneChangeCommand')
-const { popupChangeCommand } = require('../commands/popupChangeCommand/popupChangeCommand')
+const {
+	sceneChangeCommand,
+} = require('../commands/sceneChangeCommand/sceneChangeCommand')
+const {
+	popupChangeCommand,
+} = require('../commands/popupChangeCommand/popupChangeCommand')
 
 const { eightballCommand } = require('../commands/8ball/eightBall')
 const { quoteCommand } = require('../commands/quote/quote')
@@ -105,8 +109,8 @@ const commandList = {
 	lotto: lottoCommand,
 	birdcam: birdcamCommand,
 	u: uCommand,
-	hug: hugCommand,	
-	floaty: floatyCommand,	
+	hug: hugCommand,
+	floaty: floatyCommand,
 	blackjack: blackjackCommand,
 	post: postCommand,
 	nomic: noMicCommand,
@@ -127,9 +131,9 @@ const commandList = {
 	highlow: highLowCommand,
 	culture: cultureCommand,
 	knows: knowsCommand,
-	discord: discordCommand,	
-	malt: maltCommand,
-	lineup: lineupCommand,	
+	discord: discordCommand,
+	malt: maltCommand,	
+	// lineup: lineupCommand,
 }
 
 const sceneChangeCommandList = {
@@ -148,6 +152,11 @@ const popupChangeCommandList = {
 	yay: popupChangeCommand,
 	noted: popupChangeCommand,
 	dotell: popupChangeCommand,
+	hangon: popupChangeCommand,
+	golfclap: popupChangeCommand,
+	sweaty: popupChangeCommand,
+	high5: popupChangeCommand,
+	highfive: popupChangeCommand,
 }
 
 module.exports = {
