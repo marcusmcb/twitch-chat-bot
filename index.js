@@ -5,6 +5,7 @@ const express = require('express')
 const cors = require('cors')
 const { Server } = require('socket.io')
 const http = require('http')
+const crypto = require('crypto')
 
 const {
 	commandList,
@@ -13,6 +14,8 @@ const {
 } = require('./command-list/commandList')
 
 const { getAppAccessToken } = require('./auth/getAppAccessToken')
+const { verifySignature } = require('./auth/helpers/verifySignature')
+// const { getTokens } = require('./auth/getTokens')
 
 const {
 	createEventSubSubscription,
@@ -26,11 +29,21 @@ dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 5000
 
+// console.log('----------------------------------')
+// console.log("Calling getTokens()...")
+// await getTokens()
+// console.log('----------------------------------')
+// console.log("getTokens completed")
+// console.log('----------------------------------')
+
 ;(async () => {
 	try {
 		const callbackUrl = `${process.env.HEROKU_URL}/webhook`
+		console.log('----------------------------------')
 		console.log(`Using callback URL: ${callbackUrl}`)
 		const accessToken = await getAppAccessToken()
+		console.log('----------------------------------')
+		console.log('App Access Token:', accessToken)
 		await createEventSubSubscription(callbackUrl, accessToken)
 	} catch (error) {
 		console.error('Error setting up the Twitch EventSub: ', error.message)
@@ -74,13 +87,14 @@ app.post('/webhook', async (req, res) => {
 	// verify the signature of the incoming notification
 	const secret = process.env.TWITCH_EVENTSUB_SECRET
 	const expectedSignature = verifySignature(req, secret)
-	const actualSignature = req.header('Twitch-Eventsub-Message-Signature')
+	const actualSignature = req.header('Twitch-Eventsub-Message-Signature') || ''
+	const expectedBuffer = Buffer.from(expectedSignature, 'utf8')
+	const actualBuffer = Buffer.from(actualSignature, 'utf8')
 
 	if (
-		!crypto.timingSafeEqual(
-			Buffer.from(expectedSignature),
-			Buffer.from(actualSignature || '')
-		)
+		!actualSignature ||
+		expectedBuffer.length !== actualBuffer.length ||
+		!crypto.timingSafeEqual(expectedBuffer, actualBuffer)
 	) {
 		console.error('Invalid signature')
 		return res.status(403).send('Forbidden')
@@ -105,9 +119,14 @@ app.post('/webhook', async (req, res) => {
 		console.log('Handling notification')
 		console.log('Event Type: ', req.body.subscription.type)
 		console.log('Channel Point Redemption Name: ', req.body.event.reward.title)
+		if (req.body.event.reward.title === 'Take Us Down PCH') {
+			console.log("Take Us Down PCH command received")
+			// trigger the scene change requested here
+		}
+
 
 		// execute the requested scene change here
-		
+
 		res.status(204).end()
 	} else {
 		console.error(`Unknown message type: ${messageType}`)
@@ -239,7 +258,8 @@ client.on('message', (channel, tags, message, self) => {
 				history.shift()
 			}
 		} else if (command in sceneChangeCommandList) {
-			console.log('Why is this being called?')
+			console.log('Scene Change Command: ', command)
+			console.log("---------------------")
 			sceneChangeCommandList[command](
 				channel,
 				tags,

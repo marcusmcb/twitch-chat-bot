@@ -14,6 +14,11 @@ const getAppAccessToken = async () => {
 			}
 		)
 		const { access_token } = response.data
+		if (access_token) {
+			console.log('----------------------------------')
+			console.log('App Access Token generated successfully.')
+		}
+
 		return access_token
 	} catch (error) {
 		console.error(
