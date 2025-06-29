@@ -23,6 +23,12 @@ const redemptionData = {
     error_text: "Looks like the 'Water Those Dogs' redemption isn't working right now.",
     display_time: 11000,
   },
+  shake_on_it: {
+    scene_name: "LILY SHAKE",
+    text: "Done deal! ✋",
+    error_text: "Looks like the 'Shake On It' redemption isn't working right now.",
+    display_time: 5000,
+  }
 }
 
 module.exports = redemptionData

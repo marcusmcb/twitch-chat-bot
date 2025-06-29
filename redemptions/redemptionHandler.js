@@ -28,6 +28,10 @@ const redemptionHandler = async (
 			console.log('Redemption: Water Those Dogs')
 			redemption = redemptionData.water_those_dogs
 			break
+    case 'Shake On It':
+      console.log('Redemption: Shake On It')
+      redemption = redemptionData.shake_on_it
+      break
 		default:
 			console.log('Unknown redemption title:', redemptionTitle)
 			client.say(channel, 'Unknown redemption title.')

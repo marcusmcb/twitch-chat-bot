@@ -138,8 +138,7 @@ const commandList = {
 
 const sceneChangeCommandList = {
 	stuck: sceneChangeCommand,
-	jeep: sceneChangeCommand,
-	sunset: sceneChangeCommand,
+	jeep: sceneChangeCommand,	
 	cruise: sceneChangeCommand,
 }
 
