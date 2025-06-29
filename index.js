@@ -7,35 +7,106 @@ const { Server } = require('socket.io')
 const http = require('http')
 const crypto = require('crypto')
 
+// command lists
 const {
 	commandList,
 	sceneChangeCommandList,
 	popupChangeCommandList,
 } = require('./command-list/commandList')
 
+// Twitch EventSub auth handlers
 const { getAppAccessToken } = require('./auth/getAppAccessToken')
 const { verifySignature } = require('./auth/helpers/verifySignature')
-// const { getTokens } = require('./auth/getTokens')
-
 const {
 	createEventSubSubscription,
 } = require('./event-sub-handlers/eventSubHandlers')
 
+// OBS, channel redemption, and interval notfications config
 const autoCommandsConfig = require('./auto-commands/config/autoCommandsConfig')
 const obs = require('./obs/obsConnection')
+const { redemptionHandler } = require('./redemptions/redemptionHandler')
 
 dotenv.config()
 
+// global scene change lock value
+const sceneChangeLock = { active: false }
+const popupChangeLock = { active: false }
+const countdownLock = { active: false }
+
 const app = express()
 const PORT = process.env.PORT || 5000
+const server = http.createServer(app)
 
-// console.log('----------------------------------')
-// console.log("Calling getTokens()...")
-// await getTokens()
-// console.log('----------------------------------')
-// console.log("getTokens completed")
-// console.log('----------------------------------')
+const io = new Server(server, {
+	cors: {
+		origin: 'https://marcusmcb.github.io',
+		methods: ['GET', 'POST'],
+		allowedHeaders: ['my-custom-header'],
+		credentials: true,
+	},
+	transports: ['polling', 'websocket'], // ensure fallback support
+})
 
+// remove the old HTTP server setup and start the HTTPS server
+server.listen(PORT, '0.0.0.0', () => {
+	console.log(`--- HTTPS server is listening on port ${PORT} ---`)
+})
+
+// bot logic and TMI client config and connection
+let userCommandHistory = {}
+const COMMAND_REPEAT_LIMIT = 10
+
+// Twitch TMI client config for channel commands
+const client = new tmi.Client({
+	options: { debug: true },
+	connection: {
+		secure: true,
+		reconnect: true,
+	},
+	identity: {
+		username: process.env.TWITCH_BOT_USERNAME,
+		password: process.env.TWITCH_OAUTH_TOKEN,
+	},
+	channels: [process.env.TWITCH_CHANNEL_NAME],
+})
+
+// connect the Twitch TMI client
+try {
+	client.connect()
+} catch (error) {
+	console.log(error)
+}
+
+// OBS connection initialization
+;(async () => {
+	if (process.env.DISPLAY_OBS_MESSAGES === 'true') {
+		try {
+			await obs.connect()
+			console.log('OBS connection ready for commands')
+		} catch (error) {
+			console.error('Failed to connect to OBS via ngrok:', error.message)
+		}
+	}
+})()
+
+// load in the auto commands config
+autoCommandsConfig(client, obs)
+
+// create a socket connection to the static emotes overlay page
+io.on('connection', (socket) => {
+	console.log('A user connected:', socket.id)
+
+	socket.on('disconnect', (reason) => {
+		console.log('A user disconnected:', socket.id, reason)
+	})
+
+	socket.on('ping', () => {
+		console.log('Ping received from client')
+		socket.emit('pong')
+	})
+})
+
+// IIFE to set up the Twitch EventSub subscription
 ;(async () => {
 	try {
 		const callbackUrl = `${process.env.HEROKU_URL}/webhook`
@@ -80,6 +151,7 @@ app.get('/auth/callback', (req, res) => {
 	}
 })
 
+// Twitch EventSub webhook endpoint and redemption handler
 app.post('/webhook', async (req, res) => {
 	console.log('Raw Body:', req.rawBody.toString())
 	console.log('-----------------')
@@ -118,15 +190,22 @@ app.post('/webhook', async (req, res) => {
 	} else if (messageType === 'notification') {
 		console.log('Handling notification')
 		console.log('Event Type: ', req.body.subscription.type)
-		console.log('Channel Point Redemption Name: ', req.body.event.reward.title)
-		if (req.body.event.reward.title === 'Take Us Down PCH') {
-			console.log("Take Us Down PCH command received")
-			// trigger the scene change requested here
+		console.log('Channel Name: ', (req.body.event.broadcaster_user_name || 'Unknown'))
+		console.log('--------------------')
+		if (
+			req.body.subscription.type ===
+			'channel.channel_points_custom_reward_redemption.add'
+		) {
+			console.log('Channel Point Redemption Event Received')
+			console.log('Event Data: ', req.body.event.reward.title)
+			await redemptionHandler(
+				obs,
+				client,
+				sceneChangeLock,
+				req.body.event.broadcaster_user_name,
+				req.body.event.reward.title				
+			)
 		}
-
-
-		// execute the requested scene change here
-
 		res.status(204).end()
 	} else {
 		console.error(`Unknown message type: ${messageType}`)
@@ -134,81 +213,7 @@ app.post('/webhook', async (req, res) => {
 	}
 })
 
-// set up the HTTPS server with SSL options
-const server = http.createServer(app)
-
-const io = new Server(server, {
-	cors: {
-		origin: 'https://marcusmcb.github.io',
-		methods: ['GET', 'POST'],
-		allowedHeaders: ['my-custom-header'],
-		credentials: true,
-	},
-	transports: ['polling', 'websocket'], // ensure fallback support
-})
-
-// remove the old HTTP server setup and start the HTTPS server
-server.listen(PORT, '0.0.0.0', () => {
-	console.log(`--- HTTPS server is listening on port ${PORT} ---`)
-})
-
-// bot logic and TMI client config and connection
-let userCommandHistory = {}
-const COMMAND_REPEAT_LIMIT = 10
-
-const client = new tmi.Client({
-	options: { debug: true },
-	connection: {
-		secure: true,
-		reconnect: true,
-	},
-	identity: {
-		username: process.env.TWITCH_BOT_USERNAME,
-		password: process.env.TWITCH_OAUTH_TOKEN,
-	},
-	channels: [process.env.TWITCH_CHANNEL_NAME],
-})
-
-try {
-	client.connect()
-} catch (error) {
-	console.log(error)
-}
-
-// OBS connection initialization
-;(async () => {
-	if (process.env.DISPLAY_OBS_MESSAGES === 'true') {
-		try {
-			await obs.connect()
-			console.log('OBS connection ready for commands')
-		} catch (error) {
-			console.error('Failed to connect to OBS via ngrok:', error.message)
-		}
-	}
-})()
-
-// load in the auto commands config
-autoCommandsConfig(client, obs)
-
-// create a socket connection to the static emotes overlay page
-io.on('connection', (socket) => {
-	console.log('A user connected:', socket.id)
-
-	socket.on('disconnect', (reason) => {
-		console.log('A user disconnected:', socket.id, reason)
-	})
-
-	socket.on('ping', () => {
-		console.log('Ping received from client')
-		socket.emit('pong')
-	})
-})
-
-// global scene change lock value
-const sceneChangeLock = { active: false }
-const popupChangeLock = { active: false }
-const countdownLock = { active: false }
-
+// Twitch TMI channel command handler
 client.on('message', (channel, tags, message, self) => {
 	if (tags.emotes) {
 		// console.log('has emotes')
@@ -259,7 +264,7 @@ client.on('message', (channel, tags, message, self) => {
 			}
 		} else if (command in sceneChangeCommandList) {
 			console.log('Scene Change Command: ', command)
-			console.log("---------------------")
+			console.log('---------------------')
 			sceneChangeCommandList[command](
 				channel,
 				tags,
