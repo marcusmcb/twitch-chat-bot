@@ -1,15 +1,76 @@
+const WebSocket = require('ws')
+
 const redemptionData = require('./data/redemptionData.js')
+
+const luckyNumberRedemptionHandler = async (obs, client, viewerName, sceneChangeLock) => {
+	console.log('Lucky Number Redemption Triggered')
+	console.log('--------------------------')
+	const wsAddress = 'ws://7.tcp.ngrok.io:21711'
+
+	// generate the number set and message to send
+	// to the RPi server
+	const numberSet = new Set()
+	while (numberSet.size < 6) {
+		const randomNumber = Math.floor(Math.random() * 70) + 1
+		numberSet.add(randomNumber)
+	}
+	const lotteryNumbers = Array.from(numberSet)
+		.sort((a, b) => a - b)
+		.join(', ')
+
+	const message = `${viewerName}'s lucky numbers: ${lotteryNumbers}`
+
+	console.log(`Generated lucky numbers: ${lotteryNumbers}`)
+	console.log('--------------------------')
+
+	try {
+		console.log('Connecting to OBS WebSocket...')
+		console.log('--------------------------')
+		const currentScene = await obs.call('GetCurrentProgramScene')
+		const currentSceneName = currentScene.currentProgramSceneName
+
+		// Send a WebSocket message to the proxy server
+		const ws = new WebSocket(wsAddress)
+
+		ws.on('open', () => {
+			console.log('WebSocket connection opened')
+			ws.send('!lotto', message) // Send the trigger message
+			ws.close()
+		})
+
+		ws.on('error', (error) => {
+			console.error('WebSocket error:', error.message)
+		})
+
+		await obs.call('SetCurrentProgramScene', {
+			sceneName: 'PI CAM',
+		})
+
+		console.log(`Switched to PiCam scene: PI CAM`)
+
+		setTimeout(async () => {
+			await obs.call('SetCurrentProgramScene', {
+				sceneName: currentSceneName,
+			})
+			console.log(`Reverted to previous scene: ${currentSceneName}`)
+			sceneChangeLock.active = false // unlock after the scene reverts
+		}, 15000)
+	} catch (error) {
+		console.error('Error generating lucky numbers:', error.message)
+	}
+}
 
 const redemptionHandler = async (
 	obs,
 	client,
 	sceneChangeLock,
 	channel,
-	redemptionTitle
+	redemptionTitle,
+  viewerName
 ) => {
 	sceneChangeLock.active = true
 
-	let redemption  
+	let redemption
 
 	switch (redemptionTitle) {
 		case 'Take Us Down PCH':
@@ -28,10 +89,14 @@ const redemptionHandler = async (
 			console.log('Redemption: Water Those Dogs')
 			redemption = redemptionData.water_those_dogs
 			break
-    case 'Shake On It':
-      console.log('Redemption: Shake On It')
-      redemption = redemptionData.shake_on_it
-      break
+		case 'Shake On It':
+			console.log('Redemption: Shake On It')
+			redemption = redemptionData.shake_on_it
+			break
+		case 'Get Your Lucky Numbers':
+			console.log('Redemption: Get Your Lucky Numbers')
+			redemption = redemptionData.get_your_lucky_numbers
+			break
 		default:
 			console.log('Unknown redemption title:', redemptionTitle)
 			client.say(channel, 'Unknown redemption title.')
@@ -42,6 +107,9 @@ const redemptionHandler = async (
 	try {
 		const currentScene = await obs.call('GetCurrentProgramScene')
 		const currentSceneName = currentScene.currentProgramSceneName
+		if (redemption.scene_name === 'PI CAM') {
+			await luckyNumberRedemptionHandler(obs, client, viewerName, sceneChangeLock)
+		}
 		await obs.call('SetCurrentProgramScene', {
 			sceneName: redemption.scene_name,
 		})

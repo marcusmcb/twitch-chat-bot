@@ -197,13 +197,14 @@ app.post('/webhook', async (req, res) => {
 			'channel.channel_points_custom_reward_redemption.add'
 		) {
 			console.log('Channel Point Redemption Event Received')
-			console.log('Event Data: ', req.body.event.reward.title)
+			console.log('Event Data: ', req.body.event)
 			await redemptionHandler(
 				obs,
 				client,
 				sceneChangeLock,
 				req.body.event.broadcaster_user_name,
-				req.body.event.reward.title				
+				req.body.event.reward.title,
+				req.body.event.user_name,				
 			)
 		}
 		res.status(204).end()
