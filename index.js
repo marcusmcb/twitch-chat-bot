@@ -151,6 +151,21 @@ app.get('/auth/callback', (req, res) => {
 	}
 })
 
+app.post('/update-pi-endpoint', express.json(), (req, res) => {
+	const { url, secret } = req.body
+	// Simple secret check for security
+	if (secret !== process.env.PI_UPDATE_SECRET) {
+		return res.status(403).send('Forbidden')
+	}
+	if (url) {
+		piEndpoint = url
+		console.log('Updated Pi endpoint:', piEndpoint)
+		res.status(200).send('Pi endpoint updated')
+	} else {
+		res.status(400).send('Missing url')
+	}
+})
+
 // Twitch EventSub webhook endpoint and redemption handler
 app.post('/webhook', async (req, res) => {
 	console.log('Raw Body:', req.rawBody.toString())
@@ -190,7 +205,10 @@ app.post('/webhook', async (req, res) => {
 	} else if (messageType === 'notification') {
 		console.log('Handling notification')
 		console.log('Event Type: ', req.body.subscription.type)
-		console.log('Channel Name: ', (req.body.event.broadcaster_user_name || 'Unknown'))
+		console.log(
+			'Channel Name: ',
+			req.body.event.broadcaster_user_name || 'Unknown'
+		)
 		console.log('--------------------')
 		if (
 			req.body.subscription.type ===
@@ -204,7 +222,7 @@ app.post('/webhook', async (req, res) => {
 				sceneChangeLock,
 				req.body.event.broadcaster_user_name,
 				req.body.event.reward.title,
-				req.body.event.user_name,				
+				req.body.event.user_name
 			)
 		}
 		res.status(204).end()
