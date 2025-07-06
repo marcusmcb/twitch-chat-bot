@@ -1,23 +1,24 @@
-const axios = require('axios')
-
 const yeQuoteCommand = async (channel, tags, args, client) => {
-	let yeQuote
 	let yeQuoteOptions = {
 		url: 'https://api.kanye.rest/',
 		headers: { Accept: 'application/json' },
 	}
 
 	try {
-		const response = await axios(yeQuoteOptions)
-		console.log('response: ', response)
-		if (response.status === 200) {
-			yeQuote = response.data
-			client.say(channel, `"${yeQuote.quote}" - Kanye West 🐻`)
-		} else {
+		const response = await fetch(yeQuoteOptions.url, {
+			headers: yeQuoteOptions.headers,
+			signal: AbortSignal.timeout(5000), // 5 seconds timeout
+		})
+		if (!response.ok || response.status !== 200) {
 			client.say(channel, "Hmmm... looks like that's not working right now. 💀")
+			console.log(`HTTP ${response.status}: ${response.statusText}`)
+		} else {
+			const data = await response.json()
+			client.say(channel, `"${data.quote}" - Kanye West 🐻`)
 		}
 	} catch (error) {
-		client.say(channel, "No Kanye quotes right now I'm afraid. 💀")
+		console.error('Error fetching Kanye quote:', error.message)
+		client.say(channel, "Hmmm... looks like that's not working right now. 💀")
 	}
 }
 
