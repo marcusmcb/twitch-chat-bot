@@ -1,11 +1,13 @@
 const WebSocket = require('ws')
-
+const dotenv = require('dotenv')
 const redemptionData = require('./data/redemptionData.js')
+
+dotenv.config()
 
 const luckyNumberRedemptionHandler = async (obs, client, viewerName, sceneChangeLock) => {
 	console.log('Lucky Number Redemption Triggered')
 	console.log('--------------------------')
-	const wsAddress = 'ws://7.tcp.ngrok.io:21711'
+	const wsAddress = process.env.OBS_TCP_ADDRESS	
 
 	// generate the number set and message to send
 	// to the RPi server
@@ -98,8 +100,8 @@ const redemptionHandler = async (
 			redemption = redemptionData.get_your_lucky_numbers
 			break
 		default:
-			console.log('Unknown redemption title:', redemptionTitle)
-			client.say(channel, 'Unknown redemption title.')
+			console.log('Redemption Claimed:', redemptionTitle)
+			// client.say(channel, 'Unknown redemption title.')
 			sceneChangeLock.active = false
 			return
 	}
