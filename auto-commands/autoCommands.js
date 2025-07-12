@@ -8,7 +8,7 @@ const lightsInfo = (channel, tags, args, client) => {
 const npChatbotInfo = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		'DJ streamers: learn more about adding the music discovery commands in my channel to your own with npChatbot.  You can also use it to create Spotify playlists of your live-streamed sets to share with your community. Check it out at www.npchatbot.com'
+		'DJ streamers: learn more about adding the music discovery commands in my channel to your own with npChatbot.  You can also use it to create Spotify playlists of your live-streamed sets to share with your community. Check it out at https://www.npchatbot.com'
 	)
 }
 
