@@ -13,7 +13,7 @@ const getTokens = async () => {
 				client_secret: process.env.TWITCH_CLIENT_SECRET,
 				code: process.env.TWITCH_AUTH_CODE,
 				grant_type: 'authorization_code',
-				redirect_uri: 'https://localhost:5000/auth/callback', // Must match the redirect URI used during authorization
+				redirect_uri: 'https://localhost:5000/auth/callback', 
 			}
 		)
 		if (tokenResponse) {

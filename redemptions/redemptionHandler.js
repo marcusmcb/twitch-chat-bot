@@ -100,8 +100,7 @@ const redemptionHandler = async (
 			redemption = redemptionData.get_your_lucky_numbers
 			break
 		default:
-			console.log('Redemption Claimed:', redemptionTitle)
-			// client.say(channel, 'Unknown redemption title.')
+			console.log('Redemption Claimed:', redemptionTitle)			
 			sceneChangeLock.active = false
 			return
 	}

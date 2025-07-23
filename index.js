@@ -152,8 +152,7 @@ app.get('/auth/callback', (req, res) => {
 })
 
 app.post('/update-pi-endpoint', express.json(), (req, res) => {
-	const { url, secret } = req.body
-	// Simple secret check for security
+	const { url, secret } = req.body	
 	if (secret !== process.env.PI_UPDATE_SECRET) {
 		return res.status(403).send('Forbidden')
 	}
