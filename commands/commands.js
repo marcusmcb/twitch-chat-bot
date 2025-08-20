@@ -29,6 +29,13 @@ const raidCommand = (channel, tags, args, client, obs) => {
 	)
 }
 
+const npChatbotLinkCommand = (channel, tags, args, client, obs) => {
+	client.say(
+		channel,
+		`DJs ---> you can add the music discovery commands and features from my channel to your own with npChatbot.  Learn more about the app and try out the free download over at https://www.npchatbot.com`
+	)
+}
+
 const shoutOutCommand = (channel, tags, args, client, obs) => {
 	if (args.length === 0) {
 		client.say(channel, `Uhh... who should I shout out here? 📣📣📣`)
@@ -37,7 +44,7 @@ const shoutOutCommand = (channel, tags, args, client, obs) => {
 		if (tags.username === `${process.env.TWITCH_CHANNEL_NAME}` || tags.mod) {
 			client.say(
 				channel,
-				`Be sure to follow ${args}'s channel here on Twitch: www.twitch.tv/${argsParsed} `
+				`Be sure to follow our good friend ${args}'s channel here on Twitch! www.twitch.tv/${argsParsed} `
 			)
 		}
 	}
@@ -208,6 +215,50 @@ const turntCommand = (channel, tags, args, client) => {
 	}
 }
 
+const highCommand = (channel, tags, args, client) => {
+	let highValue = Math.floor(Math.random() * 100) + 1
+	if (args.length === 0) {
+		client.say(
+			channel,
+			`@${tags.username} is ${highValue}% high right now! 🎉🎉🎉`
+		)
+	} else {
+		client.say(channel, `${args} is ${highValue}% high right now! 🎉🎉🎉`)
+	}
+}
+
+const litCommand = (channel, tags, args, client) => {
+	let litValue = Math.floor(Math.random() * 100) + 1
+	if (args.length === 0) {
+		client.say(
+			channel,
+			`@${tags.username} is ${litValue}% lit right now! 🎉🎉🎉`
+		)
+	} else {
+		client.say(channel, `${args} is ${litValue}% lit right now! 🎉🎉🎉`)
+	}
+}
+
+const borkedCommand = (channel, tags, args, client) => {
+	let borkedValue = Math.floor(Math.random() * 100) + 1
+	if (args.length === 0) {
+		client.say(
+			channel,
+			`@${tags.username} is ${borkedValue}% borked right now! 💀💀💀`
+		)
+	} else {
+		client.say(channel, `${args} is ${borkedValue}% borked right now! 💀💀💀`)
+	}
+}
+
+const respekCommand = (channel, tags, args, client) => {
+	if (args.length === 0) {
+		client.say(channel, `Respek to you, @${tags.username}! 👑👑👑`)
+	} else {
+		client.say(channel, `Put some respek on ${args}'s name! 👑👑👑`)
+	}
+}
+
 const guttercheckCommand = (channel, tags, args, client) => {
 	let guttercheckValue = Math.floor(Math.random() * 100) + 1
 	if (args.length === 0) {
@@ -235,6 +286,10 @@ const stuffedCommand = (channel, tags, args, client) => {
 
 const cansCommand = (channel, tags, args, client) => {
 	client.say(channel, 'Headphones ON for this one! 🎧🎧🎧')
+}
+
+const yyCommand = (channel, tags, args, client) => {
+	client.say(channel, "YEAH Y'ARE! 💯")
 }
 
 const gsdCommand = (channel, tags, args, client) => {
@@ -303,6 +358,12 @@ module.exports = {
 	knowsCommand: knowsCommand,
 	discordCommand: discordCommand,
 	tonightCommand: tonightCommand,
+	litCommand: litCommand,
+	highCommand: highCommand,
+	borkedCommand: borkedCommand,
+	respekCommand: respekCommand,
+	npChatbotLinkCommand: npChatbotLinkCommand,
+	yyCommand: yyCommand,
 }
 
 // refactor random number generated values

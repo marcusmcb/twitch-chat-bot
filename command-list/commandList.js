@@ -31,6 +31,12 @@ const {
 	cansCommand,
 	knowsCommand,
 	discordCommand,
+	litCommand,
+	highCommand,
+	borkedCommand,
+	respekCommand,
+	npChatbotLinkCommand,
+	yyCommand
 } = require('../commands/commands')
 
 const {
@@ -72,7 +78,7 @@ const { askGPTCommand } = require('../commands/chatgpt/askgpt')
 const { countdownCommand } = require('../commands/countdown/countdown')
 const { highLowCommand } = require('../commands/highlow/highLow')
 const { cultureCommand } = require('../commands/djculture/djCulture')
-const { maltCommand, lineupCommand } = require('../commands/malt/malt')
+// const { maltCommand, lineupCommand } = require('../commands/malt/malt')
 
 const commandList = {
 	test: testCommand,
@@ -132,7 +138,13 @@ const commandList = {
 	culture: cultureCommand,
 	knows: knowsCommand,
 	discord: discordCommand,
-	malt: maltCommand,	
+	lit: litCommand,
+	high: highCommand,
+	borked: borkedCommand,
+	respek: respekCommand,
+	npchatbot: npChatbotLinkCommand,
+	yy: yyCommand,
+	// malt: maltCommand,
 	// lineup: lineupCommand,
 }
 
