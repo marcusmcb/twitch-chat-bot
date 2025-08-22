@@ -26,7 +26,7 @@ const nutsCommand = async (
 			const currentScene = await obs.call('GetCurrentProgramScene');
 			const currentSceneName = currentScene.currentProgramSceneName;
 
-			const randomNumber = Math.floor(Math.random() * 12) + 1;
+			const randomNumber = Math.floor(Math.random() * 20) + 1;
 			const sceneName = `SQUIRREL ${randomNumber}`;
 
 			await obs.call('SetCurrentProgramScene', { sceneName });
