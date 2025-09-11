@@ -22,21 +22,21 @@ const discordInfo = (channel, tags, args, client) => {
 const generalCommandInfo = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		'Commands you say?  Try one of these: !turnt, !smort, !jeep, !birb, !faded, !stuck, !cruise, !dadjoke, !rock, !paper, !scissors, !hey, !sunset, !nuts, !birdcam, !ye, !fact, !quote, !knows, !my'
+		'Commands you say?  Try one of these: !turnt, !smort, !jeep, !birb, !faded, !stuck, !cruise, !dadjoke, !rock, !paper, !scissors, !hey, !sunset, !nuts, !birdcam, !fact, !quote, !knows, !my, !golfclap, !dotell, !8ball, !blackjack'
 	)
 }
 
 const birdInfo = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		'Check out what our feathered friends have been up to with the !birdcam command.'
+		'Check out what our feathered friends have been up to with the !birdcam command. 🐦🐦🐦'
 	)
 }
 
 const dashInfo = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		'Say hello to Dash, my super camera-friendly squirrel buddy, any time with the !nuts command.'
+		'Say hello to Dash, my super camera-friendly squirrel buddy, any time with the !nuts command. 🐿️🐿️🐿️'
 	)
 }
 
