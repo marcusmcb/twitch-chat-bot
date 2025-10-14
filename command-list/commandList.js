@@ -36,7 +36,8 @@ const {
 	borkedCommand,
 	respekCommand,
 	npChatbotLinkCommand,
-	yyCommand
+	yyCommand,
+	greerCityCommand,
 } = require('../commands/commands')
 
 const {
@@ -144,6 +145,7 @@ const commandList = {
 	respek: respekCommand,
 	npchatbot: npChatbotLinkCommand,
 	yy: yyCommand,
+	greercity: greerCityCommand,
 	// malt: maltCommand,
 	// lineup: lineupCommand,
 }

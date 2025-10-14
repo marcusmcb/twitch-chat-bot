@@ -306,6 +306,13 @@ const discordCommand = (channel, tags, args, client) => {
 	)
 }
 
+const greerCityCommand = (channel, tags, args, client) => {
+	client.say(
+		channel,
+		`Where the NASCAR fans turn left but vote right.`
+	)
+}
+
 const ericCommand = (channel, tags, args, client) => {
 	client.say(channel, `Happy Birthday, @Cynsaytional! 🎉🎉🎉`)
 }
@@ -364,6 +371,7 @@ module.exports = {
 	respekCommand: respekCommand,
 	npChatbotLinkCommand: npChatbotLinkCommand,
 	yyCommand: yyCommand,
+	greerCityCommand: greerCityCommand
 }
 
 // refactor random number generated values
