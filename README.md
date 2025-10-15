@@ -103,9 +103,13 @@ Another example can be found in the !birb command (/commands/birb/birb.js).  In 
 You can do the same for the text returned from any of the chat commands in this repo by configuring a TextGDI+ element in your OBS and then sending the text response from the command to OBS.  The obs-websocket-js library used to implement this feature has documentation readily available.
 <hr>
 
+## Twitch Channel Point Redemptions
+
+This repo also features the necessary Twitch EventSub handlers to listen for and respond to points redemptions that occur in your channel.  In my use case, I have the EventSub handlers in this repo keyed to listen for and respond to redemptions which, in turn, trigger scene changes within my OBS software.  These EventSub handlers can be modified to listen and respond to any channel point redemptions you have configured for your own channel.
+
 ## Procfile
 
 The included procfile is for easy deployment and hosting of this chatbot script to Heroku.  Once deployed, be sure to configure Heroku to run this as a worker (not web) script.
 <hr>
 
-Marcus McBride, 2022.
+Marcus McBride, 2025.
