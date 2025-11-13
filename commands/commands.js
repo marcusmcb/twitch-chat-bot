@@ -118,7 +118,8 @@ const linksCommand = (channel, tags, args, client) => {
 }
 
 const postCommand = (channel, tags, args, client) => {
-	client.say(channel, 'HIT THAT POST, DJ! 🎧')
+	let postValue = Math.floor(Math.random() * 100) + 1
+	client.say(channel, `That talk up was ${postValue}% on the nose! 🎧`)
 }
 
 const vinylCommand = (channel, tags, args, client) => {
