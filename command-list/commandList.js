@@ -38,6 +38,7 @@ const {
 	npChatbotLinkCommand,
 	yyCommand,
 	greerCityCommand,
+	portCommand,
 } = require('../commands/commands')
 
 const {
@@ -146,6 +147,7 @@ const commandList = {
 	npchatbot: npChatbotLinkCommand,
 	yy: yyCommand,
 	greercity: greerCityCommand,
+	port: portCommand,
 	// malt: maltCommand,
 	// lineup: lineupCommand,
 }

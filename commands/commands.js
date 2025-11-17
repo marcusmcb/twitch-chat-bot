@@ -332,6 +332,13 @@ const tonightCommand = (channel, tags, args, client) => {
 	)
 }
 
+const portCommand = (channel, tags, args, client) => {
+	client.say(
+		channel,
+		`@${tags.username} is pouring up that shot right about now! 🥃🥃🥃`
+	)
+}
+
 module.exports = {
 	helloCommand: helloCommand,
 	lurkCommand: lurkCommand,
@@ -372,7 +379,8 @@ module.exports = {
 	respekCommand: respekCommand,
 	npChatbotLinkCommand: npChatbotLinkCommand,
 	yyCommand: yyCommand,
-	greerCityCommand: greerCityCommand
+	greerCityCommand: greerCityCommand,
+	portCommand: portCommand
 }
 
 // refactor random number generated values
