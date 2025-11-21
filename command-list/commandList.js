@@ -154,7 +154,7 @@ const commandList = {
 
 const sceneChangeCommandList = {
 	stuck: sceneChangeCommand,
-	jeep: sceneChangeCommand,	
+	jeep: sceneChangeCommand,
 	cruise: sceneChangeCommand,
 }
 
@@ -172,6 +172,9 @@ const popupChangeCommandList = {
 	sweaty: popupChangeCommand,
 	high5: popupChangeCommand,
 	highfive: popupChangeCommand,
+	what: popupChangeCommand,
+	eww: popupChangeCommand,
+	rave: popupChangeCommand,
 }
 
 module.exports = {
