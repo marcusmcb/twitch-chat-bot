@@ -39,6 +39,7 @@ const {
 	yyCommand,
 	greerCityCommand,
 	portCommand,
+	tonightCommand,
 } = require('../commands/commands')
 
 const {
@@ -148,6 +149,7 @@ const commandList = {
 	yy: yyCommand,
 	greercity: greerCityCommand,
 	port: portCommand,
+	tonight: tonightCommand,
 	// malt: maltCommand,
 	// lineup: lineupCommand,
 }

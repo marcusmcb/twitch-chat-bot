@@ -328,7 +328,7 @@ const noMicCommand = (channel, tags, args, client) => {
 const tonightCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		`Our good friend @maltliquorkicker has been a MAJOR supporter and friend of the Twitch communities in this raid train today, and right now he could use our help!  Every little bit helps and if you'd like to contribute, you can do so via the link with our sincerest thanks! https://www.gofundme.com/malty`
+		`We're celebrating my 1st Twitch Affiliate Anniversary tonight by giving away some really cool MCB merch!  If you're a follower/subscriber, simply message me with your mailing address.  I'll be sending you a few goodies this week as a thank you for being part of the community! 🎉🎉🎉`
 	)
 }
 
