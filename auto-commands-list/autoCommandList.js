@@ -1,6 +1,6 @@
 const autoCommandList = [
   "links",
-  "cratestats",
+  // "cratestats",
   "mixes",  
   "lightsInfo",
   "vinyl",  
