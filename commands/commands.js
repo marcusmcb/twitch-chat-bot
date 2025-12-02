@@ -1,31 +1,60 @@
 const dotenv = require('dotenv')
 dotenv.config()
 
-const listCommands = (channel, tags, args, client) => {
+// helper method to generate a random value between 1 and 100
+const randomValue = () => {
+	return Math.floor(Math.random() * 100) + 1
+}
+
+// social media and link commands
+
+const discordCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		"You can check out this channel's chat command list here: marcusmcb.github.io/twitch-chat-commands"
+		`Join the MCB community for more tunes, tech, squirrels, and playlists from past Twitch streams over on Discord: https://discord.gg/YCUGhxyRJR`
 	)
 }
 
-const bitsCommand = (channel, tags, args, client) => {
-	if (args.length === 0) {
-		return
-	} else {
-		let argsParsed = args[0].slice(1)
-		if (tags.username === `${process.env.TWITCH_CHANNEL_NAME}` || tags.mod) {
-			client.say(
-				channel,
-				`${argsParsed}, thank you so much for the BITS fam! 🎉🎉🎉`
-			)
-		}
-	}
-}
-
-const raidCommand = (channel, tags, args, client, obs) => {
+const linksCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		`TombRaid TombRaid 🎉🎉 DJMarcusMCB just rolled up with a raid! 🎉🎉 TombRaid TombRaid`
+		`You can find all of my socials & links @ https://www.djmarcusmcbride.com`
+	)
+}
+
+const vinylCommand = (channel, tags, args, client) => {
+	client.say(
+		channel,
+		`Wanna dig through my record collection?  You can check out some of my favorite remixes and throwbacks over on TikTok @ www.tiktok.com/@djmarcusmcb `
+	)
+}
+
+const scCommand = (channel, tags, args, client) => {
+	client.say(
+		channel,
+		`You can check out MarcusMCB's Soundcloud page over @ https://soundcloud.com/marcusmcbride.`
+	)
+}
+
+const mixesCommand = (channel, tags, args, client) => {
+	client.say(
+		channel,
+		`You can check out my mixes on MixCloud over @ https://www.mixcloud.com/marcusmcbride`
+	)
+}
+
+const primeCommand = (channel, tags, args, client) => {
+	const channelName = channel.slice(1).split('#')
+	client.say(
+		channel,
+		`Got Amazon Prime? If you do, you can use your free Prime subscription to support my channel! subs.twitch.tv/${channelName}`
+	)
+}
+
+const codeCommand = (channel, tags, args, client) => {
+	client.say(
+		channel,
+		'You can find streaming tools for Twitch, Discord, Twitter, plus a lot of other fun tech stuff over on my Github page! https://www.github.com/marcusmcb'
 	)
 }
 
@@ -36,18 +65,26 @@ const npChatbotLinkCommand = (channel, tags, args, client, obs) => {
 	)
 }
 
-const shoutOutCommand = (channel, tags, args, client, obs) => {
-	if (args.length === 0) {
-		client.say(channel, `Uhh... who should I shout out here? 📣📣📣`)
-	} else {
-		let argsParsed = args[0].slice(1)
-		if (tags.username === `${process.env.TWITCH_CHANNEL_NAME}` || tags.mod) {
-			client.say(
-				channel,
-				`Be sure to follow our good friend ${args}'s channel here on Twitch! www.twitch.tv/${argsParsed} `
-			)
-		}
-	}
+const cratestatsCommand = (channel, tags, args, client) => {
+	client.say(
+		channel,
+		"DJs - Want to learn more about your last set?  Check out https://www.cratestats.com to learn more about data analytics for DJs (and beta testing if you're up for it!)"
+	)
+}
+
+// static / utility commands
+const listCommands = (channel, tags, args, client) => {
+	client.say(
+		channel,
+		"You can check out this channel's chat command list here: marcusmcb.github.io/twitch-chat-commands"
+	)
+}
+
+const raidCommand = (channel, tags, args, client, obs) => {
+	client.say(
+		channel,
+		`TombRaid TombRaid 🎉🎉 DJMarcusMCB just rolled up with a raid! 🎉🎉 TombRaid TombRaid`
+	)
 }
 
 const helloCommand = (channel, tags, args, client, obs) => {
@@ -68,74 +105,6 @@ const backCommand = (channel, tags, args, client) => {
 	client.say(channel, `Lurk no more... @${tags.username} has returned!`)
 }
 
-const fadedCommand = (channel, tags, args, client) => {
-	const fadedResult = Math.floor(Math.random() * 100) + 1
-	if (args.length === 0) {
-		client.say(
-			channel,
-			`@${tags.username} is ${fadedResult}% faded right now. 😎😎😎`
-		)
-	} else {
-		client.say(channel, `${args} is ${fadedResult}% faded right now. 😎😎😎`)
-	}
-}
-
-const smortCommand = (channel, tags, args, client) => {
-	let smortValue = Math.floor(Math.random() * 100) + 1
-	if (args.length === 0) {
-		client.say(channel, `@${tags.username} is ${smortValue}% SMORT! 🧠🧠🧠`)
-	} else {
-		client.say(channel, `${args} is ${smortValue}% SMORT! 🧠🧠🧠`)
-	}
-}
-
-const burntCommand = (channel, tags, args, client) => {
-	let burntValue = Math.floor(Math.random() * 100) + 1
-	if (args.length === 0) {
-		client.say(channel, `@${tags.username} is ${burntValue}% burnt right now!`)
-	} else {
-		client.say(channel, `${args} is ${burntValue}% burnt right now!`)
-	}
-}
-
-const floatyCommand = (channel, tags, args, client) => {
-	let floatyValue = Math.floor(Math.random() * 100) + 1
-	if (args.length === 0) {
-		client.say(
-			channel,
-			`@${tags.username} is ${floatyValue}% floaty right now! 🤪🤪🤪`
-		)
-	} else {
-		client.say(channel, `${args} is ${floatyValue}% floaty right now! 🤪🤪🤪`)
-	}
-}
-
-const linksCommand = (channel, tags, args, client) => {
-	client.say(
-		channel,
-		`You can find all of my socials & links @ http://www.djmarcusmcbride.com`
-	)
-}
-
-const postCommand = (channel, tags, args, client) => {
-	let postValue = Math.floor(Math.random() * 100) + 1
-	client.say(channel, `That talk up was ${postValue}% on the nose! 🎧`)
-}
-
-const vinylCommand = (channel, tags, args, client) => {
-	client.say(
-		channel,
-		`Wanna dig through my record collection?  You can check out some of my favorite remixes and throwbacks over on TikTok @ www.tiktok.com/@djmarcusmcb `
-	)
-}
-
-const cratestatsCommand = (channel, tags, args, client) => {
-	client.say(
-		channel,
-		"DJs - Want to learn more about your last set?  Check out www.cratestats.com to learn more about data analytics for DJs (and beta testing if you're up for it!)"
-	)
-}
-
 const areacodeCommand = (channel, tags, args, client) => {
 	const channelName = channel.slice(1).split('#')
 	client.say(
@@ -144,45 +113,56 @@ const areacodeCommand = (channel, tags, args, client) => {
 	)
 }
 
-const scCommand = (channel, tags, args, client) => {
-	client.say(
-		channel,
-		`You can check out MarcusMCB's Soundcloud page over @ soundcloud.com/marcusmcbride.`
-	)
-}
-
-const mixesCommand = (channel, tags, args, client) => {
-	client.say(
-		channel,
-		`You can check out my mixes on MixCloud over @ www.mixcloud.com/marcusmcbride`
-	)
-}
-
-const primeCommand = (channel, tags, args, client) => {
-	const channelName = channel.slice(1).split('#')
-	client.say(
-		channel,
-		`Got Amazon Prime? If you do, you can use your free Prime subscription to support my channel! subs.twitch.tv/${channelName}`
-	)
-}
-
-const codeCommand = (channel, tags, args, client) => {
-	client.say(
-		channel,
-		'You can find streaming tools for Twitch, Discord, Twitter, plus a lot of other fun tech stuff over on my Github page! github.com/marcusmcb'
-	)
-}
-
-const diceCommand = (channel, tags, args, client) => {
-	const result = Math.floor(Math.random() * 6) + 1
-	client.say(channel, `@${tags.username}, you rolled a ${result}. 🎲🎲🎲`)
-}
-
 const hugCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
 		`${tags.username} sends a big digital hug to ${args} VirtualHug`
 	)
+}
+
+const cansCommand = (channel, tags, args, client) => {
+	client.say(channel, 'Headphones ON for this one! 🎧🎧🎧')
+}
+
+const yyCommand = (channel, tags, args, client) => {
+	client.say(channel, "YEAH Y'ARE! 💯")
+}
+
+const gsdCommand = (channel, tags, args, client) => {
+	client.say(
+		channel,
+		`@${tags.username} is getting sh*t *done* right now! 💪💪💪`
+	)
+}
+
+const noMicCommand = (channel, tags, args, client) => {
+	client.say(
+		channel,
+		`@djmarcusmcb is currently recording this mix. If you hear him on the mic, it means he's between sets (or he tanked a transition!)`
+	)
+}
+
+const respekCommand = (channel, tags, args, client) => {
+	if (args.length === 0) {
+		client.say(channel, `Respek to you, @${tags.username}! 👑👑👑`)
+	} else {
+		client.say(channel, `Put some respek on ${args}'s name! 👑👑👑`)
+	}
+}
+
+const portCommand = (channel, tags, args, client) => {
+	client.say(
+		channel,
+		`@${tags.username} is pouring up that shot right about now! 🥃🥃🥃`
+	)
+}
+
+const knowsCommand = (channel, tags, args, client) => {
+	if (args.length === 0) {
+		client.say(channel, `@${tags.username} knows a guy... 🔨`)
+	} else {
+		client.say(channel, `${args} knows knows a guy... 🔨`)
+	}
 }
 
 const cakeCommand = (channel, tags, args, client) => {
@@ -196,16 +176,87 @@ const cakeCommand = (channel, tags, args, client) => {
 	}
 }
 
-const knowsCommand = (channel, tags, args, client) => {
+// admin & moderator commands
+
+const shoutOutCommand = (channel, tags, args, client, obs) => {
 	if (args.length === 0) {
-		client.say(channel, `@${tags.username} knows a guy... 🔨`)
+		client.say(channel, `Uhh... who should I shout out here? 📣📣📣`)
 	} else {
-		client.say(channel, `${args} knows knows a guy... 🔨`)
+		let argsParsed = args[0].slice(1)
+		if (tags.username === `${process.env.TWITCH_CHANNEL_NAME}` || tags.mod) {
+			client.say(
+				channel,
+				`Be sure to follow our good friend ${args}'s channel here on Twitch! www.twitch.tv/${argsParsed} `
+			)
+		}
+	}
+}
+
+const bitsCommand = (channel, tags, args, client) => {
+	if (args.length === 0) {
+		return
+	} else {
+		let argsParsed = args[0].slice(1)
+		if (tags.username === `${process.env.TWITCH_CHANNEL_NAME}` || tags.mod) {
+			client.say(
+				channel,
+				`${argsParsed}, thank you so much for the BITS fam! 🎉🎉🎉`
+			)
+		}
+	}
+}
+
+// commands with random number generated values
+
+const postCommand = (channel, tags, args, client) => {
+	let postValue = randomValue()
+	client.say(channel, `That talk up was ${postValue}% on the nose! 🎧`)
+}
+
+const fadedCommand = (channel, tags, args, client) => {
+	const fadedResult = randomValue()
+	if (args.length === 0) {
+		client.say(
+			channel,
+			`@${tags.username} is ${fadedResult}% faded right now. 😎😎😎`
+		)
+	} else {
+		client.say(channel, `${args} is ${fadedResult}% faded right now. 😎😎😎`)
+	}
+}
+
+const smortCommand = (channel, tags, args, client) => {
+	let smortValue = randomValue()
+	if (args.length === 0) {
+		client.say(channel, `@${tags.username} is ${smortValue}% SMORT! 🧠🧠🧠`)
+	} else {
+		client.say(channel, `${args} is ${smortValue}% SMORT! 🧠🧠🧠`)
+	}
+}
+
+const burntCommand = (channel, tags, args, client) => {
+	let burntValue = randomValue()
+	if (args.length === 0) {
+		client.say(channel, `@${tags.username} is ${burntValue}% burnt right now!`)
+	} else {
+		client.say(channel, `${args} is ${burntValue}% burnt right now!`)
+	}
+}
+
+const floatyCommand = (channel, tags, args, client) => {
+	let floatyValue = randomValue()
+	if (args.length === 0) {
+		client.say(
+			channel,
+			`@${tags.username} is ${floatyValue}% floaty right now! 🤪🤪🤪`
+		)
+	} else {
+		client.say(channel, `${args} is ${floatyValue}% floaty right now! 🤪🤪🤪`)
 	}
 }
 
 const turntCommand = (channel, tags, args, client) => {
-	let turntValue = Math.floor(Math.random() * 100) + 1
+	let turntValue = randomValue()
 	if (args.length === 0) {
 		client.say(
 			channel,
@@ -217,7 +268,7 @@ const turntCommand = (channel, tags, args, client) => {
 }
 
 const highCommand = (channel, tags, args, client) => {
-	let highValue = Math.floor(Math.random() * 100) + 1
+	let highValue = randomValue()
 	if (args.length === 0) {
 		client.say(
 			channel,
@@ -229,7 +280,7 @@ const highCommand = (channel, tags, args, client) => {
 }
 
 const litCommand = (channel, tags, args, client) => {
-	let litValue = Math.floor(Math.random() * 100) + 1
+	let litValue = randomValue()
 	if (args.length === 0) {
 		client.say(
 			channel,
@@ -241,7 +292,7 @@ const litCommand = (channel, tags, args, client) => {
 }
 
 const borkedCommand = (channel, tags, args, client) => {
-	let borkedValue = Math.floor(Math.random() * 100) + 1
+	let borkedValue = randomValue()
 	if (args.length === 0) {
 		client.say(
 			channel,
@@ -252,16 +303,8 @@ const borkedCommand = (channel, tags, args, client) => {
 	}
 }
 
-const respekCommand = (channel, tags, args, client) => {
-	if (args.length === 0) {
-		client.say(channel, `Respek to you, @${tags.username}! 👑👑👑`)
-	} else {
-		client.say(channel, `Put some respek on ${args}'s name! 👑👑👑`)
-	}
-}
-
 const guttercheckCommand = (channel, tags, args, client) => {
-	let guttercheckValue = Math.floor(Math.random() * 100) + 1
+	let guttercheckValue = randomValue()
 	if (args.length === 0) {
 		client.say(
 			channel,
@@ -285,59 +328,29 @@ const stuffedCommand = (channel, tags, args, client) => {
 	}
 }
 
-const cansCommand = (channel, tags, args, client) => {
-	client.say(channel, 'Headphones ON for this one! 🎧🎧🎧')
+// game commands
+
+const diceCommand = (channel, tags, args, client) => {
+	const result = Math.floor(Math.random() * 6) + 1
+	client.say(channel, `@${tags.username}, you rolled a ${result}. 🎲🎲🎲`)
 }
 
-const yyCommand = (channel, tags, args, client) => {
-	client.say(channel, "YEAH Y'ARE! 💯")
-}
-
-const gsdCommand = (channel, tags, args, client) => {
-	client.say(
-		channel,
-		`@${tags.username} is getting sh*t *done* right now! 💪💪💪`
-	)
-}
-
-const discordCommand = (channel, tags, args, client) => {
-	client.say(
-		channel,
-		`Join the MCB community for more tunes, tech, squirrels, and playlists from past Twitch streams over on Discord: https://discord.gg/YCUGhxyRJR`
-	)
-}
+// user created commands
 
 const greerCityCommand = (channel, tags, args, client) => {
-	client.say(
-		channel,
-		`Where the NASCAR fans turn left but vote right.`
-	)
+	client.say(channel, `Where the NASCAR fans turn left but vote right.`)
 }
 
 const ericCommand = (channel, tags, args, client) => {
 	client.say(channel, `Happy Birthday, @Cynsaytional! 🎉🎉🎉`)
 }
 
-const noMicCommand = (channel, tags, args, client) => {
-	client.say(
-		channel,
-		`@djmarcusmcb is currently recording this mix. If you hear him on the mic, it means he's between sets (or he tanked a transition!)`
-	)
-}
-
-const tonightCommand = (channel, tags, args, client) => {
-	client.say(
-		channel,
-		`We're celebrating my 1st Twitch Affiliate Anniversary tonight by giving away some really cool MCB merch!  If you're a follower/subscriber, simply message me with your mailing address.  I'll be sending you a few goodies this week as a thank you for being part of the community! 🎉🎉🎉`
-	)
-}
-
-const portCommand = (channel, tags, args, client) => {
-	client.say(
-		channel,
-		`@${tags.username} is pouring up that shot right about now! 🥃🥃🥃`
-	)
-}
+// const tonightCommand = (channel, tags, args, client) => {
+// 	client.say(
+// 		channel,
+// 		`We're celebrating my 1st Twitch Affiliate Anniversary tonight by giving away some really cool MCB merch!  If you're a follower/subscriber, simply message me with your mailing address.  I'll be sending you a few goodies this week as a thank you for being part of the community! 🎉🎉🎉`
+// 	)
+// }
 
 module.exports = {
 	helloCommand: helloCommand,
@@ -372,7 +385,7 @@ module.exports = {
 	cansCommand: cansCommand,
 	knowsCommand: knowsCommand,
 	discordCommand: discordCommand,
-	tonightCommand: tonightCommand,
+	// tonightCommand: tonightCommand,
 	litCommand: litCommand,
 	highCommand: highCommand,
 	borkedCommand: borkedCommand,
@@ -380,7 +393,7 @@ module.exports = {
 	npChatbotLinkCommand: npChatbotLinkCommand,
 	yyCommand: yyCommand,
 	greerCityCommand: greerCityCommand,
-	portCommand: portCommand
+	portCommand: portCommand,
 }
 
 // refactor random number generated values
