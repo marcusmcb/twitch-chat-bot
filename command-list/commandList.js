@@ -40,6 +40,10 @@ const {
 	greerCityCommand,
 	portCommand,
 	tonightCommand,
+	skidaddleCommand,
+	beefcakeCommand,
+	portexCommand,
+	playlistsCommand,
 } = require('../commands/commands')
 
 const {
@@ -150,6 +154,10 @@ const commandList = {
 	greercity: greerCityCommand,
 	port: portCommand,
 	tonight: tonightCommand,
+	skidaddle: skidaddleCommand,
+	beefcake: beefcakeCommand,
+	portex: portexCommand,
+	playlists: playlistsCommand,
 	// malt: maltCommand,
 	// lineup: lineupCommand,
 }

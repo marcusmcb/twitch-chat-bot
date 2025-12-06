@@ -120,6 +120,10 @@ const hugCommand = (channel, tags, args, client) => {
 	)
 }
 
+const portexCommand = (channel, tags, args, client) => {
+	client.say(channel, 'OH look what time it is! 🥃🥃🥃')
+}
+
 const cansCommand = (channel, tags, args, client) => {
 	client.say(channel, 'Headphones ON for this one! 🎧🎧🎧')
 }
@@ -135,11 +139,40 @@ const gsdCommand = (channel, tags, args, client) => {
 	)
 }
 
+const playlistsCommand = (channel, tags, args, client) => {
+	client.say(
+		channel,
+		`You can check out all of the playlists from my past Twitch streams over on Spotify @ https://open.spotify.com/user/1248412141/playlists`
+	)
+}
+
 const noMicCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
 		`@djmarcusmcb is currently recording this mix. If you hear him on the mic, it means he's between sets (or he tanked a transition!)`
 	)
+}
+
+const skidaddleCommand = (channel, tags, args, client) => {
+	if (args.length === 0) {
+		client.say(
+			channel,
+			`Hey, guess what, folks?  That's the news and @${tags.username} is outta here! ✏️🏃💨`
+		)
+	} else {
+		client.say(
+			channel,
+			`Hey, guess what, folks?  That's the news and ${args} is outta here! ✏️🏃💨`
+		)
+	}
+}
+
+const beefcakeCommand = (channel, tags, args, client) => {
+	if (args.length === 0) {
+		client.say(channel, 'FOLLOW YOUR DREAMS! 💪💪💪')
+	} else {
+		client.say(channel, `FOLLOW YOUR DREAMS, ${args}! 💪💪💪`)
+	}
 }
 
 const respekCommand = (channel, tags, args, client) => {
@@ -394,6 +427,10 @@ module.exports = {
 	yyCommand: yyCommand,
 	greerCityCommand: greerCityCommand,
 	portCommand: portCommand,
+	skidaddleCommand: skidaddleCommand,
+	beefcakeCommand: beefcakeCommand,
+	portexCommand: portexCommand,
+	playlistsCommand: playlistsCommand,
 }
 
 // refactor random number generated values
