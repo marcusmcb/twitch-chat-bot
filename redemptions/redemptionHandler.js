@@ -99,6 +99,14 @@ const redemptionHandler = async (
 			console.log('Redemption: Get Your Lucky Numbers')
 			redemption = redemptionData.get_your_lucky_numbers
 			break
+		case "Arizona Sunset":
+			console.log('Redemption: Arizona Sunset')
+			redemption = redemptionData.arizona_sunset
+			break
+		case "What's Dash Up To?":
+			console.log("Redemption: What's Dash Up To?")
+			redemption = redemptionData.whats_dash_up_to
+			break
 		default:
 			console.log('Redemption Claimed:', redemptionTitle)			
 			sceneChangeLock.active = false

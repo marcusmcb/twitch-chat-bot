@@ -34,12 +34,24 @@ const redemptionData = {
 			"Looks like the 'Shake On It' redemption isn't working right now.",
 		display_time: 5000,
 	},
+	arizona_sunset: {
+		scene_name: 'AZ SUNSET LONG',
+		text: 'Check out that Arizona sunset! 🌵🌇',
+		error_text: "Looks like the 'Arizona Sunset' redemption isn't working right now.",
+		display_time: 23500,
+	},
+	whats_dash_up_to: {
+		scene_name: 'LATEST DASH',
+		text: "Here's what Dash has been up to! 🐿️",
+		error_text: "Looks like the 'What's Dash Up To?' redemption isn't working right now.",
+		display_time: 10000,
+	},
 	get_your_lucky_numbers: {
 		scene_name: 'PI CAM',
 		text: 'The Pi Bot knows your lucky numbers! 🍀',
 		error_text:
 			"Looks like the 'Get Your Lucky Numbers' redemption isn't working right now.",
-		display_time: 15000,
+		display_time: 14000,
 	},
 }
 
