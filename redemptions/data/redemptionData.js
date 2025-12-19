@@ -44,7 +44,7 @@ const redemptionData = {
 		scene_name: 'LATEST DASH',
 		text: "Here's what Dash has been up to! 🐿️",
 		error_text: "Looks like the 'What's Dash Up To?' redemption isn't working right now.",
-		display_time: 14000,
+		display_time: 24000,
 	},
 	get_your_lucky_numbers: {
 		scene_name: 'PI CAM',
