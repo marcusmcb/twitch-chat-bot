@@ -300,6 +300,18 @@ const turntCommand = (channel, tags, args, client) => {
 	}
 }
 
+const dingusCommand = (channel, tags, args, client) => {
+	let dingusValue = randomValue()
+	if (args.length === 0) {
+		client.say(
+			channel,
+			`@${tags.username} is ${dingusValue}% dingus right now! 🤪🤪🤪`
+		)
+	} else {
+		client.say(channel, `${args} is ${dingusValue}% dingus right now! 🤪🤪🤪`)
+	}
+}
+
 const highCommand = (channel, tags, args, client) => {
 	let highValue = randomValue()
 	if (args.length === 0) {
