@@ -443,6 +443,7 @@ module.exports = {
 	beefcakeCommand: beefcakeCommand,
 	portexCommand: portexCommand,
 	playlistsCommand: playlistsCommand,
+	dingusCommand: dingusCommand,
 }
 
 // refactor random number generated values
