@@ -209,6 +209,14 @@ const cakeCommand = (channel, tags, args, client) => {
 	}
 }
 
+const dangerCommand = (channel, tags, args, client) => {
+	client.say(
+		channel,
+		`SAFETY THIRD! 🔥🔥🔥`
+	)
+}
+
+
 // admin & moderator commands
 
 const shoutOutCommand = (channel, tags, args, client, obs) => {
@@ -444,6 +452,7 @@ module.exports = {
 	portexCommand: portexCommand,
 	playlistsCommand: playlistsCommand,
 	dingusCommand: dingusCommand,
+	dangerCommand: dangerCommand,
 }
 
 // refactor random number generated values

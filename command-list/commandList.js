@@ -45,6 +45,7 @@ const {
 	portexCommand,
 	playlistsCommand,
 	dingusCommand,
+	dangerCommand,
 } = require('../commands/commands')
 
 const {
@@ -160,6 +161,7 @@ const commandList = {
 	portex: portexCommand,
 	playlists: playlistsCommand,
 	dingus: dingusCommand,
+	danger: dangerCommand,
 	// malt: maltCommand,
 	// lineup: lineupCommand,
 }
