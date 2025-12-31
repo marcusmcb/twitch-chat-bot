@@ -486,6 +486,7 @@ module.exports = {
 	dangerCommand: dangerCommand,
 	brainrotCommand: brainrotCommand,
 	warningCommand: warningCommand,
+	pluribusCommand: pluribusCommand,
 }
 
 // refactor random number generated values
