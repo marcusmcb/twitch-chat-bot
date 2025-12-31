@@ -216,6 +216,13 @@ const dangerCommand = (channel, tags, args, client) => {
 	)
 }
 
+const warningCommand = (channel, tags, args, client) => {
+	client.say(
+		channel,
+		`DANGER MCB, DANGER! 🤖🤖🤖`
+	)
+}
+
 
 // admin & moderator commands
 
@@ -400,6 +407,18 @@ const diceCommand = (channel, tags, args, client) => {
 	client.say(channel, `@${tags.username}, you rolled a ${result}. 🎲🎲🎲`)
 }
 
+const pluribusCommand = (channel, tags, args, client) => {
+	let pluribusValue = randomValue()
+	if (args.length === 0) {
+		client.say(
+			channel,
+			`@${tags.username} is ${pluribusValue}% connected to the hivemind right now! 🤖🤖🤖`
+		)
+	} else {
+		client.say(channel, `${args} is ${pluribusValue}% connected to the hivemind right now! 🤖🤖🤖`)
+	}
+}
+
 // user created commands
 
 const greerCityCommand = (channel, tags, args, client) => {
@@ -466,6 +485,7 @@ module.exports = {
 	dingusCommand: dingusCommand,
 	dangerCommand: dangerCommand,
 	brainrotCommand: brainrotCommand,
+	warningCommand: warningCommand,
 }
 
 // refactor random number generated values
