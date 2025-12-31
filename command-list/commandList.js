@@ -46,6 +46,7 @@ const {
 	playlistsCommand,
 	dingusCommand,
 	dangerCommand,
+	brainrotCommand,
 } = require('../commands/commands')
 
 const {
@@ -162,6 +163,7 @@ const commandList = {
 	playlists: playlistsCommand,
 	dingus: dingusCommand,
 	danger: dangerCommand,
+	brainrot: brainrotCommand,
 	// malt: maltCommand,
 	// lineup: lineupCommand,
 }

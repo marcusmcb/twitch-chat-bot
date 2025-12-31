@@ -320,6 +320,18 @@ const dingusCommand = (channel, tags, args, client) => {
 	}
 }
 
+const brainrotCommand = (channel, tags, args, client) => {
+	let brainrotValue = randomValue()
+	if (args.length === 0) {	
+		client.say(
+			channel,
+			`@${tags.username} has ${brainrotValue}% brainrot right now! 🤪🤪🤪`
+		)
+	} else {
+		client.say(channel, `${args} has ${brainrotValue}% brainrot right now! 🤪🤪🤪`)
+	}
+}
+
 const highCommand = (channel, tags, args, client) => {
 	let highValue = randomValue()
 	if (args.length === 0) {
@@ -453,6 +465,7 @@ module.exports = {
 	playlistsCommand: playlistsCommand,
 	dingusCommand: dingusCommand,
 	dangerCommand: dangerCommand,
+	brainrotCommand: brainrotCommand,
 }
 
 // refactor random number generated values
