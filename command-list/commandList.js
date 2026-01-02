@@ -195,6 +195,7 @@ const popupChangeCommandList = {
 	what: popupChangeCommand,
 	eww: popupChangeCommand,
 	rave: popupChangeCommand,
+	dacheat: popupChangeCommand,
 }
 
 module.exports = {

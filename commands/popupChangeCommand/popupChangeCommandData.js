@@ -95,6 +95,13 @@ const popupChangeCommandData = {
 		error_text: 'Rave on! 🎉',
 		display_time: 5000,
 	},
+	dacheat: {
+		source_name: 'da_cheat',
+		text: '',
+		error_text: 'The Cheat is GROUNDED! 🚫',
+		display_time: 5000,
+	}
+
 }
 
 module.exports = popupChangeCommandData
