@@ -49,6 +49,7 @@ const {
 	brainrotCommand,
 	warningCommand,
 	pluribusCommand,
+	youtubeCommand
 } = require('../commands/commands')
 
 const {
@@ -168,6 +169,7 @@ const commandList = {
 	weather: weatherCommand,
 	ye: yeQuoteCommand,
 	yy: yyCommand,
+	youtube: youtubeCommand,
 	// malt: maltCommand,
 	// lineup: lineupCommand,
 }

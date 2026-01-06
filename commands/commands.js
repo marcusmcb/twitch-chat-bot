@@ -146,6 +146,13 @@ const playlistsCommand = (channel, tags, args, client) => {
 	)
 }
 
+const youtubeCommand = (channel, tags, args, client) => {
+	client.say(
+		channel,
+		`You can listen to DJ sets I've recorded and watch replays of my past Twitch streams over on my YouTube channel @ https://www.youtube.com/@marcusmcb`
+	)
+}
+
 const noMicCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
@@ -210,19 +217,12 @@ const cakeCommand = (channel, tags, args, client) => {
 }
 
 const dangerCommand = (channel, tags, args, client) => {
-	client.say(
-		channel,
-		`SAFETY THIRD! 🔥🔥🔥`
-	)
+	client.say(channel, `SAFETY THIRD! 🔥🔥🔥`)
 }
 
 const warningCommand = (channel, tags, args, client) => {
-	client.say(
-		channel,
-		`DANGER MCB, DANGER! 🤖🤖🤖`
-	)
+	client.say(channel, `DANGER MCB, DANGER! 🤖🤖🤖`)
 }
-
 
 // admin & moderator commands
 
@@ -329,13 +329,16 @@ const dingusCommand = (channel, tags, args, client) => {
 
 const brainrotCommand = (channel, tags, args, client) => {
 	let brainrotValue = randomValue()
-	if (args.length === 0) {	
+	if (args.length === 0) {
 		client.say(
 			channel,
 			`@${tags.username} has ${brainrotValue}% brainrot right now! 🤪🤪🤪`
 		)
 	} else {
-		client.say(channel, `${args} has ${brainrotValue}% brainrot right now! 🤪🤪🤪`)
+		client.say(
+			channel,
+			`${args} has ${brainrotValue}% brainrot right now! 🤪🤪🤪`
+		)
 	}
 }
 
@@ -415,7 +418,10 @@ const pluribusCommand = (channel, tags, args, client) => {
 			`@${tags.username} is ${pluribusValue}% connected to the hivemind right now! 🤖🤖🤖`
 		)
 	} else {
-		client.say(channel, `${args} is ${pluribusValue}% connected to the hivemind right now! 🤖🤖🤖`)
+		client.say(
+			channel,
+			`${args} is ${pluribusValue}% connected to the hivemind right now! 🤖🤖🤖`
+		)
 	}
 }
 
@@ -487,6 +493,7 @@ module.exports = {
 	brainrotCommand: brainrotCommand,
 	warningCommand: warningCommand,
 	pluribusCommand: pluribusCommand,
+	youtubeCommand: youtubeCommand,
 }
 
 // refactor random number generated values
