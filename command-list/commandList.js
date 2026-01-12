@@ -136,7 +136,7 @@ const commandList = {
 	links: linksCommand,
 	lit: litCommand,
 	lightsInfo: lightsInfo,
-	lotto: lottoCommand,
+	// lotto: lottoCommand,
 	lurk: lurkCommand,
 	mixes: mixesCommand,
 	my: myCommand,
