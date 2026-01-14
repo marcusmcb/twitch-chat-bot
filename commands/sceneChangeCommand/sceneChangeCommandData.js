@@ -17,6 +17,12 @@ const sceneChangeCommandData = {
 		error_text: "Looks like the cruise command isn't working right now.",
 		display_time: 13000,
 	},
+	lotto: {
+		scene_name: 'LOTTO CAM',
+		text: '',
+		error_text: "Looks like the lotto command isn't working right now.",
+		display_time: 9000,
+	}
 }
 
 module.exports = sceneChangeCommandData

@@ -178,6 +178,7 @@ const sceneChangeCommandList = {
 	stuck: sceneChangeCommand,
 	jeep: sceneChangeCommand,
 	cruise: sceneChangeCommand,
+	lotto: sceneChangeCommand,
 }
 
 const popupChangeCommandList = {
