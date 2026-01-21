@@ -239,7 +239,7 @@ client.on('message', (channel, tags, message, self) => {
 		io.emit('chat-emote', tags.emotes)
 	}
 
-	if (self || !message.startsWith('!') || message === "!urban") {
+	if (self || !message.startsWith('!') || message.includes("!urban")) {
 		return
 	}
 
