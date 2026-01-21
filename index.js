@@ -128,7 +128,7 @@ app.use(
 		methods: ['GET', 'POST'],
 		allowedHeaders: ['my-custom-header'],
 		credentials: true,
-	})
+	}),
 )
 
 app.use(
@@ -136,7 +136,7 @@ app.use(
 		verify: (req, res, buf) => {
 			req.rawBody = buf // store the raw body as a buffer
 		},
-	})
+	}),
 )
 
 // endpoint to capture the authorization code
@@ -152,7 +152,7 @@ app.get('/auth/callback', (req, res) => {
 })
 
 app.post('/update-pi-endpoint', express.json(), (req, res) => {
-	const { url, secret } = req.body	
+	const { url, secret } = req.body
 	if (secret !== process.env.PI_UPDATE_SECRET) {
 		return res.status(403).send('Forbidden')
 	}
@@ -206,7 +206,7 @@ app.post('/webhook', async (req, res) => {
 		console.log('Event Type: ', req.body.subscription.type)
 		console.log(
 			'Channel Name: ',
-			req.body.event.broadcaster_user_name || 'Unknown'
+			req.body.event.broadcaster_user_name || 'Unknown',
 		)
 		console.log('--------------------')
 		if (
@@ -221,7 +221,7 @@ app.post('/webhook', async (req, res) => {
 				sceneChangeLock,
 				req.body.event.broadcaster_user_name,
 				req.body.event.reward.title,
-				req.body.event.user_name
+				req.body.event.user_name,
 			)
 		}
 		res.status(204).end()
@@ -239,7 +239,7 @@ client.on('message', (channel, tags, message, self) => {
 		io.emit('chat-emote', tags.emotes)
 	}
 
-	if (self || !message.startsWith('!') || message.includes("!urban")) {
+	if (self || !message.startsWith('!')) {
 		return
 	}
 
@@ -263,7 +263,7 @@ client.on('message', (channel, tags, message, self) => {
 		) {
 			client.say(
 				channel,
-				`@${tags.username}, try a different command before using that one again.`
+				`@${tags.username}, try a different command before using that one again.`,
 			)
 		} else if (command in popupChangeCommandList) {
 			console.log('Pop up command called')
@@ -274,7 +274,7 @@ client.on('message', (channel, tags, message, self) => {
 				client,
 				obs,
 				command,
-				popupChangeLock
+				popupChangeLock,
 			)
 			history.push(command)
 			if (history.length > COMMAND_REPEAT_LIMIT) {
@@ -290,7 +290,7 @@ client.on('message', (channel, tags, message, self) => {
 				client,
 				obs,
 				command,
-				sceneChangeLock
+				sceneChangeLock,
 			)
 			history.push(command)
 
@@ -306,7 +306,7 @@ client.on('message', (channel, tags, message, self) => {
 				client,
 				obs,
 				sceneChangeLock,
-				countdownLock
+				countdownLock,
 			)
 			history.push(command)
 
