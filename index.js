@@ -21,7 +21,7 @@ const {
 	createEventSubSubscription,
 } = require('./event-sub-handlers/eventSubHandlers')
 
-// OBS, channel redemption, and interval notfications config
+// OBS, channel redemption, and interval notifications config
 const autoCommandsConfig = require('./auto-commands/config/autoCommandsConfig')
 const obs = require('./obs/obsConnection')
 const { redemptionHandler } = require('./redemptions/redemptionHandler')

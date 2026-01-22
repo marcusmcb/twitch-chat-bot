@@ -97,7 +97,7 @@ const commandList = {
 	714: areacodeCommand,
 	'8ball': eightballCommand,
 	8613: pluribusCommand,
-	askgpt: askGPTCommand,
+	// askgpt: askGPTCommand,
 	back: backCommand,
 	beefcake: beefcakeCommand,
 	birdcam: birdcamCommand,
