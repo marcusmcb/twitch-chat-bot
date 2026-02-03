@@ -49,7 +49,8 @@ const {
 	brainrotCommand,
 	warningCommand,
 	pluribusCommand,
-	youtubeCommand
+	youtubeCommand,
+	archiveCommand
 } = require('../commands/commands')
 
 const {
@@ -98,6 +99,7 @@ const commandList = {
 	'8ball': eightballCommand,
 	8613: pluribusCommand,
 	// askgpt: askGPTCommand,
+	archive: archiveCommand,
 	back: backCommand,
 	beefcake: beefcakeCommand,
 	birdcam: birdcamCommand,
