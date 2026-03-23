@@ -92,6 +92,7 @@ const { askGPTCommand } = require('../commands/chatgpt/askgpt')
 const { countdownCommand } = require('../commands/countdown/countdown')
 const { highLowCommand } = require('../commands/highlow/highLow')
 const { cultureCommand } = require('../commands/djculture/djCulture')
+const { checkInCommand } = require('../commands/checkin/checkIn')
 // const { maltCommand, lineupCommand } = require('../commands/malt/malt')
 
 const commandList = {
@@ -110,6 +111,7 @@ const commandList = {
 	burnt: burntCommand,
 	cake: cakeCommand,
 	cans: cansCommand,
+	checkin: checkInCommand,
 	code: codeCommand,
 	commands: listCommands,
 	countdown: countdownCommand,
