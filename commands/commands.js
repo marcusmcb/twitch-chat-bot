@@ -1,9 +1,47 @@
 const dotenv = require('dotenv')
 dotenv.config()
 
+const sharedBirthdayCelebrities = require('./bday/sharedBirthdayCelebrities')
+
 // helper method to generate a random value between 1 and 100
 const randomValue = () => {
 	return Math.floor(Math.random() * 100) + 1
+}
+
+const randomItem = (items) => {
+	const index = Math.floor(Math.random() * items.length)
+	return items[index]
+}
+
+let availableSharedBirthdayCelebrities = [...sharedBirthdayCelebrities]
+
+const randomSharedBirthdayCelebrity = () => {
+	if (availableSharedBirthdayCelebrities.length === 0) {
+		availableSharedBirthdayCelebrities = [...sharedBirthdayCelebrities]
+	}
+
+	const selectedCelebrity = randomItem(availableSharedBirthdayCelebrities)
+	availableSharedBirthdayCelebrities = availableSharedBirthdayCelebrities.filter(
+		(celebrity) => celebrity !== selectedCelebrity
+	)
+
+	return selectedCelebrity
+}
+
+const birthdayMessageTemplates = [
+	({ yearsDifference, relation, name, notableThing }) =>
+		`Congrats, MCB! You're ${yearsDifference} years ${relation} than ${name}, best known for ${notableThing}, who shares a birthday with you today! 🎉🎉🎉`,
+	({ yearsDifference, relation, name, notableThing }) =>
+		`Birthday fun fact for the chat: MCB is ${yearsDifference} years ${relation} than ${name}, the legend behind ${notableThing}. 🎂`,
+	({ yearsDifference, relation, name, notableThing }) =>
+		`March 29th crew check: MCB is ${yearsDifference} years ${relation} than ${name}, best known for ${notableThing}. Pretty good birthday company, honestly. 🎉`,
+	({ yearsDifference, relation, name, notableThing }) =>
+		`As of today, MCB is ${yearsDifference} years ${relation} than ${name}, famous for ${notableThing}. Not a bad group to be in at all. 🥳`,
+]
+
+const formatBirthdayMessage = (celebrity) => {
+	const template = randomItem(birthdayMessageTemplates)
+	return template(celebrity)
 }
 
 // social media and link commands
@@ -231,7 +269,11 @@ const warningCommand = (channel, tags, args, client) => {
 	client.say(channel, `DANGER MCB, DANGER! 🤖🤖🤖`)
 }
 
-// admin & moderator commands
+// birthday commands
+const bdayCommand = (channel, tags, args, client) => {
+	const birthdayCelebrity = randomSharedBirthdayCelebrity()
+	client.say(channel, formatBirthdayMessage(birthdayCelebrity))
+}
 
 const shoutOutCommand = (channel, tags, args, client, obs) => {
 	if (args.length === 0) {
@@ -456,6 +498,7 @@ module.exports = {
 	beefcakeCommand: beefcakeCommand,
 	bitsCommand: bitsCommand,
 	borkedCommand: borkedCommand,
+	bdayCommand: bdayCommand,
 	brainrotCommand: brainrotCommand,
 	burntCommand: burntCommand,
 	cakeCommand: cakeCommand,

@@ -50,7 +50,8 @@ const {
 	warningCommand,
 	pluribusCommand,
 	youtubeCommand,
-	archiveCommand
+	archiveCommand,
+	bdayCommand,
 } = require('../commands/commands')
 
 const {
@@ -102,6 +103,7 @@ const commandList = {
 	// askgpt: askGPTCommand,
 	archive: archiveCommand,
 	back: backCommand,
+	bday: bdayCommand,
 	beefcake: beefcakeCommand,
 	birdcam: birdcamCommand,
 	bits: bitsCommand, // mods & streamers only
@@ -203,6 +205,7 @@ const popupChangeCommandList = {
 	eww: popupChangeCommand,
 	rave: popupChangeCommand,
 	dacheat: popupChangeCommand,
+	52: popupChangeCommand,
 }
 
 module.exports = {

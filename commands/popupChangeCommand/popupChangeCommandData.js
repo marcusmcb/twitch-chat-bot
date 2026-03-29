@@ -100,6 +100,12 @@ const popupChangeCommandData = {
 		text: '',
 		error_text: 'The Cheat is GROUNDED! 🚫',
 		display_time: 5000,
+	},
+	52: {
+		source_name: '52_bacon',
+		text: '',
+		error_text: '52 BACON! 🥓',
+		display_time: 5000,
 	}
 
 }
