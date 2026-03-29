@@ -28,15 +28,27 @@ const randomSharedBirthdayCelebrity = () => {
 	return selectedCelebrity
 }
 
+const getMCBAgeRelation = (relation) => {
+	if (relation === 'older') {
+		return 'younger'
+	}
+
+	if (relation === 'younger') {
+		return 'older'
+	}
+
+	return relation
+}
+
 const birthdayMessageTemplates = [
 	({ yearsDifference, relation, name, notableThing }) =>
-		`Congrats, MCB! You're ${yearsDifference} years ${relation} than ${name}, best known for ${notableThing}, who shares a birthday with you today! 🎉🎉🎉`,
+		`Congrats, MCB! You're ${yearsDifference} years ${getMCBAgeRelation(relation)} than ${name}, best known for ${notableThing}, who shares a birthday with you today! 🎉🎉🎉`,
 	({ yearsDifference, relation, name, notableThing }) =>
-		`Birthday fun fact for the chat: MCB is ${yearsDifference} years ${relation} than ${name}, the legend behind ${notableThing}. 🎂`,
+		`Birthday fun fact for the chat: MCB is ${yearsDifference} years ${getMCBAgeRelation(relation)} than ${name}, the legend behind ${notableThing}. 🎂`,
 	({ yearsDifference, relation, name, notableThing }) =>
-		`March 29th crew check: MCB is ${yearsDifference} years ${relation} than ${name}, best known for ${notableThing}. Pretty good birthday company, honestly. 🎉`,
+		`March 29th crew check: MCB is ${yearsDifference} years ${getMCBAgeRelation(relation)} than ${name}, best known for ${notableThing}. Pretty good birthday company, honestly. 🎉`,
 	({ yearsDifference, relation, name, notableThing }) =>
-		`As of today, MCB is ${yearsDifference} years ${relation} than ${name}, famous for ${notableThing}. Not a bad group to be in at all. 🥳`,
+		`As of today, MCB is ${yearsDifference} years ${getMCBAgeRelation(relation)} than ${name}, famous for ${notableThing}. Not a bad group to be in at all. 🥳`,
 ]
 
 const formatBirthdayMessage = (celebrity) => {
