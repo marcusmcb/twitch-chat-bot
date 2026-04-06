@@ -52,6 +52,7 @@ const {
 	youtubeCommand,
 	archiveCommand,
 	bdayCommand,
+	risenCommand,
 } = require('../commands/commands')
 
 const {
@@ -159,6 +160,7 @@ const commandList = {
 	quote: quoteCommand,
 	raid: raidCommand,
 	respek: respekCommand,
+	risen: risenCommand,
 	rock: rockCommand,
 	sc: scCommand,
 	scissors: scissorsCommand,

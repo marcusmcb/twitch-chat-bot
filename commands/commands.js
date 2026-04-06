@@ -21,9 +21,10 @@ const randomSharedBirthdayCelebrity = () => {
 	}
 
 	const selectedCelebrity = randomItem(availableSharedBirthdayCelebrities)
-	availableSharedBirthdayCelebrities = availableSharedBirthdayCelebrities.filter(
-		(celebrity) => celebrity !== selectedCelebrity
-	)
+	availableSharedBirthdayCelebrities =
+		availableSharedBirthdayCelebrities.filter(
+			(celebrity) => celebrity !== selectedCelebrity,
+		)
 
 	return selectedCelebrity
 }
@@ -61,35 +62,35 @@ const formatBirthdayMessage = (celebrity) => {
 const discordCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		`Join the MCB community for more tunes, tech, squirrels, and playlists from past Twitch streams over on Discord: https://discord.gg/YCUGhxyRJR`
+		`Join the MCB community for more tunes, tech, squirrels, and playlists from past Twitch streams over on Discord: https://discord.gg/YCUGhxyRJR`,
 	)
 }
 
 const linksCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		`You can find all of my socials & links @ https://www.djmarcusmcbride.com`
+		`You can find all of my socials & links @ https://www.djmarcusmcbride.com`,
 	)
 }
 
 const vinylCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		`Wanna dig through my record collection?  You can check out some of my favorite remixes and throwbacks over on TikTok @ www.tiktok.com/@djmarcusmcb `
+		`Wanna dig through my record collection?  You can check out some of my favorite remixes and throwbacks over on TikTok @ www.tiktok.com/@djmarcusmcb `,
 	)
 }
 
 const scCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		`You can check out MarcusMCB's Soundcloud page over @ https://soundcloud.com/marcusmcbride.`
+		`You can check out MarcusMCB's Soundcloud page over @ https://soundcloud.com/marcusmcbride.`,
 	)
 }
 
 const mixesCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		`You can check out my mixes on MixCloud over @ https://www.mixcloud.com/marcusmcbride`
+		`You can check out my mixes on MixCloud over @ https://www.mixcloud.com/marcusmcbride`,
 	)
 }
 
@@ -97,28 +98,28 @@ const primeCommand = (channel, tags, args, client) => {
 	const channelName = channel.slice(1).split('#')
 	client.say(
 		channel,
-		`Got Amazon Prime? If you do, you can use your free Prime subscription to support my channel! subs.twitch.tv/${channelName}`
+		`Got Amazon Prime? If you do, you can use your free Prime subscription to support my channel! subs.twitch.tv/${channelName}`,
 	)
 }
 
 const codeCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		'You can find streaming tools for Twitch, Discord, Twitter, plus a lot of other fun tech stuff over on my Github page! https://www.github.com/marcusmcb'
+		'You can find streaming tools for Twitch, Discord, Twitter, plus a lot of other fun tech stuff over on my Github page! https://www.github.com/marcusmcb',
 	)
 }
 
 const npChatbotLinkCommand = (channel, tags, args, client, obs) => {
 	client.say(
 		channel,
-		`DJs ---> you can add the music discovery commands and features from my channel to your own with npChatbot.  Learn more about the app and try out the free download over at https://www.npchatbot.com`
+		`DJs ---> you can add the music discovery commands and features from my channel to your own with npChatbot.  Learn more about the app and try out the free download over at https://www.npchatbot.com`,
 	)
 }
 
 const cratestatsCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		"DJs - Want to learn more about your last set?  Check out https://www.cratestats.com to learn more about data analytics for DJs (and beta testing if you're up for it!)"
+		"DJs - Want to learn more about your last set?  Check out https://www.cratestats.com to learn more about data analytics for DJs (and beta testing if you're up for it!)",
 	)
 }
 
@@ -126,28 +127,28 @@ const cratestatsCommand = (channel, tags, args, client) => {
 const listCommands = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		"You can check out this channel's chat command list here: marcusmcb.github.io/twitch-chat-commands"
+		"You can check out this channel's chat command list here: marcusmcb.github.io/twitch-chat-commands",
 	)
 }
 
 const raidCommand = (channel, tags, args, client, obs) => {
 	client.say(
 		channel,
-		`TombRaid TombRaid 🎉🎉 DJMarcusMCB just rolled up with a raid! 🎉🎉 TombRaid TombRaid`
+		`TombRaid TombRaid 🎉🎉 DJMarcusMCB just rolled up with a raid! 🎉🎉 TombRaid TombRaid`,
 	)
 }
 
 const helloCommand = (channel, tags, args, client, obs) => {
 	client.say(
 		channel,
-		`@${process.env.TWITCH_CHANNEL_NAME}, what's good homie! 👋👋👋`
+		`@${process.env.TWITCH_CHANNEL_NAME}, what's good homie! 👋👋👋`,
 	)
 }
 
 const lurkCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		`@${tags.username} is gonna be over there, doin' whatever...`
+		`@${tags.username} is gonna be over there, doin' whatever...`,
 	)
 }
 
@@ -159,14 +160,14 @@ const areacodeCommand = (channel, tags, args, client) => {
 	const channelName = channel.slice(1).split('#')
 	client.say(
 		channel,
-		`${channelName} is coming to you live from the front of the crib in Orange County, CA! 🍊`
+		`${channelName} is coming to you live from the front of the crib in Orange County, CA! 🍊`,
 	)
 }
 
 const hugCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		`${tags.username} sends a big digital hug to ${args} VirtualHug`
+		`${tags.username} sends a big digital hug to ${args} VirtualHug`,
 	)
 }
 
@@ -185,35 +186,35 @@ const yyCommand = (channel, tags, args, client) => {
 const gsdCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		`@${tags.username} is getting sh*t *done* right now! 💪💪💪`
+		`@${tags.username} is getting sh*t *done* right now! 💪💪💪`,
 	)
 }
 
 const playlistsCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		`You can check out all of the playlists from my past Twitch streams over on Spotify @ https://open.spotify.com/user/1248412141/playlists`
+		`You can check out all of the playlists from my past Twitch streams over on Spotify @ https://open.spotify.com/user/1248412141/playlists`,
 	)
 }
 
 const archiveCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		`Want to listen to some classic, late night radio mixshows?  You can listen to all of mine any time you like over at https://www.mcbarchives.com 🎧`
+		`Want to listen to some classic, late night radio mixshows?  You can listen to all of mine any time you like over at https://www.mcbarchives.com 🎧`,
 	)
 }
 
 const youtubeCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		`You can listen to DJ sets I've recorded and watch replays of my past Twitch streams over on my YouTube channel @ https://www.youtube.com/@marcusmcb`
+		`You can listen to DJ sets I've recorded and watch replays of my past Twitch streams over on my YouTube channel @ https://www.youtube.com/@marcusmcb`,
 	)
 }
 
 const noMicCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		`@djmarcusmcb is currently recording this mix. If you hear him on the mic, it means he's between sets (or he tanked a transition!)`
+		`@djmarcusmcb is currently recording this mix. If you hear him on the mic, it means he's between sets (or he tanked a transition!)`,
 	)
 }
 
@@ -221,12 +222,12 @@ const skidaddleCommand = (channel, tags, args, client) => {
 	if (args.length === 0) {
 		client.say(
 			channel,
-			`Hey, guess what, folks?  That's the news and @${tags.username} is outta here! ✏️🏃💨`
+			`Hey, guess what, folks?  That's the news and @${tags.username} is outta here! ✏️🏃💨`,
 		)
 	} else {
 		client.say(
 			channel,
-			`Hey, guess what, folks?  That's the news and ${args} is outta here! ✏️🏃💨`
+			`Hey, guess what, folks?  That's the news and ${args} is outta here! ✏️🏃💨`,
 		)
 	}
 }
@@ -250,7 +251,7 @@ const respekCommand = (channel, tags, args, client) => {
 const portCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		`@${tags.username} is pouring up that shot right about now! 🥃🥃🥃`
+		`@${tags.username} is pouring up that shot right about now! 🥃🥃🥃`,
 	)
 }
 
@@ -268,7 +269,7 @@ const cakeCommand = (channel, tags, args, client) => {
 	} else {
 		client.say(
 			channel,
-			`@${tags.username} has a slice ready for ${args}! 🎂🎂🎂`
+			`@${tags.username} has a slice ready for ${args}! 🎂🎂🎂`,
 		)
 	}
 }
@@ -279,6 +280,20 @@ const dangerCommand = (channel, tags, args, client) => {
 
 const warningCommand = (channel, tags, args, client) => {
 	client.say(channel, `DANGER MCB, DANGER! 🤖🤖🤖`)
+}
+
+const bitsCommand = (channel, tags, args, client) => {
+	if (args.length === 0) {
+		return
+	} else {
+		let argsParsed = args[0].slice(1)
+		if (tags.username === `${process.env.TWITCH_CHANNEL_NAME}` || tags.mod) {
+			client.say(
+				channel,
+				`${argsParsed}, thank you so much for the BITS fam! 🎉🎉🎉`,
+			)
+		}
+	}
 }
 
 // birthday commands
@@ -295,21 +310,7 @@ const shoutOutCommand = (channel, tags, args, client, obs) => {
 		if (tags.username === `${process.env.TWITCH_CHANNEL_NAME}` || tags.mod) {
 			client.say(
 				channel,
-				`Be sure to follow our good friend ${args}'s channel here on Twitch! www.twitch.tv/${argsParsed} `
-			)
-		}
-	}
-}
-
-const bitsCommand = (channel, tags, args, client) => {
-	if (args.length === 0) {
-		return
-	} else {
-		let argsParsed = args[0].slice(1)
-		if (tags.username === `${process.env.TWITCH_CHANNEL_NAME}` || tags.mod) {
-			client.say(
-				channel,
-				`${argsParsed}, thank you so much for the BITS fam! 🎉🎉🎉`
+				`Be sure to follow our good friend ${args}'s channel here on Twitch! www.twitch.tv/${argsParsed} `,
 			)
 		}
 	}
@@ -327,7 +328,7 @@ const fadedCommand = (channel, tags, args, client) => {
 	if (args.length === 0) {
 		client.say(
 			channel,
-			`@${tags.username} is ${fadedResult}% faded right now. 😎😎😎`
+			`@${tags.username} is ${fadedResult}% faded right now. 😎😎😎`,
 		)
 	} else {
 		client.say(channel, `${args} is ${fadedResult}% faded right now. 😎😎😎`)
@@ -357,7 +358,7 @@ const floatyCommand = (channel, tags, args, client) => {
 	if (args.length === 0) {
 		client.say(
 			channel,
-			`@${tags.username} is ${floatyValue}% floaty right now! 🤪🤪🤪`
+			`@${tags.username} is ${floatyValue}% floaty right now! 🤪🤪🤪`,
 		)
 	} else {
 		client.say(channel, `${args} is ${floatyValue}% floaty right now! 🤪🤪🤪`)
@@ -369,7 +370,7 @@ const turntCommand = (channel, tags, args, client) => {
 	if (args.length === 0) {
 		client.say(
 			channel,
-			`@${tags.username} is ${turntValue}% turnt right now! 🎉🎉🎉`
+			`@${tags.username} is ${turntValue}% turnt right now! 🎉🎉🎉`,
 		)
 	} else {
 		client.say(channel, `${args} is ${turntValue}% turnt right now! 🎉🎉🎉`)
@@ -381,7 +382,7 @@ const dingusCommand = (channel, tags, args, client) => {
 	if (args.length === 0) {
 		client.say(
 			channel,
-			`@${tags.username} is ${dingusValue}% dingus right now! 🤪🤪🤪`
+			`@${tags.username} is ${dingusValue}% dingus right now! 🤪🤪🤪`,
 		)
 	} else {
 		client.say(channel, `${args} is ${dingusValue}% dingus right now! 🤪🤪🤪`)
@@ -393,12 +394,12 @@ const brainrotCommand = (channel, tags, args, client) => {
 	if (args.length === 0) {
 		client.say(
 			channel,
-			`@${tags.username} has ${brainrotValue}% brainrot right now! 🤪🤪🤪`
+			`@${tags.username} has ${brainrotValue}% brainrot right now! 🤪🤪🤪`,
 		)
 	} else {
 		client.say(
 			channel,
-			`${args} has ${brainrotValue}% brainrot right now! 🤪🤪🤪`
+			`${args} has ${brainrotValue}% brainrot right now! 🤪🤪🤪`,
 		)
 	}
 }
@@ -408,7 +409,7 @@ const highCommand = (channel, tags, args, client) => {
 	if (args.length === 0) {
 		client.say(
 			channel,
-			`@${tags.username} is ${highValue}% high right now! 🎉🎉🎉`
+			`@${tags.username} is ${highValue}% high right now! 🎉🎉🎉`,
 		)
 	} else {
 		client.say(channel, `${args} is ${highValue}% high right now! 🎉🎉🎉`)
@@ -420,7 +421,7 @@ const litCommand = (channel, tags, args, client) => {
 	if (args.length === 0) {
 		client.say(
 			channel,
-			`@${tags.username} is ${litValue}% lit right now! 🎉🎉🎉`
+			`@${tags.username} is ${litValue}% lit right now! 🎉🎉🎉`,
 		)
 	} else {
 		client.say(channel, `${args} is ${litValue}% lit right now! 🎉🎉🎉`)
@@ -432,7 +433,7 @@ const borkedCommand = (channel, tags, args, client) => {
 	if (args.length === 0) {
 		client.say(
 			channel,
-			`@${tags.username} is ${borkedValue}% borked right now! 💀💀💀`
+			`@${tags.username} is ${borkedValue}% borked right now! 💀💀💀`,
 		)
 	} else {
 		client.say(channel, `${args} is ${borkedValue}% borked right now! 💀💀💀`)
@@ -444,12 +445,12 @@ const guttercheckCommand = (channel, tags, args, client) => {
 	if (args.length === 0) {
 		client.say(
 			channel,
-			`@${tags.username} better go check their gutters because they're ${guttercheckValue}% loose right right now! 🎉🎉🎉`
+			`@${tags.username} better go check their gutters because they're ${guttercheckValue}% loose right right now! 🎉🎉🎉`,
 		)
 	} else {
 		client.say(
 			channel,
-			`${args} better go check their gutters because they're ${guttercheckValue}% loose right now! 🎉🎉🎉`
+			`${args} better go check their gutters because they're ${guttercheckValue}% loose right now! 🎉🎉🎉`,
 		)
 	}
 }
@@ -461,6 +462,18 @@ const stuffedCommand = (channel, tags, args, client) => {
 		client.say(channel, `@${tags.username} is ${stuffedValue}% stuffed! 🦃🦃🦃`)
 	} else {
 		client.say(channel, `${args} is ${stuffedValue}% stuffed! 🦃🦃🦃`)
+	}
+}
+
+const risenCommand = (channel, tags, args, client) => {
+	let risenValue = randomValue()
+	if (args.length === 0) {
+		client.say(
+			channel,
+			`@${tags.username} is ${risenValue}% RISEN right now! 🌅🌅🌅`,
+		)
+	} else {
+		client.say(channel, `${args} is ${risenValue}% RISEN right now! 🌅🌅🌅`)
 	}
 }
 
@@ -476,12 +489,12 @@ const pluribusCommand = (channel, tags, args, client) => {
 	if (args.length === 0) {
 		client.say(
 			channel,
-			`@${tags.username} is ${pluribusValue}% connected to the hivemind right now! 🤖🤖🤖`
+			`@${tags.username} is ${pluribusValue}% connected to the hivemind right now! 🤖🤖🤖`,
 		)
 	} else {
 		client.say(
 			channel,
-			`${args} is ${pluribusValue}% connected to the hivemind right now! 🤖🤖🤖`
+			`${args} is ${pluribusValue}% connected to the hivemind right now! 🤖🤖🤖`,
 		)
 	}
 }
@@ -546,6 +559,7 @@ module.exports = {
 	primeCommand: primeCommand,
 	raidCommand: raidCommand,
 	respekCommand: respekCommand,
+	risenCommand: risenCommand,
 	scCommand: scCommand,
 	shoutOutCommand: shoutOutCommand,
 	skidaddleCommand: skidaddleCommand,
@@ -558,4 +572,3 @@ module.exports = {
 	yyCommand: yyCommand,
 	// tonightCommand: tonightCommand,
 }
-
