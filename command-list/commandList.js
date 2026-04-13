@@ -95,6 +95,7 @@ const { countdownCommand } = require('../commands/countdown/countdown')
 const { highLowCommand } = require('../commands/highlow/highLow')
 const { cultureCommand } = require('../commands/djculture/djCulture')
 const { checkInCommand } = require('../commands/checkin/checkIn')
+const { todayCommand } = require('../commands/today/today')
 // const { maltCommand, lineupCommand } = require('../commands/malt/malt')
 
 const commandList = {
@@ -169,6 +170,7 @@ const commandList = {
 	so: shoutOutCommand, // mods & streamers only
 	stuffed: stuffedCommand,
 	test: testCommand,
+	today: todayCommand,
 	tonight: tonightCommand,
 	turnt: turntCommand,
 	u: uCommand,
