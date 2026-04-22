@@ -25,16 +25,25 @@ const getTodayFact = async (isoDate) => {
 		'https://api.openai.com/v1/chat/completions',
 		{
 			model: 'gpt-3.5-turbo',
-			temperature: 0.9,
+			temperature: 0.7,
 			messages: [
 				{
 					role: 'system',
 					content:
-						'You are a Twitch chat bot. Return exactly one fun, random fact about the given calendar date. Keep it family-friendly and suitable for a public stream. No disclaimers.',
+						'You are a Twitch chat bot. Return exactly one family-friendly "On This Day" fact tied to a real past event for the provided date. Never return future, upcoming, speculative, or forecasted events. No disclaimers.',
 				},
 				{
 					role: 'user',
-					content: `Give one fun pop-culture-leaning fact about ${isoDate}. It can be music, film, TV, sports, history, politics, or celebrity. Requirements: <= 500 characters, one sentence (or two short sentences), no hashtags, no emojis, no quotes around the whole response.`,
+					content: `Date: ${isoDate}. Give one fun, specific "On this date" fact about a person, event, or occasion that happened in the past on this same month/day. It can be music, film, TV, sports, history, politics, or celebrity.
+Required output rules:
+- Must reference a real past event only (not present/future).
+- Must include the year.
+- Must include at least one concrete detail (for example: title, person name, record, award, chart position, opening weekend gross, score, milestone).
+- Prefer notable pop-culture events when possible.
+- 1 to 2 short sentences, <= 500 characters.
+- No hashtags, no emojis, no links, no quotes around the whole response.
+- If unsure, choose a different event you are confident is real.
+Example style: "On this date in 1994, [film/album/person event] happened, and [specific detail]."`,
 				},
 			],
 			max_tokens: 140,
