@@ -3,6 +3,8 @@ const dotenv = require('dotenv')
 
 dotenv.config()
 
+const OPENAI_CHAT_MODEL = process.env.OPENAI_CHAT_MODEL || 'gpt-4-turbo'
+
 const formatDateForPrompt = (date) => {
 	const yyyy = date.getFullYear()
 	const mm = String(date.getMonth() + 1).padStart(2, '0')
@@ -24,7 +26,7 @@ const getTodayFact = async (isoDate) => {
 	const response = await axios.post(
 		'https://api.openai.com/v1/chat/completions',
 		{
-			model: 'gpt-3.5-turbo',
+			model: OPENAI_CHAT_MODEL,
 			temperature: 0.7,
 			messages: [
 				{
