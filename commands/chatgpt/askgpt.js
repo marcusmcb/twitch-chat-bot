@@ -24,25 +24,25 @@ const getChatGPTResponse = async (prompt) => {
 					Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
 					'Content-Type': 'application/json',
 				},
-			}
+			},
 		)
 		const description = response.data.choices[0].message.content
 		return description
 	} catch (error) {
 		console.error(
 			'Error fetching player description:',
-			error.response ? error.response.data : error.message
+			error.response ? error.response.data : error.message,
 		)
 		return error.response ? error.response.data : error.message
 	}
 }
 
-const askGPTCommand = async (channel, tags, args, client) => {	
+const askGPTCommand = async (channel, tags, args, client) => {
 	const prompt = args.join(' ')
-  if (args.length === 0) {
-    client.say(channel, `Please provide a prompt for me to respond to!`)
-    return
-  }
+	if (args.length === 0) {
+		client.say(channel, `Please provide a prompt for me to respond to!`)
+		return
+	}
 	try {
 		await getChatGPTResponse(prompt).then((response) => {
 			client.say(channel, `${response}`)

@@ -1,6 +1,8 @@
 const dotenv = require('dotenv')
 dotenv.config()
 
+const axios = require('axios')
+
 const sharedBirthdayCelebrities = require('./bday/sharedBirthdayCelebrities')
 
 // helper method to generate a random value between 1 and 100
@@ -11,6 +13,47 @@ const randomValue = () => {
 const randomItem = (items) => {
 	const index = Math.floor(Math.random() * items.length)
 	return items[index]
+}
+
+// helper method to parse pre-decimal value from temperature response returned
+const getTemperature = (temperature) => {
+	const temperatureStr = temperature.toString()
+	const decimalIndex = temperatureStr.indexOf('.')
+	if (decimalIndex === -1) {
+		return temperatureStr
+	}
+	return temperatureStr.substring(0, decimalIndex)
+}
+
+const getPacificTimeString = (date = new Date()) => {
+	return new Intl.DateTimeFormat('en-US', {
+		timeZone: 'America/Los_Angeles',
+		hour: 'numeric',
+		minute: '2-digit',
+	}).format(date)
+}
+
+const getCostaMesaTemperatureString = async () => {
+	const location = 'Costa Mesa,US'
+	const apiKey = process.env.OPEN_WEATHER_API_KEY
+	if (!apiKey) {
+		throw new Error('Missing OPEN_WEATHER_API_KEY')
+	}
+
+	const weatherOptions = {
+		url: `http://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(
+			location,
+		)}&units=imperial&appid=${apiKey}`,
+		headers: { Accept: 'application/json' },
+	}
+
+	const response = await axios(weatherOptions)
+	if (response.status !== 200) {
+		throw new Error(`OpenWeather request failed with status ${response.status}`)
+	}
+
+	const temperature = getTemperature(response.data.main.temp)
+	return `${temperature}F`
 }
 
 let availableSharedBirthdayCelebrities = [...sharedBirthdayCelebrities]
@@ -156,12 +199,23 @@ const backCommand = (channel, tags, args, client) => {
 	client.say(channel, `Lurk no more... @${tags.username} has returned!`)
 }
 
-const areacodeCommand = (channel, tags, args, client) => {
-	const channelName = channel.slice(1).split('#')
-	client.say(
-		channel,
-		`${channelName} is coming to you live from the front of the crib in Orange County, CA! 🍊`,
-	)
+const areacodeCommand = async (channel, tags, args, client) => {
+	const channelName = channel.startsWith('#') ? channel.slice(1) : channel
+	const currentTime = getPacificTimeString()
+
+	try {
+		const currentTemperature = await getCostaMesaTemperatureString()
+		client.say(
+			channel,
+			`${channelName} is coming to you live from the front of the crib where it's currently ${currentTime} and ${currentTemperature} in Costa Mesa, CA! 🍊`,
+		)
+	} catch (error) {
+		console.log(error)
+		client.say(
+			channel,
+			`${channelName} is coming to you live from the front of the crib where it's currently ${currentTime} in Costa Mesa, CA! 🍊`,
+		)
+	}
 }
 
 const hugCommand = (channel, tags, args, client) => {
