@@ -53,6 +53,7 @@ const {
 	archiveCommand,
 	bdayCommand,
 	risenCommand,
+  doctorCommand,
 } = require('../commands/commands')
 
 const {
@@ -127,6 +128,7 @@ const commandList = {
 	discord: discordCommand,
 	discordInfo: discordInfo,
 	dingus: dingusCommand,
+  doctor: doctorCommand,
 	eric: ericCommand,
 	faded: fadedCommand,
 	fact: factCommand,

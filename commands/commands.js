@@ -351,6 +351,7 @@ const bitsCommand = (channel, tags, args, client) => {
 }
 
 // birthday commands
+
 const bdayCommand = (channel, tags, args, client) => {
 	const birthdayCelebrity = randomSharedBirthdayCelebrity()
 	client.say(channel, formatBirthdayMessage(birthdayCelebrity))
@@ -531,6 +532,13 @@ const risenCommand = (channel, tags, args, client) => {
 	}
 }
 
+const doctorCommand = (channel, tags, args, client) => {
+	client.say(
+		channel,
+		`Relax, we have a professional... Fiddleballs is here! 🩺`,
+	)
+}
+
 // game commands
 
 const diceCommand = (channel, tags, args, client) => {
@@ -588,6 +596,7 @@ module.exports = {
 	diceCommand: diceCommand,
 	dingusCommand: dingusCommand,
 	discordCommand: discordCommand,
+  doctorCommand: doctorCommand,
 	ericCommand: ericCommand,
 	fadedCommand: fadedCommand,
 	floatyCommand: floatyCommand,
