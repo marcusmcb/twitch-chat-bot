@@ -539,6 +539,14 @@ const doctorCommand = (channel, tags, args, client) => {
 	)
 }
 
+const oofCommand = (channel, tags, args, client) => {
+  if (args.length === 0) {
+    client.say(channel, `Sorry about your luck, pal! 😱😱😱`)
+  } else {
+    client.say(channel, `Sorry about your luck, ${tags.username}! 😱😱😱`)
+  }  
+}
+
 // game commands
 
 const diceCommand = (channel, tags, args, client) => {
@@ -614,7 +622,8 @@ module.exports = {
 	mixesCommand: mixesCommand,
 	noMicCommand: noMicCommand,
 	npChatbotLinkCommand: npChatbotLinkCommand,
-	pluribusCommand: pluribusCommand,
+	oofCommand: oofCommand,
+  pluribusCommand: pluribusCommand,
 	playlistsCommand: playlistsCommand,
 	portCommand: portCommand,
 	portexCommand: portexCommand,

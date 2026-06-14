@@ -54,6 +54,7 @@ const {
 	bdayCommand,
 	risenCommand,
   doctorCommand,
+  oofCommand,
 } = require('../commands/commands')
 
 const {
@@ -154,6 +155,7 @@ const commandList = {
 	npChatbotInfo: npChatbotInfo,
 	npchatbot: npChatbotLinkCommand,
 	nuts: nutsCommand,
+  oof: oofCommand,
 	paper: paperCommand,
 	playlists: playlistsCommand,
 	port: portCommand,
