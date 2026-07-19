@@ -1,4 +1,5 @@
 const WebSocket = require('ws')
+const appConfig = require('../../config/appConfig')
 
 const lottoCommand = async (
 	channel,
@@ -8,10 +9,10 @@ const lottoCommand = async (
 	obs,
 	sceneChangeLock
 ) => {
-	const obsEnabled = process.env.DISPLAY_OBS_MESSAGES
+	const obsEnabled = appConfig.obs.enabled
 	const wsAddress = 'ws://7.tcp.ngrok.io:21711' // Ngrok WebSocket address
 
-	if (obsEnabled === 'true') {
+	if (obsEnabled) {
 		if (sceneChangeLock.active) {
 			client.say(
 				channel,
@@ -57,11 +58,16 @@ const lottoCommand = async (
 			console.log(`Switched to PiCam scene: PI CAM`)
 
 			setTimeout(async () => {
-				await obs.call('SetCurrentProgramScene', {
-					sceneName: currentSceneName,
-				})
-				console.log(`Reverted to previous scene: ${currentSceneName}`)
-				sceneChangeLock.active = false // unlock after the scene reverts
+				try {
+					await obs.call('SetCurrentProgramScene', {
+						sceneName: currentSceneName,
+					})
+					console.log(`Reverted to previous scene: ${currentSceneName}`)
+				} catch (error) {
+					console.error('Error reverting Lotto command:', error.message)
+				} finally {
+					sceneChangeLock.active = false // unlock after the scene reverts
+				}
 			}, 12000)
 			client.say(
 				channel,

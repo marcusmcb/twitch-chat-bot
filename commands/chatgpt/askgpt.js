@@ -1,9 +1,7 @@
 const axios = require('axios')
-const dotenv = require('dotenv')
+const appConfig = require('../../config/appConfig')
 
-dotenv.config()
-
-const OPENAI_CHAT_MODEL = process.env.OPENAI_CHAT_MODEL || 'gpt-4-turbo'
+const OPENAI_CHAT_MODEL = appConfig.openAi.chatModel
 
 const getChatGPTResponse = async (prompt) => {
 	try {
@@ -21,7 +19,7 @@ const getChatGPTResponse = async (prompt) => {
 			},
 			{
 				headers: {
-					Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+					Authorization: `Bearer ${appConfig.openAi.apiKey}`,
 					'Content-Type': 'application/json',
 				},
 			},

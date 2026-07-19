@@ -1,4 +1,5 @@
 const axios = require('axios')
+const appConfig = require('../config/appConfig')
 
 // not currently being utilized anywhere
 // utility function to generate tokens from Twitch auth code
@@ -9,18 +10,19 @@ const getTokens = async () => {
 		const tokenResponse = await axios.post(
 			'https://id.twitch.tv/oauth2/token',
 			{
-				client_id: process.env.TWITCH_CLIENT_ID,
-				client_secret: process.env.TWITCH_CLIENT_SECRET,
-				code: process.env.TWITCH_AUTH_CODE,
+				client_id: appConfig.twitch.clientId,
+				client_secret: appConfig.twitch.clientSecret,
+				code: appConfig.twitch.authCode,
 				grant_type: 'authorization_code',
 				redirect_uri: 'https://localhost:5000/auth/callback', 
 			}
 		)
 		if (tokenResponse) {
-			console.log(tokenResponse.data)
 			const { access_token, refresh_token } = tokenResponse.data
-			console.log('Access Token:', access_token)
-			console.log('Refresh Token:', refresh_token)
+			const primaryCredentialReceived = Boolean(access_token)
+			const refreshCredentialReceived = Boolean(refresh_token)
+			console.log(`Twitch primary credential received: ${primaryCredentialReceived}`)
+			console.log(`Twitch refresh credential received: ${refreshCredentialReceived}`)
 			return tokenResponse.data
 		} else {
 			console.log('No token response')

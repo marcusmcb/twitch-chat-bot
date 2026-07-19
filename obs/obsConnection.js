@@ -1,14 +1,24 @@
 const WebSocket = require('ws')
 const crypto = require('crypto')
+const appConfig = require('../config/appConfig')
 
-const OBS_TCP_ADDRESS = process.env.OBS_TCP_ADDRESS
-const OBS_PASSWORD = process.env.OBS_WEBSOCKET_PASSWORD
+const OBS_TCP_ADDRESS = appConfig.obs.websocketAddress
+const OBS_PASSWORD = appConfig.obs.websocketPassword
+const OBS_REQUEST_TIMEOUT_MS = appConfig.obs.requestTimeoutMs
 
 let obsConnection
 let challenge = ''
 let salt = ''
 let requestIdCounter = 0 // to manage unique request IDs
 const pendingRequests = new Map() // map to store pending requests
+
+const rejectPendingRequests = (error) => {
+	for (const [requestId, pendingRequest] of pendingRequests) {
+		clearTimeout(pendingRequest.timeout)
+		pendingRequest.reject(error)
+		pendingRequests.delete(requestId)
+	}
+}
 
 const connectToOBS = async () => {
 	return new Promise((resolve, reject) => {
@@ -50,7 +60,8 @@ const connectToOBS = async () => {
 					// handle request response
 					const requestId = parsedData.d.requestId
 					if (pendingRequests.has(requestId)) {
-						const { resolve } = pendingRequests.get(requestId)
+						const { resolve, timeout } = pendingRequests.get(requestId)
+						clearTimeout(timeout)
 						resolve(parsedData.d.responseData)
 						pendingRequests.delete(requestId)
 					}
@@ -61,6 +72,7 @@ const connectToOBS = async () => {
 				console.log(
 					`OBS WebSocket disconnected. Code: ${code}, Reason: ${reason}`
 				)
+				rejectPendingRequests(new Error('OBS WebSocket disconnected.'))
 				console.log('Attempting to reconnect...')
 				setTimeout(() => connectToOBS().then(resolve).catch(reject), 1000) // Reconnect after 1 second
 			})
@@ -90,9 +102,13 @@ const call = (requestType, requestData = {}) => {
 		}
 
 		// console.log('Sending OBS Request:', request)
-		pendingRequests.set(requestId, { resolve, reject })
 		// error handling for when obsConnection is not ready
 		if (obsConnection && obsConnection.readyState === WebSocket.OPEN) {
+			const timeout = setTimeout(() => {
+				pendingRequests.delete(requestId)
+				reject(new Error(`OBS request timed out: ${requestType}`))
+			}, OBS_REQUEST_TIMEOUT_MS)
+			pendingRequests.set(requestId, { resolve, reject, timeout })
 			obsConnection.send(JSON.stringify(request))
 		} else {
 			console.error('OBS WebSocket is not open. Request not sent.')

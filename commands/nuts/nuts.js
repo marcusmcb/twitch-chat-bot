@@ -1,5 +1,4 @@
-const dotenv = require('dotenv')
-dotenv.config()
+const appConfig = require('../../config/appConfig')
 
 const nutsCommand = async (
 	channel,
@@ -9,9 +8,9 @@ const nutsCommand = async (
 	obs,
 	sceneChangeLock
 ) => {
-	const obsEnabled = process.env.DISPLAY_OBS_MESSAGES;
+	const obsEnabled = appConfig.obs.enabled;
 
-	if (obsEnabled === 'true') {
+	if (obsEnabled) {
 		if (sceneChangeLock.active) {
 			client.say(
 				channel,
@@ -33,11 +32,16 @@ const nutsCommand = async (
 			console.log(`Switched to Squirrel scene: ${sceneName}`);
 
 			setTimeout(async () => {
-				await obs.call('SetCurrentProgramScene', {
-					sceneName: currentSceneName,
-				});
-				console.log(`Reverted to previous scene: ${currentSceneName}`);
-				sceneChangeLock.active = false; // unlock after the scene reverts
+				try {
+					await obs.call('SetCurrentProgramScene', {
+						sceneName: currentSceneName,
+					});
+					console.log(`Reverted to previous scene: ${currentSceneName}`);
+				} catch (error) {
+					console.error('Error reverting Nuts command:', error.message);
+				} finally {
+					sceneChangeLock.active = false; // unlock after the scene reverts
+				}
 			}, 12000);
 
 			client.say(channel, "Let's give our buddy a snack! 🐿️");

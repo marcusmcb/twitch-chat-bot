@@ -1,5 +1,4 @@
-const dotenv = require('dotenv')
-dotenv.config()
+const appConfig = require('../../config/appConfig')
 
 const birdcamCommand = async (
 	channel,
@@ -9,9 +8,9 @@ const birdcamCommand = async (
 	obs,
 	sceneChangeLock
 ) => {
-	const obsEnabled = process.env.DISPLAY_OBS_MESSAGES
+	const obsEnabled = appConfig.obs.enabled
 
-	if (obsEnabled === 'true') {
+	if (obsEnabled) {
 		if (sceneChangeLock.active) {
 			client.say(
 				channel,
@@ -33,11 +32,16 @@ const birdcamCommand = async (
 			console.log(`Switched to Birdcam scene: ${sceneName}`)
 
 			setTimeout(async () => {
-				await obs.call('SetCurrentProgramScene', {
-					sceneName: currentSceneName,
-				})
-				console.log(`Reverted to previous scene: ${currentSceneName}`)
-				sceneChangeLock.active = false // unlock after the scene reverts
+				try {
+					await obs.call('SetCurrentProgramScene', {
+						sceneName: currentSceneName,
+					})
+					console.log(`Reverted to previous scene: ${currentSceneName}`)
+				} catch (error) {
+					console.error('Error reverting Birdcam command:', error.message)
+				} finally {
+					sceneChangeLock.active = false // unlock after the scene reverts
+				}
 			}, 8000)
 
 			client.say(channel, 'Check out this recent clip from the birdcam! 🐦')
