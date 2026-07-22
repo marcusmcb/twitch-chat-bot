@@ -1,8 +1,3 @@
-const dotenv = require('dotenv')
-dotenv.config()
-
-const obsEnabled = process.env.DISPLAY_OBS_MESSAGES
-
 const showVideoClip = async (obs) => {
 	console.log('SHOWING VIDEO CLIP')
 	let currentScene

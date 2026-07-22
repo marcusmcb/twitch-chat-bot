@@ -1,18 +1,14 @@
 // dependencies
 const tmi = require('tmi.js')
-const dotenv = require('dotenv')
+const appConfig = require('./config/appConfig')
 const express = require('express')
 const cors = require('cors')
 const { Server } = require('socket.io')
 const http = require('http')
 const crypto = require('crypto')
 
-// command lists
-const {
-	commandList,
-	sceneChangeCommandList,
-	popupChangeCommandList,
-} = require('./command-list/commandList')
+// command registry
+const { getCommand } = require('./command-registry/commandRegistry')
 
 // Twitch EventSub auth handlers
 const { getAppAccessToken } = require('./auth/getAppAccessToken')
@@ -26,15 +22,20 @@ const autoCommandsConfig = require('./auto-commands/config/autoCommandsConfig')
 const obs = require('./obs/obsConnection')
 const { redemptionHandler } = require('./redemptions/redemptionHandler')
 
-dotenv.config()
-
 // global scene change lock value
 const sceneChangeLock = { active: false }
 const popupChangeLock = { active: false }
 const countdownLock = { active: false }
 
+const missingRequiredConfig = appConfig.getMissingRequiredConfig()
+if (missingRequiredConfig.length > 0) {
+	console.warn(
+		`Missing recommended runtime config: ${missingRequiredConfig.join(', ')}`,
+	)
+}
+
 const app = express()
-const PORT = process.env.PORT || 5000
+const PORT = appConfig.port
 const server = http.createServer(app)
 
 const io = new Server(server, {
@@ -56,6 +57,18 @@ server.listen(PORT, '0.0.0.0', () => {
 let userCommandHistory = {}
 const COMMAND_REPEAT_LIMIT = 10
 
+const runCommandSafely = async (command, commandEntry, context) => {
+	try {
+		await commandEntry.execute(context)
+	} catch (error) {
+		console.error(`Error running command ${command}:`, error.message)
+		context.client.say(
+			context.channel,
+			"Sorry, that command isn't working right now.",
+		)
+	}
+}
+
 // Twitch TMI client config for channel commands
 const client = new tmi.Client({
 	options: { debug: true },
@@ -64,10 +77,10 @@ const client = new tmi.Client({
 		reconnect: true,
 	},
 	identity: {
-		username: process.env.TWITCH_BOT_USERNAME,
-		password: process.env.TWITCH_OAUTH_TOKEN,
+		username: appConfig.twitch.botUsername,
+		password: appConfig.twitch.oauthToken,
 	},
-	channels: [process.env.TWITCH_CHANNEL_NAME],
+	channels: [appConfig.twitch.channelName],
 })
 
 // connect the Twitch TMI client
@@ -79,7 +92,7 @@ try {
 
 // OBS connection initialization
 ;(async () => {
-	if (process.env.DISPLAY_OBS_MESSAGES === 'true') {
+	if (appConfig.obs.enabled) {
 		try {
 			await obs.connect()
 			console.log('OBS connection ready for commands')
@@ -109,12 +122,12 @@ io.on('connection', (socket) => {
 // IIFE to set up the Twitch EventSub subscription
 ;(async () => {
 	try {
-		const callbackUrl = `${process.env.HEROKU_URL}/webhook`
+		const callbackUrl = `${appConfig.herokuUrl}/webhook`
 		console.log('----------------------------------')
 		console.log(`Using callback URL: ${callbackUrl}`)
 		const accessToken = await getAppAccessToken()
 		console.log('----------------------------------')
-		console.log('App Access Token:', accessToken)
+		console.log('App Access Token received successfully.')
 		await createEventSubSubscription(callbackUrl, accessToken)
 	} catch (error) {
 		console.error('Error setting up the Twitch EventSub: ', error.message)
@@ -144,7 +157,7 @@ app.use(
 app.get('/auth/callback', (req, res) => {
 	const authCode = req.query.code
 	if (authCode) {
-		console.log('Authorization Code:', authCode)
+		console.log('Authorization code received.')
 		res.send('Authorization Code received. Check your console for the code.')
 	} else {
 		res.send('Authorization Code not found.')
@@ -167,11 +180,11 @@ app.post('/update-pi-endpoint', express.json(), (req, res) => {
 
 // Twitch EventSub webhook endpoint and redemption handler
 app.post('/webhook', async (req, res) => {
-	console.log('Raw Body:', req.rawBody.toString())
+	console.log('EventSub webhook received')
 	console.log('-----------------')
 
 	// verify the signature of the incoming notification
-	const secret = process.env.TWITCH_EVENTSUB_SECRET
+	const secret = appConfig.twitch.eventSubSecret
 	const expectedSignature = verifySignature(req, secret)
 	const actualSignature = req.header('Twitch-Eventsub-Message-Signature') || ''
 	const expectedBuffer = Buffer.from(expectedSignature, 'utf8')
@@ -232,7 +245,7 @@ app.post('/webhook', async (req, res) => {
 })
 
 // Twitch TMI channel command handler
-client.on('message', (channel, tags, message, self) => {
+client.on('message', async (channel, tags, message, self) => {
 	if (tags.emotes) {
 		// console.log('has emotes')
 		console.log('EMOTES: ', tags.emotes)
@@ -245,17 +258,27 @@ client.on('message', (channel, tags, message, self) => {
 
 	const args = message.slice(1).split(' ')
 	const command = args.shift().toLowerCase()
+	const commandEntry = getCommand(command)
 
-	if (
-		command in commandList ||
-		command in popupChangeCommandList ||
-		command in sceneChangeCommandList
-	) {
+	if (commandEntry) {
 		if (!userCommandHistory[tags.username]) {
 			userCommandHistory[tags.username] = []
 		}
 
 		let history = userCommandHistory[tags.username]
+		const commandContext = {
+			channel,
+			tags,
+			args,
+			client,
+			obs,
+			command,
+			locks: {
+				sceneChangeLock,
+				popupChangeLock,
+				countdownLock,
+			},
+		}
 
 		if (
 			history.length >= COMMAND_REPEAT_LIMIT &&
@@ -265,49 +288,10 @@ client.on('message', (channel, tags, message, self) => {
 				channel,
 				`@${tags.username}, try a different command before using that one again.`,
 			)
-		} else if (command in popupChangeCommandList) {
-			console.log('Pop up command called')
-			popupChangeCommandList[command](
-				channel,
-				tags,
-				args,
-				client,
-				obs,
-				command,
-				popupChangeLock,
-			)
-			history.push(command)
-			if (history.length > COMMAND_REPEAT_LIMIT) {
-				history.shift()
-			}
-		} else if (command in sceneChangeCommandList) {
-			console.log('Scene Change Command: ', command)
-			console.log('---------------------')
-			sceneChangeCommandList[command](
-				channel,
-				tags,
-				args,
-				client,
-				obs,
-				command,
-				sceneChangeLock,
-			)
-			history.push(command)
-
-			if (history.length > COMMAND_REPEAT_LIMIT) {
-				history.shift()
-			}
 		} else {
-			console.log('Count Down Lock: ', countdownLock)
-			commandList[command](
-				channel,
-				tags,
-				args,
-				client,
-				obs,
-				sceneChangeLock,
-				countdownLock,
-			)
+			console.log('Command called:', command)
+			console.log('Command Type:', commandEntry.type)
+			await runCommandSafely(command, commandEntry, commandContext)
 			history.push(command)
 
 			if (history.length > COMMAND_REPEAT_LIMIT) {

@@ -1,7 +1,5 @@
-const dotenv = require('dotenv')
-dotenv.config()
-
 const axios = require('axios')
+const appConfig = require('../config/appConfig')
 
 const sharedBirthdayCelebrities = require('./bday/sharedBirthdayCelebrities')
 
@@ -35,7 +33,7 @@ const getPacificTimeString = (date = new Date()) => {
 
 const getCostaMesaTemperatureString = async () => {
 	const location = 'Costa Mesa,US'
-	const apiKey = process.env.OPEN_WEATHER_API_KEY
+	const apiKey = appConfig.openWeather.apiKey
 	if (!apiKey) {
 		throw new Error('Missing OPEN_WEATHER_API_KEY')
 	}
@@ -184,7 +182,7 @@ const raidCommand = (channel, tags, args, client, obs) => {
 const helloCommand = (channel, tags, args, client, obs) => {
 	client.say(
 		channel,
-		`@${process.env.TWITCH_CHANNEL_NAME}, what's good homie! 👋👋👋`,
+		`@${appConfig.twitch.channelName}, what's good homie! 👋👋👋`,
 	)
 }
 
@@ -341,7 +339,7 @@ const bitsCommand = (channel, tags, args, client) => {
 		return
 	} else {
 		let argsParsed = args[0].slice(1)
-		if (tags.username === `${process.env.TWITCH_CHANNEL_NAME}` || tags.mod) {
+		if (tags.username === appConfig.twitch.channelName || tags.mod) {
 			client.say(
 				channel,
 				`${argsParsed}, thank you so much for the BITS fam! 🎉🎉🎉`,
@@ -362,7 +360,7 @@ const shoutOutCommand = (channel, tags, args, client, obs) => {
 		client.say(channel, `Uhh... who should I shout out here? 📣📣📣`)
 	} else {
 		let argsParsed = args[0].slice(1)
-		if (tags.username === `${process.env.TWITCH_CHANNEL_NAME}` || tags.mod) {
+		if (tags.username === appConfig.twitch.channelName || tags.mod) {
 			client.say(
 				channel,
 				`Be sure to follow our good friend ${args}'s channel here on Twitch! www.twitch.tv/${argsParsed} `,
@@ -417,6 +415,18 @@ const floatyCommand = (channel, tags, args, client) => {
 		)
 	} else {
 		client.say(channel, `${args} is ${floatyValue}% floaty right now! 🤪🤪🤪`)
+	}
+}
+
+const riggedCommand = (channel, tags, args, client) => {
+	let riggedValue = randomValue()
+	if (args.length === 0) {
+		client.say(
+			channel,
+			`@${tags.username} is ${riggedValue}% on the take right now! 🎰🎰🎰`,
+		)
+	} else {
+		client.say(channel, `${args} is ${riggedValue}% on the take right now! 🎰🎰🎰`)
 	}
 }
 
@@ -540,11 +550,11 @@ const doctorCommand = (channel, tags, args, client) => {
 }
 
 const oofCommand = (channel, tags, args, client) => {
-  if (args.length === 0) {
-    client.say(channel, `Sorry about your luck, pal! 😱😱😱`)
-  } else {
-    client.say(channel, `Sorry about your luck, ${tags.username}! 😱😱😱`)
-  }  
+	if (args.length === 0) {
+		client.say(channel, `Sorry about your luck, pal! 😱😱😱`)
+	} else {
+		client.say(channel, `Sorry about your luck, ${tags.username}! 😱😱😱`)
+	}
 }
 
 // game commands
@@ -604,7 +614,7 @@ module.exports = {
 	diceCommand: diceCommand,
 	dingusCommand: dingusCommand,
 	discordCommand: discordCommand,
-  doctorCommand: doctorCommand,
+	doctorCommand: doctorCommand,
 	ericCommand: ericCommand,
 	fadedCommand: fadedCommand,
 	floatyCommand: floatyCommand,
@@ -623,7 +633,7 @@ module.exports = {
 	noMicCommand: noMicCommand,
 	npChatbotLinkCommand: npChatbotLinkCommand,
 	oofCommand: oofCommand,
-  pluribusCommand: pluribusCommand,
+	pluribusCommand: pluribusCommand,
 	playlistsCommand: playlistsCommand,
 	portCommand: portCommand,
 	portexCommand: portexCommand,
@@ -631,6 +641,7 @@ module.exports = {
 	primeCommand: primeCommand,
 	raidCommand: raidCommand,
 	respekCommand: respekCommand,
+  riggedCommand: riggedCommand,
 	risenCommand: risenCommand,
 	scCommand: scCommand,
 	shoutOutCommand: shoutOutCommand,

@@ -1,9 +1,7 @@
 const axios = require('axios')
-const dotenv = require('dotenv')
+const appConfig = require('../../config/appConfig')
 
-dotenv.config()
-
-const OPENAI_CHAT_MODEL = process.env.OPENAI_CHAT_MODEL || 'gpt-4-turbo'
+const OPENAI_CHAT_MODEL = appConfig.openAi.chatModel
 
 const formatPacificDateForPrompt = (date = new Date()) => {
 	const parts = new Intl.DateTimeFormat('en-US', {
@@ -61,7 +59,7 @@ const tryParseJsonArray = (raw) => {
 }
 
 const getTodayFact = async (isoDate) => {
-	if (!process.env.OPENAI_API_KEY) {
+	if (!appConfig.openAi.apiKey) {
 		throw new Error('OPENAI_API_KEY is not set')
 	}
 
@@ -94,7 +92,7 @@ Example style: "On this date in 1994, [film/album/person event] happened, and [s
 		},
 		{
 			headers: {
-				Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+				Authorization: `Bearer ${appConfig.openAi.apiKey}`,
 				'Content-Type': 'application/json',
 			},
 		},
@@ -109,7 +107,7 @@ const normalizeFact = (fact) => {
 }
 
 const getTodayFactsBatch = async (isoDate, { count, excludeIds = [] }) => {
-	if (!process.env.OPENAI_API_KEY) {
+	if (!appConfig.openAi.apiKey) {
 		throw new Error('OPENAI_API_KEY is not set')
 	}
 
@@ -150,7 +148,7 @@ Exclude these event ids (do not use these underlying events): ${exclude.length ?
 		},
 		{
 			headers: {
-				Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+				Authorization: `Bearer ${appConfig.openAi.apiKey}`,
 				'Content-Type': 'application/json',
 			},
 		},

@@ -1,4 +1,5 @@
 const axios = require('axios')
+const appConfig = require('../../config/appConfig')
 
 // helper method to parse pre-decimal value
 // from temperature response returned
@@ -23,7 +24,7 @@ const weatherCommand = async (channel, tags, args, client) => {
 			userLocation = args
 		}
 		let weatherOptions = {
-			url: `http://api.openweathermap.org/data/2.5/weather?q=${userLocation}&units=imperial&appid=${process.env.OPEN_WEATHER_API_KEY}`,
+			url: `http://api.openweathermap.org/data/2.5/weather?q=${userLocation}&units=imperial&appid=${appConfig.openWeather.apiKey}`,
 			headers: { Accept: 'application/json' },
 		}
 		try {

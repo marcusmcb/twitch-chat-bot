@@ -1,4 +1,5 @@
 const axios = require('axios')
+const appConfig = require('../config/appConfig')
 
 const getAppAccessToken = async () => {
 	try {
@@ -7,8 +8,8 @@ const getAppAccessToken = async () => {
 			null,
 			{
 				params: {
-					client_id: process.env.TWITCH_CLIENT_ID,
-					client_secret: process.env.TWITCH_CLIENT_SECRET,
+					client_id: appConfig.twitch.clientId,
+					client_secret: appConfig.twitch.clientSecret,
 					grant_type: 'client_credentials', // App Access Token
 				},
 			}

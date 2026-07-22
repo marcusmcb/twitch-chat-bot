@@ -4,9 +4,11 @@
   "description": "Twitch Chat Bot built with TMI.js",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "check": "node scripts/checkSyntax.js",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "registry:smoke": "node -e \"const { getCommand, listCommands } = require('./command-registry/commandRegistry'); for (const name of ['hello','HELLO','stuck','birb','today','weather']) { const entry = getCommand(name); if (!entry) throw new Error(name + ' missing'); console.log(name + ':' + entry.type + ':obs=' + entry.requiresObs); } console.log('registered=' + listCommands().length)\"",
+    "test": "npm run check --silent && npm run registry:smoke --silent"
   },
   "repository": {
     "type": "git",
@@ -26,19 +28,17 @@
   },
   "homepage": "https://github.com/marcusmcb/twitch-chat-bot#readme",
   "dependencies": {
-    "axios": "^0.26.1",
-    "cheerio": "^1.0.0-rc.10",
-    "crypto": "^1.0.1",
+    "axios": "^1.18.1",
     "dotenv": "^16.0.0",
     "express": "^4.18.3",
-    "http": "^0.0.1-security",
-    "nodemon": "^2.0.15",
-    "obs-websocket-js": "^5.0.3",
     "socket.io": "^4.7.4",
     "tmi.js": "^1.5.0"
   },
   "engines": {
     "node": "24.x",
-    "npm": "9.x"
+    "npm": ">=9"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
   }
 }

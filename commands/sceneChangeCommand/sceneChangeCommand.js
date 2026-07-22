@@ -1,6 +1,5 @@
 const sceneChangeCommandData = require('./sceneChangeCommandData')
-const dotenv = require('dotenv')
-dotenv.config()
+const appConfig = require('../../config/appConfig')
 
 const sceneChangeCommand = async (
 	channel,
@@ -11,10 +10,10 @@ const sceneChangeCommand = async (
 	command,
 	sceneChangeLock
 ) => {
-	const obsEnabled = process.env.DISPLAY_OBS_MESSAGES
+	const obsEnabled = appConfig.obs.enabled
 	console.log("Scene change command called")
 	console.log("Command: ", command)
-	if (obsEnabled === 'true') {
+	if (obsEnabled) {
 		if (sceneChangeLock.active) {
 			client.say(
 				channel,
@@ -37,11 +36,16 @@ const sceneChangeCommand = async (
 			client.say(channel, text)
 
 			setTimeout(async () => {
-				await obs.call('SetCurrentProgramScene', {
-					sceneName: currentSceneName,
-				})
-				console.log(`Reverted to previous scene: ${currentSceneName}`)
-				sceneChangeLock.active = false // unlock after the scene reverts
+				try {
+					await obs.call('SetCurrentProgramScene', {
+						sceneName: currentSceneName,
+					})
+					console.log(`Reverted to previous scene: ${currentSceneName}`)
+				} catch (error) {
+					console.error(`Error reverting ${command} scene change:`, error.message)
+				} finally {
+					sceneChangeLock.active = false // unlock after the scene reverts
+				}
 			}, display_time)
 		} catch (error) {
 			console.error(`Error handling ${command} scene change:`, error.message)

@@ -49,6 +49,47 @@ Commands with additional logic/helpers or API-based responses can each be found 
 
 Commands are easily modified via the files in the commands directory but are static for the moment. No ability for moderators to add, modify, etc commands on the fly, but you could update this script to set command use by viewer level (follower, sub, moderator, etc) which can be parsed from each message event.
 
+### Adding a new command
+
+The bot now resolves chat commands through `command-registry/commandRegistry.js`, but the existing command maps in `command-list/commandList.js` are still the place to register handlers.
+
+For a standard chat command:
+
+1. Add or export the command handler from a file in `commands/`.
+2. Import that handler in `command-list/commandList.js`.
+3. Add a lowercase trigger to `commandList`, for example `newcommand: newCommand`.
+4. Optional: add metadata in `command-registry/commandRegistry.js` under `commandMetadata.standard`.
+
+Example metadata:
+
+```js
+const commandMetadata = {
+	standard: {
+		newcommand: {
+			aliases: ['newcmd'],
+			description: 'Short description for maintainers.',
+			permissions: ['everyone'],
+		},
+	},
+	sceneChange: {},
+	popupChange: {},
+}
+```
+
+For OBS scene commands, add the scene data to `commands/sceneChangeCommand/sceneChangeCommandData.js`, then register the trigger in `sceneChangeCommandList`.
+
+For OBS popup commands, add the source data to `commands/popupChangeCommand/popupChangeCommandData.js`, then register the trigger in `popupChangeCommandList`.
+
+Aliases are checked at startup. If an alias conflicts with an existing command, the bot will throw a clear duplicate/conflict error instead of silently choosing the wrong command.
+
+After adding a command, run:
+
+```bash
+node --check index.js
+node --check command-registry/commandRegistry.js
+node -e "const { getCommand } = require('./command-registry/commandRegistry'); console.log(Boolean(getCommand('newcommand')))"
+```
+
 <hr>
 
 ## Current commands:

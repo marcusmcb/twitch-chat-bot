@@ -55,6 +55,7 @@ const {
 	risenCommand,
   doctorCommand,
   oofCommand,
+  riggedCommand,
 } = require('../commands/commands')
 
 const {
@@ -165,6 +166,7 @@ const commandList = {
 	quote: quoteCommand,
 	raid: raidCommand,
 	respek: respekCommand,
+  rigged: riggedCommand,
 	risen: risenCommand,
 	rock: rockCommand,
 	sc: scCommand,

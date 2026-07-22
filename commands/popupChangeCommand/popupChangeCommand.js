@@ -1,6 +1,5 @@
 const popupChangeCommandData = require('./popupChangeCommandData')
-const dotenv = require('dotenv')
-dotenv.config()
+const appConfig = require('../../config/appConfig')
 
 const popupChangeCommand = async (
 	channel,
@@ -11,8 +10,8 @@ const popupChangeCommand = async (
 	command,
 	popupChangeLock
 ) => {
-	const obsEnabled = process.env.DISPLAY_OBS_MESSAGES
-	if (obsEnabled === 'true') {
+	const obsEnabled = appConfig.obs.enabled
+	if (obsEnabled) {
 		if (popupChangeLock.active) {
 			client.say(
 				channel,
@@ -47,12 +46,17 @@ const popupChangeCommand = async (
 					sceneItemEnabled: true,
 				})
 				setTimeout(async () => {
-					await obs.call('SetSceneItemEnabled', {
-						sceneName: currentScene,
-						sceneItemId: sceneItemId,
-						sceneItemEnabled: false,
-					})
-					popupChangeLock.active = false
+					try {
+						await obs.call('SetSceneItemEnabled', {
+							sceneName: currentScene,
+							sceneItemId: sceneItemId,
+							sceneItemEnabled: false,
+						})
+					} catch (error) {
+						console.error(`Error hiding ${command} popup:`, error.message)
+					} finally {
+						popupChangeLock.active = false
+					}
 				}, popupChangeCommandData[command].display_time)
 			} else {
 				client.say(channel, popupChangeCommandData[command].error_text)

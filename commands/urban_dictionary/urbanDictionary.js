@@ -1,7 +1,5 @@
 const axios = require('axios')
-const dotenv = require('dotenv')
-
-dotenv.config()
+const appConfig = require('../../config/appConfig')
 
 const getObjectWithMostThumbsUp = (arr) => {
 	return arr.reduce((highest, current) => {
@@ -21,8 +19,8 @@ const uCommand = async (channel, tags, args, client) => {
 		url: 'https://mashape-community-urban-dictionary.p.rapidapi.com/define',
 		params: { term: `${newArgs}` },
 		headers: {
-			'X-RapidAPI-Key': process.env.URBAN_DICTIONARY_API_KEY,
-			'X-RapidAPI-Host': process.env.URBAN_DICTIONARY_API_HOST,
+			'X-RapidAPI-Key': appConfig.urbanDictionary.apiKey,
+			'X-RapidAPI-Host': appConfig.urbanDictionary.apiHost,
 		},
 	}
 

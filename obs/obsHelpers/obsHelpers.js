@@ -1,5 +1,4 @@
-const dotenv = require('dotenv')
-dotenv.config()
+const appConfig = require('../../config/appConfig')
 
 const clearOBSResponse = (obs) => {
   setTimeout(() => {
@@ -9,7 +8,7 @@ const clearOBSResponse = (obs) => {
         text: "",
       },
     });
-  }, parseInt(process.env.OBS_DISPLAY_DURATION, 10));
+  }, appConfig.obs.displayDuration);
 };
 
 module.exports = clearOBSResponse;

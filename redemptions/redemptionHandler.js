@@ -1,13 +1,11 @@
 const WebSocket = require('ws')
-const dotenv = require('dotenv')
+const appConfig = require('../config/appConfig')
 const redemptionData = require('./data/redemptionData.js')
-
-dotenv.config()
 
 const luckyNumberRedemptionHandler = async (obs, client, viewerName, sceneChangeLock) => {
 	console.log('Lucky Number Redemption Triggered')
 	console.log('--------------------------')
-	const wsAddress = process.env.OBS_TCP_ADDRESS	
+	const wsAddress = appConfig.obs.websocketAddress	
 
 	// generate the number set and message to send
 	// to the RPi server
@@ -51,11 +49,16 @@ const luckyNumberRedemptionHandler = async (obs, client, viewerName, sceneChange
 		console.log(`Switched to PiCam scene: PI CAM`)
 
 		setTimeout(async () => {
-			await obs.call('SetCurrentProgramScene', {
-				sceneName: currentSceneName,
-			})
-			console.log(`Reverted to previous scene: ${currentSceneName}`)
-			sceneChangeLock.active = false // unlock after the scene reverts
+			try {
+				await obs.call('SetCurrentProgramScene', {
+					sceneName: currentSceneName,
+				})
+				console.log(`Reverted to previous scene: ${currentSceneName}`)
+			} catch (error) {
+				console.error('Error reverting lucky number redemption:', error.message)
+			} finally {
+				sceneChangeLock.active = false // unlock after the scene reverts
+			}
 		}, 15000)
 	} catch (error) {
 		console.error('Error generating lucky numbers:', error.message)
@@ -124,9 +127,14 @@ const redemptionHandler = async (
 		})
 		client.say(channel, redemption.text)
 		setTimeout(async () => {
-			await obs.call('SetCurrentProgramScene', { sceneName: currentSceneName })
-			console.log(`Reverted to previous scene: ${currentSceneName}`)
-			sceneChangeLock.active = false
+			try {
+				await obs.call('SetCurrentProgramScene', { sceneName: currentSceneName })
+				console.log(`Reverted to previous scene: ${currentSceneName}`)
+			} catch (error) {
+				console.error('Error reverting redemption scene:', error.message)
+			} finally {
+				sceneChangeLock.active = false
+			}
 		}, redemption.display_time)
 	} catch (error) {
 		console.error('Error getting current scene:', error.message)
