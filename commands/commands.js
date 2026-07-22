@@ -148,7 +148,7 @@ const primeCommand = (channel, tags, args, client) => {
 const codeCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		'You can find streaming tools for Twitch, Discord, Twitter, plus a lot of other fun tech stuff over on my Github page! https://www.github.com/marcusmcb',
+		'You can find streaming tools for Twitch and Discord plus a lot of other fun tech stuff over on my Github page! https://www.github.com/marcusmcb',
 	)
 }
 
