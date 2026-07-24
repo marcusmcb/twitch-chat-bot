@@ -103,7 +103,7 @@ const formatBirthdayMessage = (celebrity) => {
 const discordCommand = (channel, tags, args, client) => {
 	client.say(
 		channel,
-		`Join the MCB community for more tunes, tech, squirrels, and playlists from past Twitch streams over on Discord: https://discord.gg/YCUGhxyRJR`,
+		`Join the MCB community for more tunes, tech, squirrels, Spotify playlists and YouTube links to my past Twitch streams over on Discord: https://discord.gg/YCUGhxyRJR`,
 	)
 }
 
