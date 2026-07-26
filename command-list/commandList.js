@@ -91,7 +91,13 @@ const { myCommand } = require('../commands/my/mycommand')
 const { lottoCommand } = require('../commands/lotto/lotto')
 const { birdcamCommand } = require('../commands/birdcam/birdcam')
 const { uCommand } = require('../commands/urban_dictionary/urbanDictionary')
-const { blackjackCommand } = require('../commands/blackjack/blackjack')
+const {
+	blackjackCommand,
+	blackjackDoubleCommand,
+	blackjackHitCommand,
+	blackjackSplitCommand,
+	blackjackStandCommand,
+} = require('../commands/blackjack/blackjack')
 const { yeQuoteCommand } = require('../commands/yeQuote/yeQuote')
 const { nutsCommand } = require('../commands/nuts/nuts')
 const { askGPTCommand } = require('../commands/chatgpt/askgpt')
@@ -114,6 +120,8 @@ const commandList = {
 	birdcam: birdcamCommand,
 	bits: bitsCommand, // mods & streamers only
 	blackjack: blackjackCommand,
+	double: blackjackDoubleCommand,
+	hit: blackjackHitCommand,
 	borked: borkedCommand,
 	brainrot: brainrotCommand,
 	burnt: burntCommand,
@@ -177,6 +185,8 @@ const commandList = {
 	smort: smortCommand,
 	so: shoutOutCommand, // mods & streamers only
 	stuffed: stuffedCommand,
+	stand: blackjackStandCommand,
+	split: blackjackSplitCommand,
 	test: testCommand,
 	today: todayCommand,
 	tonight: tonightCommand,
