@@ -56,6 +56,7 @@ const {
   doctorCommand,
   oofCommand,
   riggedCommand,
+  chargeCommand,
 } = require('../commands/commands')
 
 const {
@@ -119,6 +120,7 @@ const commandList = {
 	cake: cakeCommand,
 	cans: cansCommand,
 	checkin: checkInCommand,
+  charge: chargeCommand,
 	code: codeCommand,
 	commands: listCommands,
 	countdown: countdownCommand,

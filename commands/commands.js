@@ -331,7 +331,7 @@ const dangerCommand = (channel, tags, args, client) => {
 }
 
 const warningCommand = (channel, tags, args, client) => {
-  client.say(channel, `DANGER MCB, DANGER! 🤖🤖🤖`)
+  client.say(channel, `DANGER, MCB, DANGER! 🤖🤖🤖`)
 }
 
 const bitsCommand = (channel, tags, args, client) => {
@@ -394,6 +394,15 @@ const smortCommand = (channel, tags, args, client) => {
     client.say(channel, `@${tags.username} is ${smortValue}% SMORT! 🧠🧠🧠`)
   } else {
     client.say(channel, `${args} is ${smortValue}% SMORT! 🧠🧠🧠`)
+  }
+}
+
+const chargeCommand = (channel, tags, args, client) => {
+  let energyValue = randomValue()
+  if (args.length === 0) {
+    client.say(channel, `@${tags.username} is ${energyValue}% charged right now! ⚡⚡⚡`)
+  } else {
+    client.say(channel, `${args} is ${energyValue}% charged right now! ⚡⚡⚡`)
   }
 }
 
@@ -608,6 +617,7 @@ module.exports = {
   burntCommand: burntCommand,
   cakeCommand: cakeCommand,
   cansCommand: cansCommand,
+  chargeCommand: chargeCommand,
   codeCommand: codeCommand,
   cratestatsCommand: cratestatsCommand,
   dangerCommand: dangerCommand,
