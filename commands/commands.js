@@ -330,6 +330,10 @@ const dangerCommand = (channel, tags, args, client) => {
   client.say(channel, `SAFETY THIRD! 🔥🔥🔥`)
 }
 
+const shmackitCommand = (channel, tags, args, client) => {
+  client.say(channel, `WHOO-PAH! ✋✋✋`)
+}
+
 const warningCommand = (channel, tags, args, client) => {
   client.say(channel, `DANGER, MCB, DANGER! 🤖🤖🤖`)
 }
@@ -654,6 +658,7 @@ module.exports = {
   riggedCommand: riggedCommand,
   risenCommand: risenCommand,
   scCommand: scCommand,
+  shmackitCommand: shmackitCommand,
   shoutOutCommand: shoutOutCommand,
   skidaddleCommand: skidaddleCommand,
   smortCommand: smortCommand,
