@@ -57,7 +57,7 @@ const {
   oofCommand,
   riggedCommand,
   chargeCommand,
-  schmackitCommand,
+  shmackitCommand,
 } = require('../commands/commands')
 
 const {
@@ -181,7 +181,7 @@ const commandList = {
 	risen: risenCommand,
 	rock: rockCommand,
 	sc: scCommand,
-  schmackit: schmackitCommand,
+  shmackit: shmackitCommand,
 	scissors: scissorsCommand,
 	skidaddle: skidaddleCommand,
 	smort: smortCommand,
