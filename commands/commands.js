@@ -352,6 +352,10 @@ const bitsCommand = (channel, tags, args, client) => {
   }
 }
 
+const nwCommand = (channel, tags, args, client) => {
+  client.say(channel, `You can catch @djmarcusmcb live on Twitch every Sunday night @ 8 PM Pacific for Night Waves, our weekly dive into late night club to cap off the weekend! 🎧🎧🎧`)
+}
+
 // birthday commands
 
 const bdayCommand = (channel, tags, args, client) => {
@@ -646,6 +650,7 @@ module.exports = {
   mixesCommand: mixesCommand,
   noMicCommand: noMicCommand,
   npChatbotLinkCommand: npChatbotLinkCommand,
+  nwCommand: nwCommand,
   oofCommand: oofCommand,
   pluribusCommand: pluribusCommand,
   playlistsCommand: playlistsCommand,
