@@ -338,6 +338,10 @@ const warningCommand = (channel, tags, args, client) => {
   client.say(channel, `DANGER, MCB, DANGER! 🤖🤖🤖`)
 }
 
+const radioeditCommand = (channel, tags, args, client) => {
+  client.say(channel, `How did you get in here? 🎧🎧🎧`)
+}
+
 const bitsCommand = (channel, tags, args, client) => {
   if (args.length === 0) {
     return
@@ -659,6 +663,7 @@ module.exports = {
   postCommand: postCommand,
   primeCommand: primeCommand,
   raidCommand: raidCommand,
+  radioeditCommand: radioeditCommand,
   respekCommand: respekCommand,
   riggedCommand: riggedCommand,
   risenCommand: risenCommand,

@@ -59,6 +59,7 @@ const {
   chargeCommand,
   shmackitCommand,
   nwCommand,
+  radioeditCommand,
 } = require('../commands/commands')
 
 const {
@@ -179,7 +180,8 @@ const commandList = {
   post: postCommand,
   prime: primeCommand,
   quote: quoteCommand,
-  raid: raidCommand,
+  radioedit: radioeditCommand,
+  raid: raidCommand,  
   respek: respekCommand,
   rigged: riggedCommand,
   risen: risenCommand,
