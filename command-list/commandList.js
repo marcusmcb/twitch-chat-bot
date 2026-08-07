@@ -103,6 +103,7 @@ const { highLowCommand } = require('../commands/highlow/highLow')
 const { cultureCommand } = require('../commands/djculture/djCulture')
 const { checkInCommand } = require('../commands/checkin/checkIn')
 const { todayCommand } = require('../commands/today/today')
+const { lineCommand } = require('../commands/line/lineCommand')
 
 const {
   blackjackCommand,
@@ -161,6 +162,7 @@ const commandList = {
   hug: hugCommand,
   knows: knowsCommand,
   links: linksCommand,
+  line: lineCommand,
   lit: litCommand,
   lightsInfo: lightsInfo,
   // lotto: lottoCommand,
