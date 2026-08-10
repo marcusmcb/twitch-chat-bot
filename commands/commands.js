@@ -131,7 +131,7 @@ const scCommand = (channel, tags, args, client) => {
 const mixesCommand = (channel, tags, args, client) => {
   client.say(
     channel,
-    `You can check out my mixes on MixCloud over @ https://www.mixcloud.com/marcusmcbride`,
+    `You can check out my mixes on my mixshow archive over @ https://www.mcbarchives.com.`,
   )
 }
 
