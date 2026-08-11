@@ -87,16 +87,21 @@ const getCardLabel = (card) => card.value
 
 const formatHand = (hand) => hand.map(getCardLabel).join('-')
 
+const formatActionCommand = (action) => `!${action}`
+
 const formatActionList = (actions) => {
 	if (actions.length === 1) {
-		return actions[0]
+		return formatActionCommand(actions[0])
 	}
 
 	if (actions.length === 2) {
-		return `${actions[0]} or ${actions[1]}`
+		return `${formatActionCommand(actions[0])} or ${formatActionCommand(actions[1])}`
 	}
 
-	return `${actions.slice(0, -1).join(', ')}, or ${actions[actions.length - 1]}`
+	return `${actions
+		.slice(0, -1)
+		.map(formatActionCommand)
+		.join(', ')}, or ${formatActionCommand(actions[actions.length - 1])}`
 }
 
 const getSession = (channel, username) => {
