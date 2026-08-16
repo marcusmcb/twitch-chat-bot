@@ -12,13 +12,13 @@ let positiveOutcome10 = 'all signs point to yes! 🎱'
 //  Non-Committal
 let neutralOutcome1 = 'bruh... I just woke up. 🎱'
 let neutralOutcome2 = 'eh... try me again later. 🎱'
-let neutralOutcome3 = 'I better not tell you now. 🎱'
+let neutralOutcome3 = 'I plead the fith. 🎱'
 let neutralOutcome4 = 'I have no idea. 🎱'
 let neutralOutcome5 = 'wait, what??  Try that one again! 🎱'
 // Negative
 let negativeOutcome1 = "don't count on it. 🎱"
 let negativeOutcome2 = 'you would think so... but no. 🎱'
-let negativeOutcome3 = 'no idea.  Try Googling it! 🎱'
+let negativeOutcome3 = "as Randy Jackson would say: it's a no from me, dawg! 🎱"
 let negativeOutcome4 = 'not looking good there, fam. 🎱'
 let negativeOutcome5 = 'doubtful. 🎱'
 
