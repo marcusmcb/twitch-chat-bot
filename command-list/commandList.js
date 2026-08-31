@@ -60,6 +60,7 @@ const {
   shmackitCommand,
   nwCommand,
   radioeditCommand,
+  moreCommand,
 } = require('../commands/commands')
 
 const {
@@ -168,6 +169,7 @@ const commandList = {
   // lotto: lottoCommand,
   lurk: lurkCommand,
   mixes: mixesCommand,
+  more: moreCommand,
   my: myCommand,
   nomic: noMicCommand,
   npChatbotInfo: npChatbotInfo,

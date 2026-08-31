@@ -186,6 +186,13 @@ const helloCommand = (channel, tags, args, client, obs) => {
   )
 }
 
+const moreCommand = (channel, tags, args, client, obs) => {
+  client.say(
+    channel,
+    `Whatever this is, I need more of it ⬆️⬆️⬆️`,
+  )
+}
+
 const lurkCommand = (channel, tags, args, client) => {
   client.say(
     channel,
@@ -652,6 +659,7 @@ module.exports = {
   litCommand: litCommand,
   lurkCommand: lurkCommand,
   mixesCommand: mixesCommand,
+  moreCommand: moreCommand,
   noMicCommand: noMicCommand,
   npChatbotLinkCommand: npChatbotLinkCommand,
   nwCommand: nwCommand,
