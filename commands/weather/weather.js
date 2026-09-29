@@ -85,14 +85,36 @@ const normalizeLocationQuery = (rawLocation) => {
 	return trimmedLocation
 }
 
+// OpenWeather only resolves postal codes through the `zip` parameter;
+// passing one to `q` fuzzy-matches an unrelated city name instead.
+
+const buildLocationQuery = (rawLocation) => {
+	const trimmedLocation = rawLocation.trim().replace(/\s+/g, ' ')
+	const postalParts = trimmedLocation.split(',').map((part) => part.trim())
+	const postalCode = postalParts[0]
+	const postalCountryInput = (postalParts[1] || '').toUpperCase()
+
+	if (postalParts.length <= 2 && /^\d{5}(-\d{4})?$/.test(postalCode)) {
+		const countryCode =
+			countryAliases[postalCountryInput] || postalCountryInput || 'US'
+		return {
+			param: 'zip',
+			value: `${postalCode.slice(0, 5)},${countryCode}`,
+		}
+	}
+
+	return { param: 'q', value: normalizeLocationQuery(trimmedLocation) }
+}
+
 const weatherCommand = async (channel, tags, args, client) => {
 	// check if user entered location
 	if (args.length != 0) {
-		let weather, userLocation, conditions
+		let weather, conditions
 		const userLocationInput = args.join(' ')
-		userLocation = normalizeLocationQuery(userLocationInput)
+		const locationQuery = buildLocationQuery(userLocationInput)
+		const userLocation = locationQuery.value
 		let weatherOptions = {
-			url: `http://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(userLocation)}&units=metric&appid=${appConfig.openWeather.apiKey}`,
+			url: `http://api.openweathermap.org/data/2.5/weather?${locationQuery.param}=${encodeURIComponent(userLocation)}&units=metric&appid=${appConfig.openWeather.apiKey}`,
 			headers: { Accept: 'application/json' },
 		}
 		try {
