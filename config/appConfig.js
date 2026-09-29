@@ -46,7 +46,7 @@ const appConfig = {
 	},
 	openAi: {
 		apiKey: process.env.OPENAI_API_KEY,
-		chatModel: process.env.OPENAI_CHAT_MODEL || 'gpt-4-turbo',
+		chatModel: process.env.OPENAI_CHAT_MODEL || 'gpt-4.1',
 	},
 	urbanDictionary: {
 		apiKey: process.env.URBAN_DICTIONARY_API_KEY,

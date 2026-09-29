@@ -1,5 +1,9 @@
 const axios = require('axios')
 const appConfig = require('../../config/appConfig')
+const {
+	TWITCH_MAX_MESSAGE_LENGTH,
+	toChatMessage,
+} = require('../helpers/chatMessage')
 
 const OPENAI_CHAT_MODEL = appConfig.openAi.chatModel
 
@@ -29,12 +33,6 @@ const formatPacificDateForPrompt = (date = new Date()) => {
 const randomItem = (items) => {
 	const index = Math.floor(Math.random() * items.length)
 	return items[index]
-}
-
-const clampToMaxChars = (text, maxChars) => {
-	if (!text) return ''
-	const trimmed = String(text).trim()
-	return trimmed.length > maxChars ? trimmed.slice(0, maxChars - 1).trimEnd() + '…' : trimmed
 }
 
 const tryParseJsonArray = (raw) => {
@@ -101,10 +99,7 @@ Example style: "On this date in 1994, [film/album/person event] happened, and [s
 	return response?.data?.choices?.[0]?.message?.content ?? ''
 }
 
-const normalizeFact = (fact) => {
-	if (!fact) return ''
-	return clampToMaxChars(String(fact).replace(/\s+/g, ' ').trim(), 500)
-}
+const normalizeFact = (fact) => toChatMessage(fact, TWITCH_MAX_MESSAGE_LENGTH)
 
 const getTodayFactsBatch = async (isoDate, { count, excludeIds = [] }) => {
 	if (!appConfig.openAi.apiKey) {
@@ -219,7 +214,7 @@ const todayCommand = async (channel, tags, args, client) => {
 		} else {
 			// Fallback to single fact generation
 			const raw = await getTodayFact(isoDate)
-			fact = clampToMaxChars(raw, 500)
+			fact = normalizeFact(raw)
 		}
 
 		if (!fact) {

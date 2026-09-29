@@ -1,38 +1,36 @@
 const axios = require('axios')
 const appConfig = require('../../config/appConfig')
+const { toChatMessage } = require('../helpers/chatMessage')
 
 const OPENAI_CHAT_MODEL = appConfig.openAi.chatModel
+const MAX_REPLY_LENGTH = 450
 
 const getChatGPTResponse = async (prompt) => {
-	try {
-		const response = await axios.post(
-			'https://api.openai.com/v1/chat/completions',
-			{
-				model: OPENAI_CHAT_MODEL,
-				messages: [
-					{
-						role: 'user',
-						content: `${prompt}`,
-					},
-				],
-				max_tokens: 100,
-			},
-			{
-				headers: {
-					Authorization: `Bearer ${appConfig.openAi.apiKey}`,
-					'Content-Type': 'application/json',
+	const response = await axios.post(
+		'https://api.openai.com/v1/chat/completions',
+		{
+			model: OPENAI_CHAT_MODEL,
+			messages: [
+				{
+					role: 'system',
+					content: `You are a Twitch chat bot. Answer in plain prose of 1 to 3 short sentences and stay under ${MAX_REPLY_LENGTH} characters. Never use markdown, lists, line breaks, emojis, or links. Never begin a reply with "/" or ".". Be direct and skip preamble.`,
 				},
+				{
+					role: 'user',
+					content: `${prompt}`,
+				},
+			],
+			max_tokens: 160,
+		},
+		{
+			headers: {
+				Authorization: `Bearer ${appConfig.openAi.apiKey}`,
+				'Content-Type': 'application/json',
 			},
-		)
-		const description = response.data.choices[0].message.content
-		return description
-	} catch (error) {
-		console.error(
-			'Error fetching player description:',
-			error.response ? error.response.data : error.message,
-		)
-		return error.response ? error.response.data : error.message
-	}
+		},
+	)
+
+	return response?.data?.choices?.[0]?.message?.content ?? ''
 }
 
 const askGPTCommand = async (channel, tags, args, client) => {
@@ -42,11 +40,18 @@ const askGPTCommand = async (channel, tags, args, client) => {
 		return
 	}
 	try {
-		await getChatGPTResponse(prompt).then((response) => {
-			client.say(channel, `${response}`)
-		})
+		const raw = await getChatGPTResponse(prompt)
+		const reply = toChatMessage(raw, MAX_REPLY_LENGTH)
+		client.say(
+			channel,
+			reply || "I couldn't come up with an answer for that one.",
+		)
 	} catch (error) {
-		console.error(error)
+		console.error(
+			'Error fetching !askgpt response:',
+			error?.response ? error.response.data : (error?.message ?? error),
+		)
+		client.say(channel, 'Sorry, I could not reach my brain just now.')
 	}
 }
 
