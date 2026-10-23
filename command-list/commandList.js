@@ -61,6 +61,7 @@ const {
   nwCommand,
   radioeditCommand,
   moreCommand,
+  bussinCommand,
 } = require('../commands/commands')
 
 const {
@@ -127,6 +128,7 @@ const commandList = {
   birdcam: birdcamCommand,
   bits: bitsCommand, // mods & streamers only
   blackjack: blackjackCommand,
+  bussin: bussinCommand,
   double: blackjackDoubleCommand,
   hit: blackjackHitCommand,
   borked: borkedCommand,

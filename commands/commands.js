@@ -521,6 +521,18 @@ const litCommand = (channel, tags, args, client) => {
   }
 }
 
+const bussinCommand = (channel, tags, args, client) => {
+  let bussinValue = randomValue()
+  if (args.length === 0) {
+    client.say(
+      channel,
+      `@${tags.username} is ${bussinValue}% BUSTED right now! 👻👻👻`,
+    )
+  } else {
+    client.say(channel, `${args} is ${bussinValue}% BUSTED right now! 👻👻👻`)
+  }
+}
+
 const borkedCommand = (channel, tags, args, client) => {
   let borkedValue = randomValue()
   if (args.length === 0) {
@@ -634,6 +646,7 @@ module.exports = {
   bdayCommand: bdayCommand,
   brainrotCommand: brainrotCommand,
   burntCommand: burntCommand,
+  bussinCommand: bussinCommand,
   cakeCommand: cakeCommand,
   cansCommand: cansCommand,
   chargeCommand: chargeCommand,
