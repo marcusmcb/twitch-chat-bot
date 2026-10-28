@@ -62,6 +62,7 @@ const {
   radioeditCommand,
   moreCommand,
   bussinCommand,
+  spookedCommand,
 } = require('../commands/commands')
 
 const {
@@ -201,6 +202,7 @@ const commandList = {
   stuffed: stuffedCommand,
   stand: blackjackStandCommand,
   split: blackjackSplitCommand,
+  spooked: spookedCommand,
   test: testCommand,
   today: todayCommand,
   tonight: tonightCommand,

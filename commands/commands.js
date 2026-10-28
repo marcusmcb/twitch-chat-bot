@@ -470,6 +470,18 @@ const turntCommand = (channel, tags, args, client) => {
   }
 }
 
+const spookedCommand = (channel, tags, args, client) => {
+  let spookedValue = randomValue()
+  if (args.length === 0) {
+    client.say(
+      channel,
+      `@${tags.username} is ${spookedValue}% spooked right now! 👻👻👻`,
+    )
+  } else {
+    client.say(channel, `${args} is ${spookedValue}% spooked right now! 👻👻👻`)
+  }
+}
+
 const dingusCommand = (channel, tags, args, client) => {
   let dingusValue = randomValue()
   if (args.length === 0) {
@@ -693,6 +705,7 @@ module.exports = {
   shoutOutCommand: shoutOutCommand,
   skidaddleCommand: skidaddleCommand,
   smortCommand: smortCommand,
+  spookedCommand: spookedCommand,
   stuffedCommand: stuffedCommand,
   turntCommand: turntCommand,
   warningCommand: warningCommand,
