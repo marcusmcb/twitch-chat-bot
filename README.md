@@ -29,6 +29,18 @@ Create a .env file in the root directory of this repo with the following values:
 
 `TWITCH_CHANNEL_NAME='twitch_username'`
 
+`TWITCH_BROADCASTER_ID='broadcaster_user_id'`
+
+`TWITCH_CLIENT_ID='twitch_client_id'`
+
+`TWITCH_CLIENT_SECRET='twitch_client_secret'`
+
+`TWITCH_EVENTSUB_SECRET='eventsub_signing_secret'`
+
+`TWITCH_EVENTSUB_TOKEN='user_access_token_with_moderator_read_followers_scope'`
+
+`TWITCH_MODERATOR_ID='authorized_moderator_user_id'` (optional; defaults to the broadcaster ID)
+
 <hr>
 
 If you wish to display or trigger actions or responses in OBS from your Twitch chat commands, add the following values:

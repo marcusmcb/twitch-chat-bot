@@ -56,6 +56,7 @@ server.listen(PORT, '0.0.0.0', () => {
 // bot logic and TMI client config and connection
 let userCommandHistory = {}
 const COMMAND_REPEAT_LIMIT = 10
+const processedEventSubMessageIds = new Set()
 
 const runCommandSafely = async (command, commandEntry, context) => {
 	try {
@@ -222,6 +223,21 @@ app.post('/webhook', async (req, res) => {
 			req.body.event.broadcaster_user_name || 'Unknown',
 		)
 		console.log('--------------------')
+		const eventSubMessageId =
+			req.header('Twitch-Eventsub-Message-Id') || ''
+		if (
+			eventSubMessageId &&
+			processedEventSubMessageIds.has(eventSubMessageId)
+		) {
+			console.log('Duplicate EventSub notification ignored')
+			return res.status(204).end()
+		}
+		if (eventSubMessageId) {
+			processedEventSubMessageIds.add(eventSubMessageId)
+			setTimeout(() => {
+				processedEventSubMessageIds.delete(eventSubMessageId)
+			}, 10 * 60 * 1000)
+		}
 		if (
 			req.body.subscription.type ===
 			'channel.channel_points_custom_reward_redemption.add'
@@ -235,6 +251,13 @@ app.post('/webhook', async (req, res) => {
 				req.body.event.broadcaster_user_name,
 				req.body.event.reward.title,
 				req.body.event.user_name,
+			)
+		} else if (req.body.subscription.type === 'channel.follow') {
+			const followerName = req.body.event.user_name
+			console.log(`Follow Event Received: ${followerName}`)
+			client.say(
+				appConfig.twitch.channelName,
+				`Welcome @${followerName} and thank you for the follow!`,
 			)
 		}
 		res.status(204).end()

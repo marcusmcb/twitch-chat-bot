@@ -28,6 +28,8 @@ const appConfig = {
 		authCode: process.env.TWITCH_AUTH_CODE,
 		broadcasterId: process.env.TWITCH_BROADCASTER_ID,
 		eventSubSecret: process.env.TWITCH_EVENTSUB_SECRET,
+		eventSubToken: process.env.TWITCH_EVENTSUB_TOKEN,
+		moderatorId: process.env.TWITCH_MODERATOR_ID,
 	},
 	obs: {
 		enabled: getBoolean('DISPLAY_OBS_MESSAGES'),
@@ -65,6 +67,7 @@ appConfig.getMissingRequiredConfig = () => {
 	requireValue(missing, 'TWITCH_CLIENT_SECRET', appConfig.twitch.clientSecret)
 	requireValue(missing, 'TWITCH_BROADCASTER_ID', appConfig.twitch.broadcasterId)
 	requireValue(missing, 'TWITCH_EVENTSUB_SECRET', appConfig.twitch.eventSubSecret)
+	requireValue(missing, 'TWITCH_EVENTSUB_TOKEN', appConfig.twitch.eventSubToken)
 	requireValue(missing, 'HEROKU_URL', appConfig.herokuUrl)
 
 	if (appConfig.obs.enabled) {

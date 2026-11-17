@@ -18,16 +18,23 @@ const deleteExistingSubscriptions = async (appAccessToken) => {
 		)
 		const subscriptions = response.data.data
 		for (const sub of subscriptions) {
-			if (sub.type === 'channel.channel_points_custom_reward_redemption.add') {
+			if (
+				sub.type === 'channel.channel_points_custom_reward_redemption.add' ||
+				sub.type === 'channel.follow'
+			) {
 				console.log("---------------------------------")
 				console.log(`Deleting subscription: ${sub.id}`)
+				const deleteToken =
+					sub.type === 'channel.follow'
+						? appConfig.twitch.eventSubToken
+						: appAccessToken
 				
 				await axios.delete(
 					`https://api.twitch.tv/helix/eventsub/subscriptions?id=${sub.id}`,
 					{
 						headers: {
 							'Client-ID': appConfig.twitch.clientId,
-							Authorization: `Bearer ${appAccessToken}`,
+							Authorization: `Bearer ${deleteToken?.replace(/^oauth:/i, '')}`,
 						},
 					}
 				)
@@ -89,6 +96,37 @@ const createEventSubSubscription = async (callbackURL, appAccessToken) => {
 			}
 		)
 		console.log('Subscription created:', response.data)
+
+		const eventSubToken =
+			appConfig.twitch.eventSubToken?.replace(/^oauth:/i, '')
+		const moderatorId =
+			appConfig.twitch.moderatorId || appConfig.twitch.broadcasterId
+
+		console.log('Creating subscription for follows...')
+		const followResponse = await axios.post(
+			'https://api.twitch.tv/helix/eventsub/subscriptions',
+			{
+				type: 'channel.follow',
+				version: '2',
+				condition: {
+					broadcaster_user_id: appConfig.twitch.broadcasterId,
+					moderator_user_id: moderatorId,
+				},
+				transport: {
+					method: 'webhook',
+					callback: callbackURL,
+					secret: appConfig.twitch.eventSubSecret,
+				},
+			},
+			{
+				headers: {
+					'Client-ID': appConfig.twitch.clientId,
+					Authorization: `Bearer ${eventSubToken}`,
+					'Content-Type': 'application/json',
+				},
+			}
+		)
+		console.log('Follow subscription created:', followResponse.data)
 	} catch (error) {
 
 		console.error(
