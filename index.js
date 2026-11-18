@@ -16,6 +16,10 @@ const { verifySignature } = require('./auth/helpers/verifySignature')
 const {
 	createEventSubSubscription,
 } = require('./event-sub-handlers/eventSubHandlers')
+const {
+	ensureValidEventSubToken,
+	refreshEventSubToken,
+} = require('./auth/refreshEventSubToken')
 
 // OBS, channel redemption, and interval notifications config
 const autoCommandsConfig = require('./auto-commands/config/autoCommandsConfig')
@@ -126,6 +130,26 @@ io.on('connection', (socket) => {
 		const callbackUrl = `${appConfig.herokuUrl}/webhook`
 		console.log('----------------------------------')
 		console.log(`Using callback URL: ${callbackUrl}`)
+		const eventSubCredentials = await ensureValidEventSubToken()
+		console.log(
+			`EventSub access token expires in ${eventSubCredentials.expiresIn} seconds.`,
+		)
+
+		const refreshLeadMs = 5 * 60 * 1000
+		const expiresInMs = Number(eventSubCredentials.expiresIn || 0) * 1000
+		const refreshDelayMs = Math.max(expiresInMs - refreshLeadMs, 60 * 1000)
+		setTimeout(async () => {
+			try {
+				await refreshEventSubToken()
+				console.log('Twitch EventSub tokens refreshed and persisted.')
+			} catch (error) {
+				console.error(
+					'Scheduled Twitch EventSub token refresh failed:',
+					error.response?.data || error.message,
+				)
+			}
+		}, refreshDelayMs)
+
 		const accessToken = await getAppAccessToken()
 		console.log('----------------------------------')
 		console.log('App Access Token received successfully.')

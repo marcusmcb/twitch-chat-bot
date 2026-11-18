@@ -43,6 +43,12 @@ Create a .env file in the root directory of this repo with the following values:
 
 `TWITCH_EVENTSUB_TOKEN` must be a valid user access token for the broadcaster or an authorized moderator. It must include the `moderator:read:followers` scope. A chat OAuth token by itself is not sufficient.
 
+`TWITCH_REFRESH_TOKEN='twitch_refresh_token'`
+
+`HEROKU_API_TOKEN='heroku_platform_api_token'`
+
+`HEROKU_APP_NAME='mcb-chatbot'`
+
 <hr>
 
 If you wish to display or trigger actions or responses in OBS from your Twitch chat commands, add the following values:
