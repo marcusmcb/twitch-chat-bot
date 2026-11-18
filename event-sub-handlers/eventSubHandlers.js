@@ -1,43 +1,78 @@
 const axios = require('axios')
 const appConfig = require('../config/appConfig')
 
+const normalizeOAuthToken = (token) =>
+	String(token || '').trim().replace(/^oauth:/i, '')
+
+const validateEventSubToken = async (eventSubToken) => {
+	const normalizedToken = normalizeOAuthToken(eventSubToken)
+	if (!normalizedToken) {
+		throw new Error('TWITCH_EVENTSUB_TOKEN is not configured')
+	}
+
+	const response = await axios.get('https://id.twitch.tv/oauth2/validate', {
+		headers: {
+			Authorization: `OAuth ${normalizedToken}`,
+		},
+	})
+
+	const scopes = response.data.scopes || []
+	if (!scopes.includes('moderator:read:followers')) {
+		throw new Error(
+			'TWITCH_EVENTSUB_TOKEN is missing the moderator:read:followers scope',
+		)
+	}
+
+	return response.data
+}
+
 // helper method to delete existing subscriptions
-const deleteExistingSubscriptions = async (appAccessToken) => {
+const deleteExistingSubscriptions = async (
+	appAccessToken,
+	eventSubToken,
+) => {
 	console.log("---------------------------------")
 	console.log('Deleting existing subscriptions...')
 	
 	try {
-		const response = await axios.get(
-			'https://api.twitch.tv/helix/eventsub/subscriptions',
+		const owners = [
 			{
-				headers: {
-					'Client-ID': appConfig.twitch.clientId,
-					Authorization: `Bearer ${appAccessToken}`, // Use App Access Token
-				},
-			}
-		)
-		const subscriptions = response.data.data
-		for (const sub of subscriptions) {
-			if (
-				sub.type === 'channel.channel_points_custom_reward_redemption.add' ||
-				sub.type === 'channel.follow'
-			) {
-				console.log("---------------------------------")
-				console.log(`Deleting subscription: ${sub.id}`)
-				const deleteToken =
-					sub.type === 'channel.follow'
-						? appConfig.twitch.eventSubToken
-						: appAccessToken
-				
-				await axios.delete(
-					`https://api.twitch.tv/helix/eventsub/subscriptions?id=${sub.id}`,
-					{
-						headers: {
-							'Client-ID': appConfig.twitch.clientId,
-							Authorization: `Bearer ${deleteToken?.replace(/^oauth:/i, '')}`,
-						},
-					}
-				)
+				token: appAccessToken,
+				types: new Set([
+					'channel.follow',
+					'channel.channel_points_custom_reward_redemption.add',
+				]),
+			},
+		]
+
+		for (const owner of owners) {
+			if (!owner.token) continue
+
+			const response = await axios.get(
+				'https://api.twitch.tv/helix/eventsub/subscriptions',
+				{
+					headers: {
+						'Client-ID': appConfig.twitch.clientId,
+						Authorization: `Bearer ${owner.token}`,
+					},
+				}
+			)
+
+			for (const sub of response.data.data) {
+				if (owner.types.has(sub.type)) {
+					console.log("---------------------------------")
+					console.log(`Deleting subscription: ${sub.id}`)
+
+					await axios.delete(
+						`https://api.twitch.tv/helix/eventsub/subscriptions?id=${sub.id}`,
+						{
+							headers: {
+								'Client-ID': appConfig.twitch.clientId,
+								Authorization: `Bearer ${owner.token}`,
+							},
+						}
+					)
+				}
 			}
 		}
 	} catch (error) {
@@ -62,43 +97,16 @@ const createEventSubSubscription = async (callbackURL, appAccessToken) => {
 		console.log('Creating new subscription...')
 		console.log("Callback URL:", callbackURL)
 		console.log("App Access Token available for EventSub subscription setup.")
-		
-		await deleteExistingSubscriptions(appAccessToken) // remove old or existing subscriptions first
 
-		console.log("----------------------")
-		console.log('Creating subscription for channel points redemptions...')
-		console.log("Using Client ID:", appConfig.twitch.clientId)
-		console.log("EventSub app access token configured.")
-		console.log("Using Callback URL:", callbackURL)
-		console.log("EventSub signing secret configured.")
-		console.log("----------------------")
-
-		const response = await axios.post(
-			'https://api.twitch.tv/helix/eventsub/subscriptions',
-			{
-				type: 'channel.channel_points_custom_reward_redemption.add',
-				version: '1',
-				condition: {
-					broadcaster_user_id: appConfig.twitch.broadcasterId,
-				},
-				transport: {
-					method: 'webhook',
-					callback: callbackURL,
-					secret: appConfig.twitch.eventSubSecret,
-				},
-			},
-			{
-				headers: {
-					'Client-ID': appConfig.twitch.clientId,
-					Authorization: `Bearer ${appAccessToken}`,
-					'Content-Type': 'application/json',
-				},
-			}
+		const eventSubToken = normalizeOAuthToken(appConfig.twitch.eventSubToken)
+		const eventSubIdentity = await validateEventSubToken(eventSubToken)
+		console.log(
+			`EventSub user token validated for ${eventSubIdentity.login || 'Twitch account'}.`,
 		)
-		console.log('Subscription created:', response.data)
 
-		const eventSubToken =
-			appConfig.twitch.eventSubToken?.replace(/^oauth:/i, '')
+		await deleteExistingSubscriptions(appAccessToken, eventSubToken)
+
+		console.log("----------------------")
 		const moderatorId =
 			appConfig.twitch.moderatorId || appConfig.twitch.broadcasterId
 
@@ -121,12 +129,54 @@ const createEventSubSubscription = async (callbackURL, appAccessToken) => {
 			{
 				headers: {
 					'Client-ID': appConfig.twitch.clientId,
-					Authorization: `Bearer ${eventSubToken}`,
+					Authorization: `Bearer ${appAccessToken}`,
 					'Content-Type': 'application/json',
 				},
 			}
 		)
 		console.log('Follow subscription created:', followResponse.data)
+
+		console.log("----------------------")
+		console.log('Creating subscription for channel points redemptions...')
+		console.log("Using Client ID:", appConfig.twitch.clientId)
+		console.log("Using EventSub user token.")
+		console.log("Using Callback URL:", callbackURL)
+		console.log("EventSub signing secret configured.")
+		console.log("----------------------")
+
+		try {
+			const response = await axios.post(
+				'https://api.twitch.tv/helix/eventsub/subscriptions',
+				{
+					type: 'channel.channel_points_custom_reward_redemption.add',
+					version: '1',
+					condition: {
+						broadcaster_user_id: appConfig.twitch.broadcasterId,
+					},
+					transport: {
+						method: 'webhook',
+						callback: callbackURL,
+						secret: appConfig.twitch.eventSubSecret,
+					},
+				},
+				{
+					headers: {
+						'Client-ID': appConfig.twitch.clientId,
+						Authorization: `Bearer ${appAccessToken}`,
+						'Content-Type': 'application/json',
+					},
+				}
+			)
+			console.log('Subscription created:', response.data)
+		} catch (error) {
+			console.error(
+				'Error creating channel points redemption subscription:',
+				error.response?.data || error.message,
+			)
+			console.error(
+				'The EventSub token needs channel:read:redemptions or channel:manage:redemptions.',
+			)
+		}
 	} catch (error) {
 
 		console.error(

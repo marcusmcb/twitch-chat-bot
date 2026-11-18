@@ -37,9 +37,11 @@ Create a .env file in the root directory of this repo with the following values:
 
 `TWITCH_EVENTSUB_SECRET='eventsub_signing_secret'`
 
-`TWITCH_EVENTSUB_TOKEN='user_access_token_with_moderator_read_followers_scope'`
+`TWITCH_EVENTSUB_TOKEN='user_access_token_with_moderator:read:followers_and_optional_channel:read:redemptions_scopes'`
 
 `TWITCH_MODERATOR_ID='authorized_moderator_user_id'` (optional; defaults to the broadcaster ID)
+
+`TWITCH_EVENTSUB_TOKEN` must be a valid user access token for the broadcaster or an authorized moderator. It must include the `moderator:read:followers` scope. A chat OAuth token by itself is not sufficient.
 
 <hr>
 
