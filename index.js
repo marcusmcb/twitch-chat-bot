@@ -281,7 +281,7 @@ app.post('/webhook', async (req, res) => {
 			console.log(`Follow Event Received: ${followerName}`)
 			client.say(
 				appConfig.twitch.channelName,
-				`Welcome @${followerName} and thank you for the follow!`,
+				`Welcome @${followerName} and thank you for the follow! ✌️`,
 			)
 		}
 		res.status(204).end()
